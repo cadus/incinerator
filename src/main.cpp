@@ -1,15 +1,36 @@
+#define ENCODER_DO_NOT_USE_INTERRUPTS
+
 #include <Arduino.h>
 #include <Encoder.h>
 
-#define SW_ROTARY 2
+static const int ROTARY_SW  = 2;
+static const int ROTARY_CLK = 3;
+static const int ROTARY_DT = 4;
 
 static void encoder_switch_isr(void);
 
+static Encoder rotary(ROTARY_DT, ROTARY_CLK);
+
+int getRotaryValue()
+{
+  static long lastEncoderPos = -999;
+  long newEncoderPos = rotary.read();
+  int diff = lastEncoderPos - newEncoderPos;
+  if (diff != 0) {
+    Serial.println("Alte Position: " + String(lastEncoderPos) + " Neue Position: " + String(newEncoderPos) + " diff: " + String(diff));
+    lastEncoderPos = newEncoderPos;
+  }
+  return diff;
+}
+
 void setup()
 {
-  pinMode(SW_ROTARY, INPUT_PULLUP);
+  pinMode(ROTARY_SW, INPUT_PULLUP);
+  pinMode(ROTARY_CLK, INPUT_PULLUP);
+  pinMode(ROTARY_DT, INPUT_PULLUP);
+
   pinMode(LED_BUILTIN, OUTPUT);
-  attachInterrupt(digitalPinToInterrupt(SW_ROTARY), encoder_switch_isr, FALLING);
+  attachInterrupt(digitalPinToInterrupt(ROTARY_SW), encoder_switch_isr, FALLING);
   Serial.begin(115200);
 }
 
@@ -31,13 +52,14 @@ void loop()
     digitalWrite(LED_BUILTIN, LOW);
     flag = false;
   }
+  getRotaryValue();
 }
 
 static void encoder_switch_isr(void)
 {
   int counter = 0;
   for(int i = 0; i < 20; i++) {
-    if(digitalRead(SW_ROTARY) == 0) {
+    if(digitalRead(ROTARY_SW) == 0) {
       counter++;
     } else {
       counter = 0;
