@@ -13,7 +13,7 @@ void setup()
     pinMode(ROTARY_DT, INPUT_PULLUP);
 
     pinMode(TESTPIN1, OUTPUT);
-    pinMode(TESTPIN2, OUTPUT); 
+    pinMode(TESTPIN2, OUTPUT);
 
     Timer1.initialize(250);
     Timer1.attachInterrupt(timer_isr);
@@ -24,6 +24,7 @@ void setup()
 }
 
 volatile bool flag = false;
+volatile int encoder_pos = 0;
 
 void loop()
 {
@@ -32,6 +33,12 @@ void loop()
         delay(100);
         digitalWrite(LED_BUILTIN, LOW);
         flag = false;
+    }
+    static int old_encoder_pos = 0;
+    if (encoder_pos != old_encoder_pos) {
+        old_encoder_pos = encoder_pos;
+        Serial.print(encoder_pos, DEC);
+        Serial.println();
     }
 }
 
@@ -51,51 +58,34 @@ static void encoder_switch_isr(void)
     }
 }
 
-#define DEBOUNCE_NUM_CYCLES 10
-#define DEBOUNCE_MASK ((1<<DEBOUNCE_NUM_CYCLES)-1)
+void check_rotary()
+{
+    const int8_t transition_valid_tbl[] = {0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0};
+    static uint8_t transition_code = 0;
+    static uint8_t transition_code_history = 0;
 
-class DebouncedPin {
-public:
-    DebouncedPin(uint8_t pin)
-    :_pin(pin),_history(0) {};
+    transition_code <<= 2;
+    transition_code |= digitalRead(ROTARY_DT) ? (1<<1) : 0;
+    transition_code |= digitalRead(ROTARY_CLK) ? (1<<0) : 0;
+    transition_code &= 0x0f;
 
-    void update()
-    {
-        _history <<= 1;
-        if (digitalRead(_pin)) {
-            _history |= 1;
+    if (transition_valid_tbl[transition_code]) {
+        transition_code_history <<= 4;
+        transition_code_history |= transition_code;
+
+        if (transition_code_history == 0x2b) {
+            encoder_pos--;
+        } else if (transition_code_history == 0x17) {
+            encoder_pos++;
         }
-        _history &= DEBOUNCE_MASK;
-    };
-
-    bool stable()
-    {
-        return _history == DEBOUNCE_MASK || _history == 0;
     }
-
-    bool level()
-    {
-        return _history != 0;
-    }
-
-private:
-    uint8_t _pin;
-    uint16_t _history;
-};
+}
 
 static void timer_isr(void)
 {
-//    digitalWrite(TESTPIN2, HIGH);
+    digitalWrite(TESTPIN2, HIGH);
 
-    static DebouncedPin clk(ROTARY_CLK), dt(ROTARY_DT);
-    dt.update();
-    clk.update();
-    if (dt.stable()) {
-        digitalWrite(TESTPIN2, dt.level() ? HIGH : LOW);
-    }
-    if (clk.stable()) {
-        digitalWrite(TESTPIN1, clk.level() ? HIGH : LOW);
-    }
+    check_rotary();
 
-//    digitalWrite(TESTPIN2, LOW);
+    digitalWrite(TESTPIN2, LOW);
 }
