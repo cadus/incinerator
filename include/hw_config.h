@@ -4,7 +4,10 @@
 #define ROTARY_CLK A1
 #define ROTARY_DT A2
 
-#define TESTPIN1 3
-#define TESTPIN2 4
+#define LED1 3
+#define LED2 4
+#define LED3 5
+#define LED4 6
+#define LED5 7
 
-#define MAX31855_CS 5
+#define MAX31855_CS 8
