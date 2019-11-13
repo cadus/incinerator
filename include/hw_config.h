@@ -6,3 +6,5 @@
 
 #define TESTPIN1 3
 #define TESTPIN2 4
+
+#define MAX31855_CS 5
