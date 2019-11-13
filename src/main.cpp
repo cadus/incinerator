@@ -3,9 +3,7 @@
 #include <Arduino.h>
 #include <Encoder.h>
 
-static const int ROTARY_SW  = 2;
-static const int ROTARY_CLK = 3;
-static const int ROTARY_DT = 4;
+#include "hw_config.h"
 
 static void encoder_switch_isr(void);
 static void encoder_rotate_isr(void);
