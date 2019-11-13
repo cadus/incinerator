@@ -11,6 +11,8 @@ static void timer_isr(void);
 
 static Adafruit_MAX31855 thermocouple(MAX31855_CS);
 
+static int ms_count = 0;
+
 void setup()
 {
     encoder_init();
@@ -22,22 +24,8 @@ void setup()
     Serial.begin(115200);
 }
 
-void loop()
+static void check_temp()
 {
-/*
-    if (encoder_switch()) {
-        digitalWrite(LED_BUILTIN, HIGH);
-        delay(100);
-        digitalWrite(LED_BUILTIN, LOW);
-    }
-*/
-    static int old_encoder_pos = 0;
-    int encoder_pos = encoder_position();
-    if (encoder_pos != old_encoder_pos) {
-        old_encoder_pos = encoder_pos;
-        Serial.print(encoder_pos, DEC);
-        Serial.println();
-    }
     Serial.print("Internal Temp = ");
     Serial.println(thermocouple.readInternal());
 
@@ -50,7 +38,30 @@ void loop()
         Serial.println(c);
     }
     #endif
-    delay(1000);
+}
+
+static void check_encoder()
+{
+    static int old_encoder_pos = 0;
+    int encoder_pos = encoder_position();
+    if (encoder_pos != old_encoder_pos) {
+        old_encoder_pos = encoder_pos;
+        Serial.print(encoder_pos, DEC);
+        Serial.println();
+    }
+    if (encoder_switch()) {
+        Serial.println("SW pressed.");
+        while (encoder_switch());
+    }
+}
+
+void loop()
+{
+    check_encoder();
+    if (ms_count >= 1000) {
+        ms_count = 0;
+        check_temp();
+    }
 }
 
 
@@ -60,6 +71,8 @@ static void timer_isr(void)
 
     encoder_check_rotation();
     encoder_check_switch();
+
+    ms_count++;
 
     digitalWrite(TESTPIN2, LOW);
 }
