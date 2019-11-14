@@ -43,7 +43,6 @@ static void check_temp()
     Serial.print("Internal Temp = ");
     Serial.println(thermocouple.readInternal());
 
-    #if 0
     double c = thermocouple.readCelsius();
     if (isnan(c)) {
         Serial.println("Something wrong with thermocouple!");
@@ -51,7 +50,6 @@ static void check_temp()
         Serial.print("C = "); 
         Serial.println(c);
     }
-    #endif
 }
 
 static const uint8_t masks[] = {
