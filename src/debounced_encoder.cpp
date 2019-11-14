@@ -29,8 +29,8 @@ void encoder_check_rotation()
     static uint8_t transition_code_history = 0;
 
     transition_code <<= 2;
-    transition_code |= digitalRead(ROTARY_DT) ? (1<<1) : 0;
-    transition_code |= digitalRead(ROTARY_CLK) ? (1<<0) : 0;
+    transition_code |= digitalRead(ROTARY_DT) ? (1 << 1) : 0;
+    transition_code |= digitalRead(ROTARY_CLK) ? (1 << 0) : 0;
     transition_code &= 0x0f;
 
     if (transition_valid_tbl[transition_code]) {
