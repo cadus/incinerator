@@ -11,20 +11,28 @@ static void timer_isr(void);
 
 static Adafruit_MAX31855 thermocouple(MAX31855_CS);
 
-static int ms_count = 0;
+static int tick_count = 0;
+static int buzzer_count = 0;
+
+static void buzzer(unsigned int num_ticks)
+{
+    Timer1.pwm(9, 512);
+    buzzer_count = num_ticks;
+}
 
 void setup()
 {
     encoder_init();
-
-    Timer1.initialize(1000);
-    Timer1.attachInterrupt(timer_isr);
 
     pinMode(LED1, OUTPUT);
     pinMode(LED2, OUTPUT);
     pinMode(LED3, OUTPUT);
     pinMode(LED4, OUTPUT);
     pinMode(LED5, OUTPUT);
+
+    Timer1.initialize(250);
+    Timer1.pwm(9, 0);
+    Timer1.attachInterrupt(timer_isr);
 
     Serial.begin(115200);
 }
@@ -70,6 +78,7 @@ static void check_encoder()
     static int old_encoder_pos = 0;
     int encoder_pos = encoder_position();
     if (encoder_pos != old_encoder_pos) {
+        buzzer(25);
         sed_leds(masks[encoder_pos % sizeof(masks)]);
         old_encoder_pos = encoder_pos;
         Serial.print(encoder_pos, DEC);
@@ -86,17 +95,26 @@ static void check_encoder()
 void loop()
 {
     check_encoder();
-    if (ms_count >= 1000) {
-        ms_count = 0;
+    if (tick_count >= 1000 * 4) {
+        tick_count = 0;
         check_temp();
     }
 }
 
+static void control_buzzer()
+{
+    if (buzzer_count > 0) {
+        if (!--buzzer_count) {
+           Timer1.pwm(9, 0);
+        }
+    }
+}
 
 static void timer_isr(void)
 {
     encoder_check_rotation();
     encoder_check_switch();
+    control_buzzer();
 
-    ms_count++;
+    tick_count++;
 }
