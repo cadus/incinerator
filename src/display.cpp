@@ -21,35 +21,31 @@ void display_init()
     } while (display.nextPage());
 }
 
-
-#if defined(ESP8266) || defined(ESP32)
-#include <StreamString.h>
-#define PrintString StreamString
-#else
-class PrintString : public Print, public String
-{
-  public:
-    size_t write(uint8_t data) override
-    {
-      return concat(char(data));
-    };
-};
-#endif
-
 void display_redraw()
 {
+  static int cnt = 0;
+  cnt++;
+
   display.setRotation(0);
   display.setFont(&FreeMonoBold9pt7b);
   display.setTextColor(GxEPD_BLACK);
-  PrintString valueString;
-  valueString.print(thermocouple_get().temp_external, 2);
+//  PrintString valueString;
+//  valueString.print(thermocouple_get().temp_external, 2);
+  thermocouple_meas_t T = thermocouple_get();
+  String str = "T_int: "
+               + String(T.temp_internal, 2)
+               + "°, T_ext:"
+               + String(T.temp_external, 2)
+               + "°, cnt: "
+               + String(cnt);
+
   display.setPartialWindow(0, 0, display.width(), display.height());
   display.firstPage();
   do
   {
     display.fillScreen(GxEPD_WHITE);
-    display.setCursor(30, 30);
-    display.print(valueString);
+    display.setCursor(10, 15);
+    display.print(str);
   }
   while (display.nextPage());
 }
