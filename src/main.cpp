@@ -63,6 +63,8 @@ static void check_temp()
         Serial.print("C = ");
         Serial.println(c);
     }
+
+    display_value(c, 2);
 }
 
 static const uint8_t masks[] = {
@@ -100,7 +102,7 @@ static void check_encoder()
 void loop()
 {
     check_encoder();
-    if (tick_count >= 5000 * 4) {
+    if (tick_count >= 2000 * 4) {
         tick_count = 0;
         check_temp();
     }

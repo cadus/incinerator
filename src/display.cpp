@@ -20,3 +20,42 @@ void display_init()
     } while (display.nextPage());
 }
 
+
+#if defined(ESP8266) || defined(ESP32)
+#include <StreamString.h>
+#define PrintString StreamString
+#else
+class PrintString : public Print, public String
+{
+  public:
+    size_t write(uint8_t data) override
+    {
+      return concat(char(data));
+    };
+};
+#endif
+
+void display_value(double v, int digits)
+{
+  display.setRotation(0);
+  display.setFont(&FreeMonoBold9pt7b);
+  display.setTextColor(GxEPD_BLACK);
+  PrintString valueString;
+  valueString.print(v, digits);
+  int16_t tbx, tby; uint16_t tbw, tbh;
+  display.getTextBounds(valueString, 0, 0, &tbx, &tby, &tbw, &tbh);
+  uint16_t x = ((display.width() - tbw) / 2) - tbx;
+  uint16_t y = (display.height() * 3 / 4) + tbh / 2; // y is base line!
+  // show what happens, if we use the bounding box for partial window
+  uint16_t wx = (display.width() - tbw) / 2;
+  uint16_t wy = (display.height() * 3 / 4) - tbh / 2;
+  display.setPartialWindow(wx, wy, tbw, tbh);
+  display.firstPage();
+  do
+  {
+    display.fillScreen(GxEPD_WHITE);
+    display.setCursor(x, y);
+    display.print(valueString);
+  }
+  while (display.nextPage());
+}
