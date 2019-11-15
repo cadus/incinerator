@@ -23,29 +23,26 @@ void display_init()
 
 void display_redraw()
 {
-  static int cnt = 0;
-  cnt++;
+    static int cnt = 0;
+    cnt++;
 
-  display.setRotation(0);
-  display.setFont(&FreeMonoBold9pt7b);
-  display.setTextColor(GxEPD_BLACK);
-//  PrintString valueString;
-//  valueString.print(thermocouple_get().temp_external, 2);
-  thermocouple_meas_t T = thermocouple_get();
-  String str = "T_int: "
-               + String(T.temp_internal, 2)
-               + "°, T_ext:"
-               + String(T.temp_external, 2)
-               + "°, cnt: "
-               + String(cnt);
+    display.setRotation(0);
+    display.setFont(&FreeMonoBold9pt7b);
+    display.setTextColor(GxEPD_BLACK);
 
-  display.setPartialWindow(0, 0, display.width(), display.height());
-  display.firstPage();
-  do
-  {
-    display.fillScreen(GxEPD_WHITE);
-    display.setCursor(10, 15);
-    display.print(str);
-  }
-  while (display.nextPage());
+    thermocouple_meas_t T = thermocouple_get();
+    String str = "T_int: "
+                 + String(T.temp_internal, 2)
+                 + "°, T_ext:"
+                 + String(T.temp_external, 2)
+                 + "°, cnt: "
+                 + String(cnt);
+
+    display.setPartialWindow(0, 0, display.width(), display.height());
+    display.firstPage();
+    do {
+        display.fillScreen(GxEPD_WHITE);
+        display.setCursor(10, 15);
+        display.print(str);
+    } while (display.nextPage());
 }

@@ -8,7 +8,7 @@ static Adafruit_MAX31855 thermocouple(MAX31855_CS);
 
 thermocouple_meas_t thermocouple_get()
 {
-    return (thermocouple_meas_t){
+    return (thermocouple_meas_t) {
         .temp_internal = thermocouple.readInternal(),
         .temp_external = thermocouple.readCelsius()
     };
