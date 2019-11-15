@@ -4,15 +4,10 @@
 #include "TimerOne.h"
 #include "Adafruit_MAX31855.h"
 
-#include <GxEPD2_BW.h>
-#include <Fonts/FreeMonoBold9pt7b.h>
-
 #include "debounced_encoder.h"
-#include "hw_config.h"
+#include "display.h"
 
-#define MAX_DISPAY_BUFFER_SIZE 800
-#define MAX_HEIGHT(EPD) (EPD::HEIGHT <= MAX_DISPAY_BUFFER_SIZE / (EPD::WIDTH / 8) ? EPD::HEIGHT : MAX_DISPAY_BUFFER_SIZE / (EPD::WIDTH / 8))
-GxEPD2_BW<GxEPD2_420, MAX_HEIGHT(GxEPD2_420)> display(GxEPD2_420(EPD_CS, EPD_DC, EPD_RST, EPD_BUSY));
+#include "hw_config.h"
 
 static void timer_isr(void);
 
@@ -23,33 +18,8 @@ static int buzzer_count = 0;
 
 static void buzzer(unsigned int num_ticks)
 {
-    Timer1.pwm(9, 512);
+    Timer1.pwm(9, 64);
     buzzer_count = num_ticks;
-}
-
-const char HelloWorld[] = "Hello World!";
-
-void helloWorld()
-{
-  //Serial.println("helloWorld");
-  display.setRotation(1);
-  display.setFont(&FreeMonoBold9pt7b);
-  display.setTextColor(GxEPD_BLACK);
-  int16_t tbx, tby; uint16_t tbw, tbh;
-  display.getTextBounds(HelloWorld, 0, 0, &tbx, &tby, &tbw, &tbh);
-  // center bounding box by transposition of origin:
-  uint16_t x = ((display.width() - tbw) / 2) - tbx;
-  uint16_t y = ((display.height() - tbh) / 2) - tby;
-  display.setFullWindow();
-  display.firstPage();
-  do
-  {
-    display.fillScreen(GxEPD_WHITE);
-    display.setCursor(x, y);
-    display.print(HelloWorld);
-  }
-  while (display.nextPage());
-  //Serial.println("helloWorld done");
 }
 
 void setup()
@@ -69,9 +39,7 @@ void setup()
     Serial.begin(115200);
 
     delay(100);
-    display.init(0); //115200);
-    // first update should be full refresh
-    helloWorld();
+    display_init();
 }
 
 static void sed_leds(uint8_t mask)
@@ -92,7 +60,7 @@ static void check_temp()
     if (isnan(c)) {
         Serial.println("Something wrong with thermocouple!");
     } else {
-        Serial.print("C = "); 
+        Serial.print("C = ");
         Serial.println(c);
     }
 }
