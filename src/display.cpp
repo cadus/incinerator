@@ -4,6 +4,7 @@
 #include <Fonts/FreeMonoBold9pt7b.h>
 
 #include "hw_config.h"
+#include "thermocouple.h"
 
 #define MAX_DISPLAY_BUFFER_SIZE 800
 #define MAX_HEIGHT(EPD) (EPD::HEIGHT <= MAX_DISPLAY_BUFFER_SIZE / (EPD::WIDTH / 8) ? EPD::HEIGHT : MAX_DISPLAY_BUFFER_SIZE / (EPD::WIDTH / 8))
@@ -35,26 +36,19 @@ class PrintString : public Print, public String
 };
 #endif
 
-void display_value(double v, int digits)
+void display_redraw()
 {
   display.setRotation(0);
   display.setFont(&FreeMonoBold9pt7b);
   display.setTextColor(GxEPD_BLACK);
   PrintString valueString;
-  valueString.print(v, digits);
-  int16_t tbx, tby; uint16_t tbw, tbh;
-  display.getTextBounds(valueString, 0, 0, &tbx, &tby, &tbw, &tbh);
-  uint16_t x = ((display.width() - tbw) / 2) - tbx;
-  uint16_t y = (display.height() * 3 / 4) + tbh / 2; // y is base line!
-  // show what happens, if we use the bounding box for partial window
-  uint16_t wx = (display.width() - tbw) / 2;
-  uint16_t wy = (display.height() * 3 / 4) - tbh / 2;
-  display.setPartialWindow(wx, wy, tbw, tbh);
+  valueString.print(thermocouple_get().temp_external, 2);
+  display.setPartialWindow(0, 0, display.width(), display.height());
   display.firstPage();
   do
   {
     display.fillScreen(GxEPD_WHITE);
-    display.setCursor(x, y);
+    display.setCursor(30, 30);
     display.print(valueString);
   }
   while (display.nextPage());

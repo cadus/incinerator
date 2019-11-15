@@ -2,16 +2,14 @@
 #include <SPI.h>
 
 #include "TimerOne.h"
-#include "Adafruit_MAX31855.h"
 
 #include "debounced_encoder.h"
 #include "display.h"
+#include "thermocouple.h"
 
 #include "hw_config.h"
 
 static void timer_isr(void);
-
-static Adafruit_MAX31855 thermocouple(MAX31855_CS);
 
 static int tick_count = 0;
 static int buzzer_count = 0;
@@ -51,22 +49,6 @@ static void sed_leds(uint8_t mask)
     digitalWrite(LED1, mask & (1 << 4));
 }
 
-static void check_temp()
-{
-    Serial.print("Internal Temp = ");
-    Serial.println(thermocouple.readInternal());
-
-    double c = thermocouple.readCelsius();
-    if (isnan(c)) {
-        Serial.println("Something wrong with thermocouple!");
-    } else {
-        Serial.print("C = ");
-        Serial.println(c);
-    }
-
-    display_value(c, 2);
-}
-
 static const uint8_t masks[] = {
     0b00000,
     0b00001,
@@ -92,7 +74,6 @@ static void check_encoder()
         Serial.println();
     }
 
-
     if (encoder_switch()) {
         Serial.println("SW pressed.");
         while (encoder_switch());
@@ -104,7 +85,7 @@ void loop()
     check_encoder();
     if (tick_count >= 2000 * 4) {
         tick_count = 0;
-        check_temp();
+        display_redraw();
     }
 }
 
