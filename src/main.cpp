@@ -132,7 +132,7 @@ static void check_encoder()
 void loop()
 {
     check_encoder();
-    if (tick_count >= 1000 * 4) {
+    if (tick_count >= 5000 * 4) {
         tick_count = 0;
         check_temp();
     }
@@ -142,7 +142,7 @@ static void control_buzzer()
 {
     if (buzzer_count > 0) {
         if (!--buzzer_count) {
-           Timer1.pwm(9, 0);
+            Timer1.pwm(9, 0);
         }
     }
 }
