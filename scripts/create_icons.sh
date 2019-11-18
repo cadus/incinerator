@@ -18,4 +18,5 @@ cat > "${srcFile}" <<EOF
 
 EOF
 
-${scriptDir}/svg2cpp.py "${projDir}/icons/test.svg" -w 32 -s "${srcFile}" -i "${incFile}"
+${scriptDir}/icon2cpp.py "${projDir}/icons/test.svg" -w 32 -s "${srcFile}" -i "${incFile}"
+${scriptDir}/icon2cpp.py "${projDir}/icons/blub.png" -s "${srcFile}" -i "${incFile}"

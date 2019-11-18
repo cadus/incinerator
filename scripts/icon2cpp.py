@@ -5,25 +5,32 @@ import sys
 import os
 import subprocess
 
-parser = argparse.ArgumentParser(description="SVG to CPP conversion helper")
-parser.add_argument("svgfile", help="SVG source file")
+parser = argparse.ArgumentParser(description="SVG/PNG to CPP conversion helper")
+parser.add_argument("gfxfile", help="SVG/PNG source file")
 parser.add_argument("-w", "--width", type=int, help="Icon width")
 parser.add_argument("-s", "--source", help="Append to source file")
 parser.add_argument("-i", "--include", help="Append to include file")
 args = parser.parse_args()
 
-icon_name = os.path.basename(args.svgfile)
-icon_name = os.path.splitext(icon_name)[0].upper()
+icon_name_base = os.path.splitext(os.path.basename(args.gfxfile))
+icon_name_ext = icon_name_base[1].lower()
+icon_name = icon_name_base[0].upper()
 
 print(f"Converting {icon_name} ...")
-# Convert the SVG to PNG
 
-inkscape_cmd = ["inkscape", "-z", "-e", "tmp.png",
-                "-w", f"{args.width}", args.svgfile]
+if icon_name_ext == ".svg":
+    # Convert the SVG to PNG first
 
-if subprocess.run(inkscape_cmd).returncode != 0:
-    print("Inkscape command failed!")
-    sys.exit(-1)
+    inkscape_cmd = ["inkscape", "-z", "-e", "tmp.png",
+                    "-w", f"{args.width}", args.gfxfile]
+
+    if subprocess.run(inkscape_cmd).returncode != 0:
+        print("Inkscape command failed!")
+        sys.exit(-1)
+    
+    png_name = "tmp.png"
+else:
+    png_name = args.gfxfile
 
 # Convert the PNG to Portable Anymap (PNM)
 
@@ -32,7 +39,7 @@ imagemagick_cmd = ["convert",
                    "-alpha", "remove",
                    "-colorspace", "gray",
                    "-auto-level", "-threshold", "50%",
-                   "tmp.png", "tmp.pnm"]
+                   png_name, "tmp.pnm"]
 
 if subprocess.run(imagemagick_cmd).returncode != 0:
     print("Imagemagick command failed!")
@@ -59,7 +66,8 @@ with open("tmp.pnm", 'rb') as f:
             ofile.write(line_str)
         ofile.write("};\n\n")
 
-os.remove("tmp.png")
+if png_name == "tmp.png":
+    os.remove("tmp.png")
 os.remove("tmp.pnm")
 
 print("Ready.")
