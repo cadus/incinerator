@@ -46,6 +46,6 @@ void display_redraw()
         display.setCursor(10, 15);
         display.print(str);
 
-        display.drawBitmap(100, 100, ICON_test_DATA, ICON_test_WIDTH, ICON_test_HEIGHT, GxEPD_BLACK);
+        display.drawBitmap(100, 100, ICON_TEST_DATA, ICON_TEST_WIDTH, ICON_TEST_HEIGHT, GxEPD_BLACK);
     } while (display.nextPage());
 }

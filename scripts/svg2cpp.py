@@ -13,8 +13,9 @@ parser.add_argument("-i", "--include", help="Append to include file")
 args = parser.parse_args()
 
 icon_name = os.path.basename(args.svgfile)
-icon_name = os.path.splitext(icon_name)[0]
+icon_name = os.path.splitext(icon_name)[0].upper()
 
+print(f"Converting {icon_name} ...")
 # Convert the SVG to PNG
 
 inkscape_cmd = ["inkscape", "-z", "-e", "tmp.png",
@@ -36,6 +37,8 @@ imagemagick_cmd = ["convert",
 if subprocess.run(imagemagick_cmd).returncode != 0:
     print("Imagemagick command failed!")
     sys.exit(-1)
+
+# Convert PNM to source code
 
 with open("tmp.pnm", 'rb') as f:
     if f.readline().strip() != b"P4":
