@@ -62,7 +62,7 @@ with open("tmp.pnm", 'rb') as f:
         ofile.write(f"const PROGMEM uint8_t ICON_{icon_name}_DATA[] = " + "{\n")
         img_data = f.read()
         for img_chunk in [img_data[i:i+16] for i in range(0, len(img_data), 16)]:
-            line_str = "    " + "".join(['0x%02x,' % val for val in img_chunk]) + "\n"
+            line_str = "    " + " ".join(['0x%02x,' % val for val in img_chunk]) + "\n"
             ofile.write(line_str)
         ofile.write("};\n\n")
 
