@@ -48,16 +48,19 @@ void display_redraw()
                  + ", c: "
                  + String(cnt % 100);
 
-    display.setPartialWindow(0, 0, display.width(), display.height());
+    const uint8_t ep = max(min(encoder_position(), 25), 0);
 
+    display.setPartialWindow(0, 0, display.width(), display.height());
     unsigned long start = micros();
     display.firstPage();
     do {
         display.fillScreen(GxEPD_WHITE);
         display.setCursor(10, 15);
         display.print(str);
-        display.drawBitmap(10, 30, ICON_TEST_DATA, ICON_TEST_WIDTH, ICON_TEST_HEIGHT, GxEPD_BLACK);
-        display.drawBitmap(300, 30, ICON_BLUB_DATA, ICON_BLUB_WIDTH, ICON_BLUB_HEIGHT, GxEPD_BLACK);
+        for (uint8_t i = 0; i < 25; i++) {
+            const uint8_t *icon = (ep > i) ? ICON_BOX_FILLED_DATA : ICON_BOX_CLEAR_DATA;
+            display.drawBitmap(i * ICON_BOX_CLEAR_WIDTH, 20, icon, ICON_BOX_CLEAR_WIDTH, ICON_BOX_CLEAR_HEIGHT, GxEPD_BLACK);
+        }
         GxEPD2_busyWaitCallback();
     } while (display.nextPage());
     unsigned long elapsed = micros() - start;
