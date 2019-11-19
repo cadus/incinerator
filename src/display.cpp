@@ -6,6 +6,7 @@
 #include "hw_config.h"
 #include "icons.h"
 #include "thermocouple.h"
+#include "debounced_encoder.h"
 
 extern void GxEPD2_busyWaitCallback();
 
@@ -34,12 +35,16 @@ void display_redraw()
     display.setTextColor(GxEPD_BLACK);
 
     thermocouple_meas_t T = thermocouple_get();
-    String str = "T_int: "
+    String str = "I: "
                  + String(T.temp_internal, 2)
-                 + ", T_ext:"
+                 + ", E:"
                  + String(T.temp_external, 2)
-                 + ", cnt: "
-                 + String(cnt);
+                 + ", e: "
+                 + String(encoder_position())
+                 + ", c: "
+                 + String(cnt % 100);
+
+    display.setPartialWindow(0, 0, display.width(), 18); //display.height());
 
     unsigned long start = micros();
     display.firstPage();
