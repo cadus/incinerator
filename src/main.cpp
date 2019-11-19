@@ -80,10 +80,15 @@ static void check_encoder()
     }
 }
 
+void GxEPD2_busyWaitCallback()
+{
+    check_encoder();
+}
+
 void loop()
 {
     check_encoder();
-    if (tick_count >= 2000 * 4) {
+    if (tick_count >= 1000 * 4) {
         tick_count = 0;
         display_redraw();
     }

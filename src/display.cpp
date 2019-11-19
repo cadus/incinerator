@@ -7,6 +7,8 @@
 #include "icons.h"
 #include "thermocouple.h"
 
+extern void GxEPD2_busyWaitCallback();
+
 #define MAX_DISPLAY_BUFFER_SIZE 800
 #define MAX_HEIGHT(EPD) (EPD::HEIGHT <= MAX_DISPLAY_BUFFER_SIZE / (EPD::WIDTH / 8) ? EPD::HEIGHT : MAX_DISPLAY_BUFFER_SIZE / (EPD::WIDTH / 8))
 GxEPD2_BW<GxEPD2_420, MAX_HEIGHT(GxEPD2_420)> display(GxEPD2_420(EPD_CS, EPD_DC, EPD_RST, EPD_BUSY));
@@ -45,8 +47,6 @@ void display_redraw()
         display.fillScreen(GxEPD_WHITE);
         display.setCursor(10, 15);
         display.print(str);
-
-        display.drawBitmap(50, 100, ICON_TEST_DATA, ICON_TEST_WIDTH, ICON_TEST_HEIGHT, GxEPD_BLACK);
-        display.drawBitmap(300, 100, ICON_BLUB_DATA, ICON_BLUB_WIDTH, ICON_BLUB_HEIGHT, GxEPD_BLACK);
+        GxEPD2_busyWaitCallback();
     } while (display.nextPage());
 }
