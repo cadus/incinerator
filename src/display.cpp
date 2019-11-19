@@ -41,7 +41,7 @@ void display_redraw()
                  + ", cnt: "
                  + String(cnt);
 
-    display.setPartialWindow(0, 0, display.width(), display.height());
+    unsigned long start = micros();
     display.firstPage();
     do {
         display.fillScreen(GxEPD_WHITE);
@@ -49,4 +49,11 @@ void display_redraw()
         display.print(str);
         GxEPD2_busyWaitCallback();
     } while (display.nextPage());
+    unsigned long elapsed = micros() - start;
+    Serial.print("time spent - w/o refresh: ");
+    Serial.print(elapsed - 560000);
+    Serial.println(" us");
+    Serial.print("time spent - total: ");
+    Serial.print(elapsed);
+    Serial.println(" us");
 }
