@@ -44,7 +44,7 @@ void display_redraw()
                  + ", c: "
                  + String(cnt % 100);
 
-    display.setPartialWindow(0, 0, display.width(), 18); //display.height());
+    display.setPartialWindow(0, 0, display.width(), display.height());
 
     unsigned long start = micros();
     display.firstPage();
@@ -52,6 +52,8 @@ void display_redraw()
         display.fillScreen(GxEPD_WHITE);
         display.setCursor(10, 15);
         display.print(str);
+        display.drawBitmap(10, 30, ICON_TEST_DATA, ICON_TEST_WIDTH, ICON_TEST_HEIGHT, GxEPD_BLACK);
+        display.drawBitmap(300, 30, ICON_BLUB_DATA, ICON_BLUB_WIDTH, ICON_BLUB_HEIGHT, GxEPD_BLACK);
         GxEPD2_busyWaitCallback();
     } while (display.nextPage());
     unsigned long elapsed = micros() - start;

@@ -7,9 +7,11 @@ volatile int encoder_pos = 0;
 
 void encoder_init()
 {
+#if 0
     pinMode(ROTARY_SW, INPUT_PULLUP);
     pinMode(ROTARY_CLK, INPUT_PULLUP);
     pinMode(ROTARY_DT, INPUT_PULLUP);
+#endif
 }
 
 bool encoder_switch()
@@ -24,6 +26,7 @@ int encoder_position()
 
 void encoder_check_rotation()
 {
+#if 0
     const int8_t transition_valid_tbl[] = { 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0 };
     static uint8_t transition_code = 0;
     static uint8_t transition_code_history = 0;
@@ -43,10 +46,12 @@ void encoder_check_rotation()
             encoder_pos++;
         }
     }
+#endif
 }
 
 void encoder_check_switch(void)
 {
+#if 0
     static uint8_t switch_history = 0;
     switch_history <<= 1;
     switch_history |= digitalRead(ROTARY_SW) ? 1 : 0;
@@ -54,4 +59,5 @@ void encoder_check_switch(void)
         const bool switch_curr = !!switch_history;
         encoder_sw = !switch_curr;
     }
+#endif
 }

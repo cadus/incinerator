@@ -23,7 +23,7 @@ static void buzzer(unsigned int num_ticks)
 void setup()
 {
     encoder_init();
-
+#if 0
     pinMode(LED1, OUTPUT);
     pinMode(LED2, OUTPUT);
     pinMode(LED3, OUTPUT);
@@ -33,7 +33,7 @@ void setup()
     Timer1.initialize(250);
     Timer1.pwm(9, 0);
     Timer1.attachInterrupt(timer_isr);
-
+#endif
     Serial.begin(115200);
 
     delay(100);
@@ -42,11 +42,13 @@ void setup()
 
 static void sed_leds(uint8_t mask)
 {
+#if 0
     digitalWrite(LED5, mask & (1 << 0));
     digitalWrite(LED4, mask & (1 << 1));
     digitalWrite(LED3, mask & (1 << 2));
     digitalWrite(LED2, mask & (1 << 3));
     digitalWrite(LED1, mask & (1 << 4));
+#endif
 }
 
 static const uint8_t masks[] = {
@@ -88,7 +90,7 @@ void GxEPD2_busyWaitCallback()
 void loop()
 {
     check_encoder();
-    if (tick_count >= 1000 * 4) {
+    if (true || tick_count >= 1000 * 4) {
         tick_count = 0;
         display_redraw();
     }
@@ -96,11 +98,13 @@ void loop()
 
 static void control_buzzer()
 {
+#if 0
     if (buzzer_count > 0) {
         if (!--buzzer_count) {
             Timer1.pwm(9, 0);
         }
     }
+#endif
 }
 
 static void timer_isr(void)
