@@ -14,8 +14,16 @@
 #define MAX31855_CS 8
 #endif
 
+#ifdef __AVR__
+#if 0
 #define EPD_CS 10
 #define EPD_DC A0
 #define EPD_RST A3
 #define EPD_BUSY A4
-
+#endif
+#else
+#define EPD_CS 5
+#define EPD_DC 26
+#define EPD_RST 25
+#define EPD_BUSY 33
+#endif

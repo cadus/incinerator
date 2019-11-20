@@ -1,7 +1,9 @@
 #include <Arduino.h>
 #include <SPI.h>
 
+#ifdef __AVR__
 #include "TimerOne.h"
+#endif
 
 #include "debounced_encoder.h"
 #include "display.h"
@@ -16,7 +18,9 @@ static int buzzer_count = 0;
 
 static void buzzer(unsigned int num_ticks)
 {
+#ifdef __AVR__
     Timer1.pwm(9, 64);
+#endif
     buzzer_count = num_ticks;
 }
 
