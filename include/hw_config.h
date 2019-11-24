@@ -1,29 +1,24 @@
 #pragma once
 
-#if 0
-#define ROTARY_SW 2
-#define ROTARY_CLK A1
-#define ROTARY_DT A2
+#define ROTARY_SW 15
+#define ROTARY_CLK 13
+#define ROTARY_DT 12
 
-#define LED1 3
-#define LED2 4
-#define LED3 5
-#define LED4 6
-#define LED5 7
+#define TEMP_CH1_CS 16
+#define TEMP_CH2_CS 4
 
-#define MAX31855_CS 8
-#endif
-
-#ifdef __AVR__
-#if 0
-#define EPD_CS 10
-#define EPD_DC A0
-#define EPD_RST A3
-#define EPD_BUSY A4
-#endif
-#else
 #define EPD_CS 5
-#define EPD_DC 26
-#define EPD_RST 25
-#define EPD_BUSY 33
-#endif
+#define EPD_DC 17
+#define EPD_RST 21
+#define EPD_BUSY 36
+
+#define BUZZER 22
+
+#define PWR_GOOD 39
+
+#define IGNITION_1 32
+#define IGNITION_2 33
+#define AIRPMP 25
+#define VALVE1 26
+#define VALVE2 27
+#define VALVE3 14
