@@ -3,21 +3,14 @@
 #include "Adafruit_MAX31855.h"
 
 #include "hw_config.h"
-#if 0
-static Adafruit_MAX31855 thermocouple(MAX31855_CS);
+
+static Adafruit_MAX31855 thermo_ch1(TEMP_CH1_CS);
+static Adafruit_MAX31855 thermo_ch2(TEMP_CH2_CS);
 
 thermocouple_meas_t thermocouple_get()
 {
     return (thermocouple_meas_t) {
-        .temp_internal = thermocouple.readInternal(),
-        .temp_external = thermocouple.readCelsius()
-    };
-}
-#endif
-thermocouple_meas_t thermocouple_get()
-{
-    return (thermocouple_meas_t) {
-        .temp_internal = 0,
-        .temp_external = 0
+        .temp_internal = thermo_ch1.readInternal(),
+        .temp_external = thermo_ch1.readCelsius()
     };
 }
