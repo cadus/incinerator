@@ -12,6 +12,7 @@
 #define EPD_RST 21
 #define EPD_BUSY 36
 
+#define PWM_CH_BUZZER 0
 #define BUZZER 22
 
 #define PWR_GOOD 39

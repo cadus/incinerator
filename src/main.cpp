@@ -17,6 +17,7 @@ static int buzzer_count = 0;
 static void buzzer(unsigned int num_ticks)
 {
     digitalWrite(LED_INT, true);
+    ledcWrite(PWM_CH_BUZZER, 16);
     buzzer_count = num_ticks;
 }
 
@@ -30,6 +31,9 @@ void setup()
     timer = timerBegin(0, 80, true);
     timerAttachInterrupt(timer, timer_isr, true);
     timerAlarmWrite(timer, 250, true);
+
+    ledcSetup(PWM_CH_BUZZER, 4000, 8);
+    ledcAttachPin(BUZZER, PWM_CH_BUZZER);
 
     delay(100);
     display_init();
@@ -77,6 +81,7 @@ static void control_buzzer()
     if (buzzer_count > 0) {
         if (!--buzzer_count) {
             digitalWrite(LED_INT, false);
+            ledcWrite(PWM_CH_BUZZER, 0);
         }
     }
 }
