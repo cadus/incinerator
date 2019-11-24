@@ -31,9 +31,9 @@ void setup()
     timer = timerBegin(0, 80, true);
     timerAttachInterrupt(timer, timer_isr, true);
     timerAlarmWrite(timer, 250, true);
+    delay(100);
+    display_init();
     timerAlarmEnable(timer);
-//    delay(100);
-//    display_init();
 }
 
 static void check_encoder()
@@ -63,8 +63,7 @@ void loop()
     check_encoder();
     if (tick_count >= 1000 * 4) {
         tick_count = 0;
-        Serial.println("Dings");
-//        display_redraw();
+        display_redraw();
     }
 }
 
@@ -88,5 +87,4 @@ static void IRAM_ATTR timer_isr(void)
     encoder_check_rotation();
     encoder_check_switch();
     control_buzzer();
-
 }
