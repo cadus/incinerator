@@ -19,6 +19,8 @@
 #define IGNITION_1 32
 #define IGNITION_2 33
 #define AIRPMP 25
-#define VALVE1 26
-#define VALVE2 27
-#define VALVE3 14
+#define VALVE_1 26
+#define VALVE_2 27
+#define VALVE_3 14
+
+#define LED_INT 2

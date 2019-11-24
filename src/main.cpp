@@ -16,23 +16,24 @@ static int buzzer_count = 0;
 
 static void buzzer(unsigned int num_ticks)
 {
-#ifdef __AVR__
-    Timer1.pwm(9, 64);
-#endif
+    digitalWrite(LED_INT, true);
     buzzer_count = num_ticks;
 }
 
 void setup()
 {
     encoder_init();
+    pinMode(LED_INT, OUTPUT);
     
     Serial.begin(115200);
 
     timer = timerBegin(0, 80, true);
     timerAttachInterrupt(timer, timer_isr, true);
     timerAlarmWrite(timer, 250, true);
+
     delay(100);
     display_init();
+
     timerAlarmEnable(timer);
 }
 
@@ -73,13 +74,11 @@ void loop()
 
 static void control_buzzer()
 {
-#if 0
     if (buzzer_count > 0) {
         if (!--buzzer_count) {
-            Timer1.pwm(9, 0);
+            digitalWrite(LED_INT, false);
         }
     }
-#endif
 }
 
 static void IRAM_ATTR timer_isr(void)
