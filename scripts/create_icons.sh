@@ -8,7 +8,8 @@ srcFile="${projDir}/src/icons.cpp"
 
 cat > "${incFile}" <<EOF
 #pragma once
-#include "avr/pgmspace.h"
+
+#include <stdint.h>
 
 EOF
 

@@ -11,3 +11,4 @@ extern const uint8_t ICON_BOX_CLEAR_DATA[];
 #define ICON_BOX_FILLED_WIDTH 16
 #define ICON_BOX_FILLED_HEIGHT 16
 extern const uint8_t ICON_BOX_FILLED_DATA[];
+

@@ -56,10 +56,10 @@ with open("tmp.pnm", 'rb') as f:
     with open(args.include, "a+") as ofile:
         ofile.write(f"#define ICON_{icon_name}_WIDTH {img_dimensions[0]}\n")
         ofile.write(f"#define ICON_{icon_name}_HEIGHT {img_dimensions[1]}\n")
-        ofile.write(f"extern const PROGMEM uint8_t ICON_{icon_name}_DATA[];\n\n")
+        ofile.write(f"extern const uint8_t ICON_{icon_name}_DATA[];\n\n")
 
     with open(args.source, "a+") as ofile:
-        ofile.write(f"const PROGMEM uint8_t ICON_{icon_name}_DATA[] = " + "{\n")
+        ofile.write(f"const uint8_t ICON_{icon_name}_DATA[] = " + "{\n")
         img_data = f.read()
         for img_chunk in [img_data[i:i+16] for i in range(0, len(img_data), 16)]:
             line_str = "    " + " ".join(['0x%02x,' % val for val in img_chunk]) + "\n"
