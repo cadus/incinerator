@@ -36,8 +36,10 @@ void setup()
     timerAlarmEnable(timer);
 }
 
-static void check_encoder()
+static bool check_encoder()
 {
+    bool update = false;
+
     static int old_encoder_pos = 0;
     int encoder_pos = encoder_position();
     if (encoder_pos != old_encoder_pos) {
@@ -45,12 +47,15 @@ static void check_encoder()
         old_encoder_pos = encoder_pos;
         Serial.print(encoder_pos, DEC);
         Serial.println();
+        update |= true;
     }
 
     if (encoder_switch()) {
         Serial.println("SW pressed.");
-        while (encoder_switch());
+        update |= true;
     }
+
+    return update;
 }
 
 void GxEPD2_busyWaitCallback()
@@ -60,8 +65,7 @@ void GxEPD2_busyWaitCallback()
 
 void loop()
 {
-    check_encoder();
-    if (tick_count >= 1000 * 4) {
+    if (check_encoder() || (tick_count >= 1000 * 4)) {
         tick_count = 0;
         display_redraw();
     }
