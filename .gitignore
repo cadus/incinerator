@@ -2,3 +2,4 @@
 .vscode
 /pcb/*bak
 /pcb/fp-info-cache
+/pcb/_autosave*

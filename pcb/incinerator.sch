@@ -29,50 +29,8 @@ Text Label 9850 3850 0    50   ~ 0
 GND
 Text Label 9850 3950 0    50   ~ 0
 VCC
-$Comp
-L Connector:Conn_01x08_Male J4
-U 1 1 5DDAE1A1
-P 9800 3550
-F 0 "J4" H 9908 3017 50  0000 C CNN
-F 1 "Waveshare 4.2\" e-paper" H 9908 2926 50  0000 C CNN
-F 2 "" H 9800 3550 50  0001 C CNN
-F 3 "~" H 9800 3550 50  0001 C CNN
-	1    9800 3550
-	-1   0    0    -1  
-$EndComp
-Wire Wire Line
-	9500 3850 9600 3850
-Text Label 9850 5200 0    50   ~ 0
-CLK
-Text Label 9850 5100 0    50   ~ 0
-CS
-Text Label 9850 5000 0    50   ~ 0
-DO
-Text Label 9850 4900 0    50   ~ 0
-GND
-Text Label 9850 4800 0    50   ~ 0
-3Vo
-Text Label 9850 4700 0    50   ~ 0
-Vin
-$Comp
-L Connector:Conn_01x06_Female J6
-U 1 1 5DF510FF
-P 9800 5750
-F 0 "J6" H 9692 5317 50  0000 C CNN
-F 1 "Adafruit MAX31855" H 9692 5226 50  0000 C CNN
-F 2 "" H 9800 5750 50  0001 C CNN
-F 3 "~" H 9800 5750 50  0001 C CNN
-	1    9800 5750
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	9600 4450 9600 3950
 Wire Wire Line
 	9600 3250 9600 2650
-Wire Wire Line
-	9500 4350 9500 3850
-Wire Wire Line
-	7250 4450 9350 4450
 Wire Wire Line
 	2600 5050 5850 5050
 Wire Wire Line
@@ -424,27 +382,13 @@ F 3 "~" V 7725 2450 50  0001 C CNN
 	1    0    0    1   
 $EndComp
 Wire Wire Line
-	7250 4350 9200 4350
-Wire Wire Line
-	8400 3350 9600 3350
-Wire Wire Line
 	8400 3450 8400 3350
 Wire Wire Line
 	7250 3450 8400 3450
 Wire Wire Line
-	8500 3450 9600 3450
-Wire Wire Line
-	8600 3550 9600 3550
-Wire Wire Line
 	8600 3750 8600 3550
 Wire Wire Line
 	7250 3750 8600 3750
-Wire Wire Line
-	7250 3650 9050 3650
-Wire Wire Line
-	8700 3050 8700 3750
-Wire Wire Line
-	8700 3750 9600 3750
 Wire Wire Line
 	5600 2650 5600 3150
 Wire Wire Line
@@ -459,10 +403,6 @@ Text Label 7300 4250 0    50   ~ 0
 D15
 Text Label 7300 4150 0    50   ~ 0
 D2
-Text Label 7300 4050 0    50   ~ 0
-D4
-Text Label 7300 3950 0    50   ~ 0
-RX2
 Text Label 7300 3850 0    50   ~ 0
 TX2
 Text Label 7300 3750 0    50   ~ 0
@@ -535,97 +475,11 @@ F 3 "~" H 6400 3750 50  0001 C CNN
 $EndComp
 Connection ~ 1850 4750
 Wire Wire Line
-	9350 4450 9350 4700
-Wire Wire Line
-	9350 4700 9600 4700
-Connection ~ 9350 4450
-Wire Wire Line
-	9350 4450 9600 4450
-Wire Wire Line
-	9350 4700 9350 5550
-Wire Wire Line
-	9350 5550 9600 5550
-Connection ~ 9350 4700
-Text Label 9850 6050 0    50   ~ 0
-CLK
-Text Label 9850 5950 0    50   ~ 0
-CS
-Text Label 9850 5850 0    50   ~ 0
-DO
-Text Label 9850 5750 0    50   ~ 0
-GND
-Text Label 9850 5650 0    50   ~ 0
-3Vo
-Text Label 9850 5550 0    50   ~ 0
-Vin
-Wire Wire Line
-	9200 4350 9200 4900
-Wire Wire Line
-	9200 4900 9600 4900
-Connection ~ 9200 4350
-Wire Wire Line
-	9200 4350 9500 4350
-Wire Wire Line
-	9200 4900 9200 5750
-Wire Wire Line
-	9200 5750 9600 5750
-Connection ~ 9200 4900
-Wire Wire Line
-	9050 3650 9050 5200
-Wire Wire Line
-	9050 5200 9600 5200
-Connection ~ 9050 3650
-Wire Wire Line
-	9050 3650 9600 3650
-Wire Wire Line
-	9050 5200 9050 6050
-Wire Wire Line
-	9050 6050 9600 6050
-Connection ~ 9050 5200
-Wire Wire Line
 	8500 3850 7250 3850
 Wire Wire Line
 	8500 3450 8500 3850
-Wire Wire Line
-	7250 3550 8400 3550
-Wire Wire Line
-	8400 3550 8400 5000
-Wire Wire Line
-	8400 5000 9600 5000
-Wire Wire Line
-	8400 5000 8400 5850
-Wire Wire Line
-	8400 5850 9600 5850
-Connection ~ 8400 5000
-Wire Wire Line
-	7250 3950 8900 3950
-Wire Wire Line
-	8900 3950 8900 5100
-Wire Wire Line
-	8900 5100 9600 5100
-Wire Wire Line
-	7250 4050 8750 4050
-Wire Wire Line
-	8750 4050 8750 5950
-Wire Wire Line
-	8750 5950 9600 5950
 Text Label 2650 4950 0    50   ~ 0
 Goldcap_5.5V
-Text Label 10050 4950 0    50   ~ 0
-Temp_CH1
-Text Label 10050 5800 0    50   ~ 0
-Temp_CH2
-$Comp
-L Connector:Conn_01x06_Female J5
-U 1 1 5DF367BC
-P 9800 4900
-F 0 "J5" H 9692 4467 50  0000 C CNN
-F 1 "Adafruit MAX31855" H 9692 4376 50  0000 C CNN
-F 2 "" H 9800 4900 50  0001 C CNN
-F 3 "~" H 9800 4900 50  0001 C CNN
-	1    9800 4900
-	1    0    0    -1  
-$EndComp
 $Comp
 L Connector:Conn_01x06_Male J1
 U 1 1 5DFDA08A
@@ -691,8 +545,6 @@ F 3 "~" H 6650 5760 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	7650 4250 7250 4250
-Wire Wire Line
 	5500 4250 6200 4250
 Wire Wire Line
 	5350 4150 6200 4150
@@ -719,10 +571,6 @@ Connection ~ 6200 5800
 Wire Wire Line
 	6200 5800 6200 5950
 Wire Wire Line
-	6950 5400 7650 5400
-Wire Wire Line
-	7650 5400 7650 4250
-Wire Wire Line
 	6350 5400 5500 5400
 Wire Wire Line
 	5500 5400 5500 4250
@@ -730,4 +578,218 @@ Wire Wire Line
 	6350 5600 5350 5600
 Wire Wire Line
 	5350 5600 5350 4150
+Wire Wire Line
+	7250 3650 9000 3650
+Text Label 9850 5000 0    50   ~ 0
+VCC
+Text Label 9850 4900 0    50   ~ 0
+GND
+Text Label 9850 4800 0    50   ~ 0
+SO
+Text Label 9850 4700 0    50   ~ 0
+CS
+Text Label 9850 4600 0    50   ~ 0
+SCK
+$Comp
+L Connector:Conn_01x05_Male J?
+U 1 1 5DE8FF2A
+P 9800 4800
+F 0 "J?" H 9908 4467 50  0000 C CNN
+F 1 "MAX31855 Breakout Board" H 9908 4376 50  0000 C CNN
+F 2 "" H 9800 4800 50  0001 C CNN
+F 3 "~" H 9800 4800 50  0001 C CNN
+	1    9800 4800
+	-1   0    0    -1  
+$EndComp
+Text Label 9850 5800 0    50   ~ 0
+VCC
+Text Label 9850 5700 0    50   ~ 0
+GND
+Text Label 9850 5600 0    50   ~ 0
+SO
+Text Label 9850 5500 0    50   ~ 0
+CS
+Text Label 9850 5400 0    50   ~ 0
+SCK
+$Comp
+L Connector:Conn_01x05_Male J?
+U 1 1 5DEAED10
+P 9800 5600
+F 0 "J?" H 9908 5267 50  0000 C CNN
+F 1 "MAX31855 Breakout Board" H 9908 5176 50  0000 C CNN
+F 2 "" H 9800 5600 50  0001 C CNN
+F 3 "~" H 9800 5600 50  0001 C CNN
+	1    9800 5600
+	-1   0    0    -1  
+$EndComp
+Wire Wire Line
+	9000 3650 9000 4600
+Wire Wire Line
+	9000 4600 9600 4600
+Connection ~ 9000 3650
+Wire Wire Line
+	9000 4600 9000 5400
+Wire Wire Line
+	9000 5400 9600 5400
+Connection ~ 9000 4600
+Wire Wire Line
+	8900 4700 9600 4700
+Text Label 7300 3950 0    50   ~ 0
+RX2
+Text Label 7300 4050 0    50   ~ 0
+D4
+Wire Wire Line
+	7250 3950 8900 3950
+Wire Wire Line
+	8900 3950 8900 4700
+Wire Wire Line
+	7250 4050 8800 4050
+Wire Wire Line
+	8800 4050 8800 5500
+Wire Wire Line
+	8800 5500 9600 5500
+Wire Wire Line
+	8700 3050 8700 3750
+Wire Wire Line
+	7250 3550 8400 3550
+Wire Wire Line
+	8400 3550 8400 4800
+Wire Wire Line
+	8400 4800 9600 4800
+Wire Wire Line
+	8400 4800 8400 5600
+Wire Wire Line
+	8400 5600 9600 5600
+Connection ~ 8400 4800
+Wire Wire Line
+	9000 3650 9600 3650
+Wire Wire Line
+	8600 3550 9600 3550
+Wire Wire Line
+	8500 3450 9600 3450
+Wire Wire Line
+	8400 3350 9600 3350
+Wire Wire Line
+	8700 3750 9600 3750
+$Comp
+L power:Earth #PWR?
+U 1 1 5DEEEE26
+P 9500 3850
+F 0 "#PWR?" H 9500 3600 50  0001 C CNN
+F 1 "Earth" H 9500 3700 50  0001 C CNN
+F 2 "" H 9500 3850 50  0001 C CNN
+F 3 "~" H 9500 3850 50  0001 C CNN
+	1    9500 3850
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	9500 3850 9600 3850
+$Comp
+L Connector:Conn_01x08_Male J4
+U 1 1 5DDAE1A1
+P 9800 3550
+F 0 "J4" H 9908 3017 50  0000 C CNN
+F 1 "Waveshare 4.2\" e-paper" H 9908 2926 50  0000 C CNN
+F 2 "" H 9800 3550 50  0001 C CNN
+F 3 "~" H 9800 3550 50  0001 C CNN
+	1    9800 3550
+	-1   0    0    -1  
+$EndComp
+$Comp
+L power:+3.3V #PWR?
+U 1 1 5DEFD454
+P 9500 3950
+F 0 "#PWR?" H 9500 3800 50  0001 C CNN
+F 1 "+3.3V" V 9515 4078 50  0000 L CNN
+F 2 "" H 9500 3950 50  0001 C CNN
+F 3 "" H 9500 3950 50  0001 C CNN
+	1    9500 3950
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	9500 3950 9600 3950
+$Comp
+L power:Earth #PWR?
+U 1 1 5DF0E96B
+P 9500 4900
+F 0 "#PWR?" H 9500 4650 50  0001 C CNN
+F 1 "Earth" H 9500 4750 50  0001 C CNN
+F 2 "" H 9500 4900 50  0001 C CNN
+F 3 "~" H 9500 4900 50  0001 C CNN
+	1    9500 4900
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	9500 4900 9600 4900
+$Comp
+L power:+3.3V #PWR?
+U 1 1 5DF0E972
+P 9500 5000
+F 0 "#PWR?" H 9500 4850 50  0001 C CNN
+F 1 "+3.3V" V 9515 5128 50  0000 L CNN
+F 2 "" H 9500 5000 50  0001 C CNN
+F 3 "" H 9500 5000 50  0001 C CNN
+	1    9500 5000
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	9500 5000 9600 5000
+$Comp
+L power:Earth #PWR?
+U 1 1 5DF11219
+P 9500 5700
+F 0 "#PWR?" H 9500 5450 50  0001 C CNN
+F 1 "Earth" H 9500 5550 50  0001 C CNN
+F 2 "" H 9500 5700 50  0001 C CNN
+F 3 "~" H 9500 5700 50  0001 C CNN
+	1    9500 5700
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	9500 5700 9600 5700
+$Comp
+L power:+3.3V #PWR?
+U 1 1 5DF11220
+P 9500 5800
+F 0 "#PWR?" H 9500 5650 50  0001 C CNN
+F 1 "+3.3V" V 9515 5928 50  0000 L CNN
+F 2 "" H 9500 5800 50  0001 C CNN
+F 3 "" H 9500 5800 50  0001 C CNN
+	1    9500 5800
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	9500 5800 9600 5800
+Wire Wire Line
+	8050 4250 8050 5400
+Wire Wire Line
+	7250 4250 8050 4250
+Wire Wire Line
+	6950 5400 8050 5400
+$Comp
+L power:+3.3V #PWR?
+U 1 1 5DF1C567
+P 7600 4450
+F 0 "#PWR?" H 7600 4300 50  0001 C CNN
+F 1 "+3.3V" V 7615 4578 50  0000 L CNN
+F 2 "" H 7600 4450 50  0001 C CNN
+F 3 "" H 7600 4450 50  0001 C CNN
+	1    7600 4450
+	0    1    -1   0   
+$EndComp
+$Comp
+L power:Earth #PWR?
+U 1 1 5DF1C560
+P 7600 4350
+F 0 "#PWR?" H 7600 4100 50  0001 C CNN
+F 1 "Earth" H 7600 4200 50  0001 C CNN
+F 2 "" H 7600 4350 50  0001 C CNN
+F 3 "~" H 7600 4350 50  0001 C CNN
+	1    7600 4350
+	0    -1   1    0   
+$EndComp
+Wire Wire Line
+	7250 4350 7600 4350
+Wire Wire Line
+	7250 4450 7600 4450
 $EndSCHEMATC
