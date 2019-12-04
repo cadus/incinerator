@@ -25,3 +25,8 @@
 #define VALVE_3 14
 
 #define LED_INT 2
+
+#define LED_TEST1 AIRPMP
+#define LED_TEST2 VALVE_1
+#define LED_TEST3 VALVE_2
+#define LED_TEST4 VALVE_3
