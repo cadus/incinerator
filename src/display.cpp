@@ -38,7 +38,8 @@ void display_redraw()
     display.setFont(&FreeMonoBold9pt7b);
     display.setTextColor(GxEPD_BLACK);
 
-    thermocouple_meas_t T = thermocouple_get();
+    temp_aft.update();
+    thermocouple_meas_t T = temp_aft.get();
     String str = "I: "
                  + String(T.temp_internal, 2)
                  + ", E:"
