@@ -7,6 +7,7 @@
 #include "icons.h"
 #include "thermocouple.h"
 #include "debounced_encoder.h"
+#include "incinerator.h"
 
 extern void GxEPD2_busyWaitCallback();
 
@@ -38,8 +39,7 @@ void display_redraw()
     display.setFont(&FreeMonoBold9pt7b);
     display.setTextColor(GxEPD_BLACK);
 
-    temp_aft.update();
-    thermocouple_meas_t T = temp_aft.get();
+    thermocouple_meas_t T = burner_main.getTemp();
     String str = "I:"
                  + String(T.internal, 2)
                  + ", E:"

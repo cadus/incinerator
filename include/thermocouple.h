@@ -17,5 +17,3 @@ private:
     thermocouple_meas_t _curr_readout;
 };
 
-extern Thermocouple temp_main;
-extern Thermocouple temp_aft;
