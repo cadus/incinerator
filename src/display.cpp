@@ -40,10 +40,10 @@ void display_redraw()
 
     temp_aft.update();
     thermocouple_meas_t T = temp_aft.get();
-    String str = "I: "
-                 + String(T.temp_internal, 2)
+    String str = "I:"
+                 + String(T.internal, 2)
                  + ", E:"
-                 + String(T.temp_external, 2)
+                 + String(T.external, 2)
                  + ", e: "
                  + String(encoder_position())
                  + ", c: "
