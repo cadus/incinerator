@@ -6,7 +6,7 @@ struct Buzzer {
     Buzzer();
 
     void init();
-    void buzz(uint32_t buzz_length_ms);
+    void buzz(uint32_t buzz_length_ms, uint8_t volume=16);
     void task();
 
 private:

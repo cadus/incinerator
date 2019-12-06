@@ -14,11 +14,11 @@ void Buzzer::init()
     ledcAttachPin(BUZZER, PWM_CH_BUZZER);
 }
 
-void Buzzer::buzz(uint32_t buzz_length_ms)
+void Buzzer::buzz(uint32_t buzz_length_ms, uint8_t volume)
 {
     if (_count < buzz_length_ms) {
         digitalWrite(LED_INT, true);
-        ledcWrite(PWM_CH_BUZZER, 128);
+        ledcWrite(PWM_CH_BUZZER, volume);
         _count = buzz_length_ms;
     }
 }

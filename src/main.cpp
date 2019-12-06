@@ -40,17 +40,21 @@ static bool check_encoder()
     static int old_encoder_pos = 0;
     int encoder_pos = encoder_position();
     if (encoder_pos != old_encoder_pos) {
-        buzzer.buzz(25);
+        buzzer.buzz(16);
         old_encoder_pos = encoder_pos;
         Serial.print(encoder_pos, DEC);
         Serial.println();
         update |= true;
     }
 
-    if (encoder_switch()) {
+    static bool encoder_was_pressed = false;
+    const bool encoder_pressed = encoder_switch();
+    if (encoder_pressed && !encoder_was_pressed) {
         Serial.println("SW pressed.");
+        buzzer.buzz(50);
         update |= true;
     }
+    encoder_was_pressed = encoder_pressed;
 
     return update;
 }
@@ -76,5 +80,7 @@ static void IRAM_ATTR timer_isr(void)
 
     encoder_check_rotation();
     encoder_check_switch();
-    buzzer.task();
+    if (!(tick_count & 3)) {
+        buzzer.task();
+    }
 }
