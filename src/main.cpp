@@ -3,21 +3,16 @@
 #include "buzzer.h"
 #include "debounced_encoder.h"
 #include "display.h"
-#include "thermocouple.h"
-
 #include "hw_config.h"
+#include "thermocouple.h"
+#include "timeout.h"
 
 static void IRAM_ATTR timer_isr(void);
-
 static hw_timer_t *timer = NULL;
-static portMUX_TYPE tm_mutex = portMUX_INITIALIZER_UNLOCKED;
-
-static volatile int tick_count = 0;
 
 void setup()
 {
     encoder_init();
-    pinMode(LED_INT, OUTPUT);
     
     Serial.begin(115200);
 
@@ -66,21 +61,21 @@ void GxEPD2_busyWaitCallback()
 
 void loop()
 {
-    if (check_encoder() || (tick_count >= 1000 * 4)) {
-        tick_count = 0;
+    if (check_encoder()) {
         display_redraw();
     }
 }
 
 static void IRAM_ATTR timer_isr(void)
 {
-    portENTER_CRITICAL_ISR(&tm_mutex);
-    tick_count++;
-    portEXIT_CRITICAL_ISR(&tm_mutex);
-
+    // every 250 us
     encoder_check_rotation();
     encoder_check_switch();
-    if (!(tick_count & 3)) {
+
+    static uint8_t count = 0;
+    if (!(count++ & 3)) {
+        // once per millisecond
         buzzer.task();
+        Timeout::incrementMs();
     }
 }
