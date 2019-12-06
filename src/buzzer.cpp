@@ -12,6 +12,7 @@ void Buzzer::init()
 {
     ledcSetup(PWM_CH_BUZZER, 4000, 8);
     ledcAttachPin(BUZZER, PWM_CH_BUZZER);
+    pinMode(LED_INT, OUTPUT);
 }
 
 void Buzzer::buzz(uint32_t buzz_length_ms, uint8_t volume)
