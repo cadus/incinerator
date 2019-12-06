@@ -5,6 +5,7 @@ portMUX_TYPE Timeout::_tm_mutex = portMUX_INITIALIZER_UNLOCKED;
 
 Timeout::Timeout()
 {
+    set(0);
 }
 
 void Timeout::set(int32_t ms)
@@ -23,4 +24,9 @@ void Timeout::incrementMs()
     portENTER_CRITICAL_ISR(&_tm_mutex);
     _counter++;
     portEXIT_CRITICAL_ISR(&_tm_mutex);
+}
+
+int32_t Timeout::getMs()
+{
+    return _counter;
 }
