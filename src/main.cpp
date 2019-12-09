@@ -61,7 +61,9 @@ void GxEPD2_busyWaitCallback()
 
 void loop()
 {
-    if (check_encoder()) {
+    static Timeout to;
+    if (check_encoder() || to.elapsed()) {
+        to.set(1000);
         display_redraw();
     }
 }
