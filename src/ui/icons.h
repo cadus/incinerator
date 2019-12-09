@@ -12,3 +12,15 @@ extern const uint8_t ICON_BOX_CLEAR_DATA[];
 #define ICON_BOX_FILLED_HEIGHT 16
 extern const uint8_t ICON_BOX_FILLED_DATA[];
 
+#define ICON_CLOCK_WIDTH 47
+#define ICON_CLOCK_HEIGHT 57
+extern const uint8_t ICON_CLOCK_DATA[];
+
+#define ICON_FLAME_WIDTH 45
+#define ICON_FLAME_HEIGHT 54
+extern const uint8_t ICON_FLAME_DATA[];
+
+#define ICON_THERMOMETER_WIDTH 53
+#define ICON_THERMOMETER_HEIGHT 68
+extern const uint8_t ICON_THERMOMETER_DATA[];
+

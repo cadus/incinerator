@@ -3,8 +3,8 @@
 scriptDir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 projDir="${scriptDir}/../"
 
-incFile="${projDir}/include/icons.h"
-srcFile="${projDir}/src/icons.cpp"
+incFile="${projDir}/src/ui/icons.h"
+srcFile="${projDir}/src/ui/icons.cpp"
 
 cat > "${incFile}" <<EOF
 #pragma once
@@ -27,3 +27,6 @@ echo -en "${AUTO_GEN_COMMENT}" >> "${srcFile}"
 #${scriptDir}/icon2cpp.py "${projDir}/icons/test.svg" -w 32 -s "${srcFile}" -i "${incFile}"
 ${scriptDir}/icon2cpp.py "${projDir}/icons/box_clear.png" -s "${srcFile}" -i "${incFile}"
 ${scriptDir}/icon2cpp.py "${projDir}/icons/box_filled.png" -s "${srcFile}" -i "${incFile}"
+${scriptDir}/icon2cpp.py "${projDir}/icons/clock.png" -s "${srcFile}" -i "${incFile}"
+${scriptDir}/icon2cpp.py "${projDir}/icons/flame.png" -s "${srcFile}" -i "${incFile}"
+${scriptDir}/icon2cpp.py "${projDir}/icons/thermometer.png" -s "${srcFile}" -i "${incFile}"
