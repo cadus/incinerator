@@ -43,6 +43,7 @@ static bool check_encoder()
         Serial.print(encoder_pos, DEC);
         Serial.println();
         update |= true;
+        display.setProgress(encoder_pos * 10);
     }
 
     static bool encoder_was_pressed = false;

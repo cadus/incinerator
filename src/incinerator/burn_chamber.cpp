@@ -6,7 +6,7 @@ BurnChamber::BurnChamber(uint8_t ignition_pin, uint8_t thermocouple_cs)
 {
 }
 
-thermocouple_meas_t BurnChamber::getTemp()
+thermocouple_meas_t BurnChamber::getTemp() const
 {
     return _thermocouple.get();
 }

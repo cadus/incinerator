@@ -21,10 +21,18 @@ void Display::init()
     _d.display(false); // full update
 }
 
+void Display::setProgress(float percent)
+{
+    _progress_percent = percent;
+}
+
 void Display::update()
 {
-    static int cnt = 0;
-    cnt++;
+    constexpr uint32_t top_bar_height = 40;
+    constexpr uint32_t line_margin = 3;
+
+    constexpr uint32_t icon_box_width = 38;
+    constexpr uint32_t temp_box_width = 64;
 
     _d.setRotation(0);
     _d.setFont(&FreeMonoBold9pt7b);
@@ -33,7 +41,63 @@ void Display::update()
     unsigned long start = micros();
 
     _d.fillScreen(GxEPD_WHITE);
-    _d.drawBitmap(0, 0, ICON_THERMOMETER_DATA, ICON_THERMOMETER_WIDTH, ICON_THERMOMETER_HEIGHT, GxEPD_BLACK);
+
+    uint16_t x = 0;
+    _d.drawBitmap(x + (icon_box_width - ICON_THERMOMETER_WIDTH) / 2,
+                  (top_bar_height - ICON_THERMOMETER_HEIGHT) / 2,
+                  ICON_THERMOMETER_DATA,
+                  ICON_THERMOMETER_WIDTH,
+                  ICON_THERMOMETER_HEIGHT,
+                  GxEPD_BLACK);
+
+    x += icon_box_width;
+
+    for (int i = 0; i < 2; i++) {
+        const BurnChamber& bch = (i == 0) ? burner_main : burner_aft;
+        char tmp[16] = { 0 };
+        snprintf(tmp, sizeof(tmp), "%d", int((bch.getTemp().internal + 100.0) * (i ? 10.0 : 1.0)));
+        int16_t x1, y1;
+        uint16_t w, h;
+        _d.getTextBounds(tmp, 0, 0, &x1, &y1, &w, &h);        
+        _d.setCursor(x + (temp_box_width - w) / 2 - x1,
+                     (top_bar_height - y1) / 2);
+        _d.print(tmp);
+
+        x += temp_box_width;
+        _d.drawFastVLine(x, line_margin, top_bar_height - (line_margin * 2), GxEPD_BLACK);
+    }
+
+    x += line_margin;
+    _d.drawFastVLine(x, line_margin, top_bar_height - (line_margin * 2), GxEPD_BLACK);
+
+    _d.drawBitmap(x + (icon_box_width - ICON_CLOCK_WIDTH) / 2,
+                  (top_bar_height - ICON_CLOCK_HEIGHT) / 2,
+                  ICON_CLOCK_DATA,
+                  ICON_CLOCK_WIDTH,
+                  ICON_CLOCK_HEIGHT,
+                  GxEPD_BLACK);
+    
+    x += icon_box_width;
+    
+    for (int i = 0; i < 10; i++) {
+        bool filled = _progress_percent >= (100.f / 10.f) * (i+1);
+        _d.drawBitmap(x,
+                    (top_bar_height - ICON_BOX_CLEAR_HEIGHT) / 2,
+                    filled ? ICON_BOX_FILLED_DATA : ICON_BOX_CLEAR_DATA,
+                    ICON_BOX_CLEAR_WIDTH,
+                    ICON_BOX_CLEAR_HEIGHT,
+                    GxEPD_BLACK);
+        x += ICON_BOX_CLEAR_WIDTH;
+    }
+
+    _d.drawBitmap(x + (icon_box_width - ICON_FLAME_WIDTH) / 2,
+                  (top_bar_height - ICON_FLAME_HEIGHT) / 2,
+                  ICON_FLAME_DATA,
+                  ICON_FLAME_WIDTH,
+                  ICON_FLAME_HEIGHT,
+                  GxEPD_BLACK);
+    
+    _d.drawFastHLine(line_margin, top_bar_height, _d.width() - (line_margin * 2), GxEPD_BLACK);
 
     _d.display(true); // partial update
 

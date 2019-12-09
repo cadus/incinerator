@@ -4,12 +4,15 @@
 #include "thermocouple.h"
 #include "util/timeout.h"
 
-struct BurnChamber {
+class BurnChamber
+{
+public:
     BurnChamber(uint8_t ignition_pin, uint8_t thermocouple_cs);
 
-    thermocouple_meas_t getTemp();
+    thermocouple_meas_t getTemp() const;
     void task();
 
+private:
     Thermocouple _thermocouple;
     Ignition _ignition;
     Timeout _tempReadTimeout;
