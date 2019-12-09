@@ -2,7 +2,7 @@
 
 #include <stdint.h>
 #include "thermocouple.h"
-#include "timeout.h"
+#include "util/timeout.h"
 
 struct Ignition {
     enum mode {

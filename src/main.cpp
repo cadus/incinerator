@@ -1,11 +1,12 @@
 #include <Arduino.h>
 
-#include "buzzer.h"
-#include "debounced_encoder.h"
-#include "display.h"
+#include "ui/buzzer.h"
+#include "ui/debounced_encoder.h"
+#include "ui/display.h"
+
+#include "util/timeout.h"
+
 #include "hw_config.h"
-#include "thermocouple.h"
-#include "timeout.h"
 
 static void IRAM_ATTR timer_isr(void);
 static hw_timer_t *timer = NULL;

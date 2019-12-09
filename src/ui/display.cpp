@@ -5,9 +5,8 @@
 
 #include "hw_config.h"
 #include "icons.h"
-#include "thermocouple.h"
 #include "debounced_encoder.h"
-#include "incinerator.h"
+#include "incinerator/incinerator.h"
 
 extern void GxEPD2_busyWaitCallback();
 

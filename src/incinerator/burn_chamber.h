@@ -2,7 +2,7 @@
 
 #include "ignition.h"
 #include "thermocouple.h"
-#include "timeout.h"
+#include "util/timeout.h"
 
 struct BurnChamber {
     BurnChamber(uint8_t ignition_pin, uint8_t thermocouple_cs);

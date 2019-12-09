@@ -1,4 +1,4 @@
-#include "burn_chamber.h"
+#include "incinerator/burn_chamber.h"
 
 BurnChamber::BurnChamber(uint8_t ignition_pin, uint8_t thermocouple_cs)
 :_thermocouple(thermocouple_cs)

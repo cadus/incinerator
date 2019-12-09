@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#include <buzzer.h>
+#include "ui/buzzer.h"
 
 #include "hw_config.h"
 
