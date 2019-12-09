@@ -1,5 +1,7 @@
 #include <Arduino.h>
 
+#include "incinerator/incinerator.h"
+
 #include "ui/buzzer.h"
 #include "ui/debounced_encoder.h"
 #include "ui/display.h"
@@ -55,9 +57,15 @@ static bool check_encoder()
     return update;
 }
 
-void GxEPD2_busyWaitCallback()
+static void background_task()
 {
     check_encoder();
+    incinerator.task();
+}
+
+void GxEPD2_busyWaitCallback()
+{
+    background_task();
 }
 
 void loop()
@@ -67,6 +75,7 @@ void loop()
         to.set(1000);
         display.update();
     }
+    background_task();
 }
 
 static void IRAM_ATTR timer_isr(void)

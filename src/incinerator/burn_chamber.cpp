@@ -17,4 +17,5 @@ void BurnChamber::task()
         _tempReadTimeout.set(_tempReadInterval);
         _thermocouple.update();
     }
+    _ignition.task();
 }
