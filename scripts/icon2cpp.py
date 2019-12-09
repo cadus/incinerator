@@ -7,7 +7,8 @@ import subprocess
 
 parser = argparse.ArgumentParser(description="SVG/PNG to CPP conversion helper")
 parser.add_argument("gfxfile", help="SVG/PNG source file")
-parser.add_argument("-w", "--width", type=int, help="Icon width")
+parser.add_argument("--width", type=int, help="Icon width")
+parser.add_argument("--height", type=int, help="Icon height")
 parser.add_argument("-s", "--source", help="Append to source file")
 parser.add_argument("-i", "--include", help="Append to include file")
 args = parser.parse_args()
@@ -34,12 +35,15 @@ else:
 
 # Convert the PNG to Portable Anymap (PNM)
 
-imagemagick_cmd = ["convert",
-                   "-background", "white",
-                   "-alpha", "remove",
-                   "-colorspace", "gray",
-                   "-auto-level", "-threshold", "50%",
-                   png_name, "tmp.pnm"]
+imagemagick_cmd = ["convert"]
+if args.height is not None:
+    imagemagick_cmd += ["-resize", f"x{args.height}"]
+
+imagemagick_cmd += ["-background", "white",
+                    "-alpha", "remove",
+                    "-colorspace", "gray",
+                    "-auto-level", "-threshold", "50%",
+                    png_name, "tmp.pnm"]
 
 if subprocess.run(imagemagick_cmd).returncode != 0:
     print("Imagemagick command failed!")

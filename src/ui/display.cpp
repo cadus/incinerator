@@ -2,7 +2,7 @@
 
 #include <Fonts/FreeMonoBold9pt7b.h>
 
-#include "icons.h"
+#include "ui/icons.h"
 #include "debounced_encoder.h"
 #include "incinerator/incinerator.h"
 
@@ -29,29 +29,12 @@ void Display::update()
     _d.setRotation(0);
     _d.setFont(&FreeMonoBold9pt7b);
     _d.setTextColor(GxEPD_BLACK);
-
-    thermocouple_meas_t T = burner_main.getTemp();
-    String str = "I:"
-                 + String(T.internal, 2)
-                 + ", E:"
-                 + String(T.external, 2)
-                 + ", e: "
-                 + String(encoder_position())
-                 + ", c: "
-                 + String(cnt % 100);
-
-    const uint8_t ep = max(min(encoder_position(), 25), 0);
-
     _d.setPartialWindow(0, 0, _d.width(), _d.height());
     unsigned long start = micros();
 
     _d.fillScreen(GxEPD_WHITE);
-    _d.setCursor(10, 15);
-    _d.print(str);
-    for (uint8_t i = 0; i < 25; i++) {
-        const uint8_t *icon = (ep > i) ? ICON_BOX_FILLED_DATA : ICON_BOX_CLEAR_DATA;
-        _d.drawBitmap(i * ICON_BOX_CLEAR_WIDTH, 20, icon, ICON_BOX_CLEAR_WIDTH, ICON_BOX_CLEAR_HEIGHT, GxEPD_BLACK);
-    }
+    _d.drawBitmap(0, 0, ICON_THERMOMETER_DATA, ICON_THERMOMETER_WIDTH, ICON_THERMOMETER_HEIGHT, GxEPD_BLACK);
+
     _d.display(true); // partial update
 
     unsigned long elapsed = micros() - start;
