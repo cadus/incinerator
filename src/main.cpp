@@ -24,7 +24,7 @@ void setup()
     buzzer.init();
 
     delay(100);
-    display_init();
+    display.init();
 
     timerAlarmEnable(timer);
 }
@@ -65,7 +65,7 @@ void loop()
     static Timeout to;
     if (check_encoder() || to.elapsed()) {
         to.set(1000);
-        display_redraw();
+        display.update();
     }
 }
 

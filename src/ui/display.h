@@ -1,4 +1,15 @@
 #pragma once
 
-void display_init();
-void display_redraw();
+#include <GxEPD2_BW.h>
+
+class Display
+{
+public:
+    void init();
+    void update();
+
+private:
+    static GxEPD2_BW<GxEPD2_420, GxEPD2_420::HEIGHT> _d;
+};
+
+extern Display display;

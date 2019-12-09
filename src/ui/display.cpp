@@ -1,40 +1,34 @@
 #include "display.h"
 
-#include <GxEPD2_BW.h>
 #include <Fonts/FreeMonoBold9pt7b.h>
 
-#include "hw_config.h"
 #include "icons.h"
 #include "debounced_encoder.h"
 #include "incinerator/incinerator.h"
 
+#include "hw_config.h"
+
 extern void GxEPD2_busyWaitCallback();
 
-#ifdef __AVR__
-#define MAX_DISPLAY_BUFFER_SIZE 800
-#define MAX_HEIGHT(EPD) (EPD::HEIGHT <= MAX_DISPLAY_BUFFER_SIZE / (EPD::WIDTH / 8) ? EPD::HEIGHT : MAX_DISPLAY_BUFFER_SIZE / (EPD::WIDTH / 8))
-GxEPD2_BW<GxEPD2_420, MAX_HEIGHT(GxEPD2_420)> display(GxEPD2_420(EPD_CS, EPD_DC, EPD_RST, EPD_BUSY));
-#else
-GxEPD2_BW<GxEPD2_420, GxEPD2_420::HEIGHT> display(GxEPD2_420(EPD_CS, EPD_DC, EPD_RST, EPD_BUSY));
-#endif
+GxEPD2_BW<GxEPD2_420, GxEPD2_420::HEIGHT> Display::_d(GxEPD2_420(EPD_CS, EPD_DC, EPD_RST, EPD_BUSY));
 
-void display_init()
+void Display::init()
 {
-    display.init();
-    display.setRotation(0);
-    display.setFullWindow();
-    display.fillScreen(GxEPD_WHITE);
-    display.display(false); // full update
+    _d.init();
+    _d.setRotation(0);
+    _d.setFullWindow();
+    _d.fillScreen(GxEPD_WHITE);
+    _d.display(false); // full update
 }
 
-void display_redraw()
+void Display::update()
 {
     static int cnt = 0;
     cnt++;
 
-    display.setRotation(0);
-    display.setFont(&FreeMonoBold9pt7b);
-    display.setTextColor(GxEPD_BLACK);
+    _d.setRotation(0);
+    _d.setFont(&FreeMonoBold9pt7b);
+    _d.setTextColor(GxEPD_BLACK);
 
     thermocouple_meas_t T = burner_main.getTemp();
     String str = "I:"
@@ -48,16 +42,18 @@ void display_redraw()
 
     const uint8_t ep = max(min(encoder_position(), 25), 0);
 
-    display.setPartialWindow(0, 0, display.width(), display.height());
+    _d.setPartialWindow(0, 0, _d.width(), _d.height());
     unsigned long start = micros();
-    display.fillScreen(GxEPD_WHITE);
-    display.setCursor(10, 15);
-    display.print(str);
+
+    _d.fillScreen(GxEPD_WHITE);
+    _d.setCursor(10, 15);
+    _d.print(str);
     for (uint8_t i = 0; i < 25; i++) {
         const uint8_t *icon = (ep > i) ? ICON_BOX_FILLED_DATA : ICON_BOX_CLEAR_DATA;
-        display.drawBitmap(i * ICON_BOX_CLEAR_WIDTH, 20, icon, ICON_BOX_CLEAR_WIDTH, ICON_BOX_CLEAR_HEIGHT, GxEPD_BLACK);
+        _d.drawBitmap(i * ICON_BOX_CLEAR_WIDTH, 20, icon, ICON_BOX_CLEAR_WIDTH, ICON_BOX_CLEAR_HEIGHT, GxEPD_BLACK);
     }
-    display.display(true); // partial update
+    _d.display(true); // partial update
+
     unsigned long elapsed = micros() - start;
     Serial.print("time spent - w/o refresh: ");
     Serial.print(elapsed - 560000);
@@ -66,3 +62,5 @@ void display_redraw()
     Serial.print(elapsed);
     Serial.println(" us");
 }
+
+Display display;
