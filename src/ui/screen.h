@@ -4,13 +4,13 @@
 
 #include "macros.h"
 
-class Display
+class Screen
 {
-    NOT_COPYABLE(Display);
-    NOT_MOVEABLE(Display);
+    NOT_COPYABLE(Screen);
+    NOT_MOVEABLE(Screen);
 
 public:
-    Display();
+    Screen();
 
     void init();
     void update();
@@ -22,4 +22,4 @@ private:
     float _progress_percent;
 };
 
-extern Display display;
+extern Screen screen;

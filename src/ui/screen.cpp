@@ -1,4 +1,4 @@
-#include "display.h"
+#include "screen.h"
 
 #include <Fonts/FreeMonoBold9pt7b.h>
 
@@ -10,14 +10,15 @@
 
 extern void GxEPD2_busyWaitCallback();
 
-GxEPD2_BW<GxEPD2_420, GxEPD2_420::HEIGHT> Display::_d(GxEPD2_420(EPD_CS, EPD_DC, EPD_RST, EPD_BUSY));
+GxEPD2_BW<GxEPD2_420, GxEPD2_420::HEIGHT> Screen::_d(GxEPD2_420(EPD_CS, EPD_DC, EPD_RST, EPD_BUSY));
 
-Display::Display()
+Screen::Screen()
 {
 }
 
-void Display::init()
+void Screen::init()
 {
+    // init display
     _d.init();
     _d.setRotation(0);
     _d.setFullWindow();
@@ -25,12 +26,12 @@ void Display::init()
     _d.display(false); // full update
 }
 
-void Display::setProgress(float percent)
+void Screen::setProgress(float percent)
 {
     _progress_percent = percent;
 }
 
-void Display::update()
+void Screen::update()
 {
     constexpr uint32_t top_bar_height = 40;
     constexpr uint32_t line_margin = 3;
@@ -114,4 +115,4 @@ void Display::update()
     Serial.println(" us");
 }
 
-Display display;
+Screen screen;
