@@ -1,5 +1,6 @@
 #pragma once
 
+#include <string>
 #include <GxEPD2_BW.h>
 
 #include "macros.h"
@@ -19,7 +20,8 @@ public:
 
 private:
     static GxEPD2_BW<GxEPD2_420, GxEPD2_420::HEIGHT> _d;
-    float _progress_percent;
+    float _progressPercent;
+    std::string _statusStr;
 };
 
 extern Screen screen;

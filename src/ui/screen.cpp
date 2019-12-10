@@ -13,6 +13,8 @@ extern void GxEPD2_busyWaitCallback();
 GxEPD2_BW<GxEPD2_420, GxEPD2_420::HEIGHT> Screen::_d(GxEPD2_420(EPD_CS, EPD_DC, EPD_RST, EPD_BUSY));
 
 Screen::Screen()
+:_progressPercent(0.f)
+,_statusStr("")
 {
 }
 
@@ -28,12 +30,13 @@ void Screen::init()
 
 void Screen::setProgress(float percent)
 {
-    _progress_percent = percent;
+    _progressPercent = percent;
 }
 
 void Screen::update()
 {
     constexpr uint32_t top_bar_height = 40;
+    constexpr uint32_t bottom_bar_height = 36;
     constexpr uint32_t line_margin = 3;
 
     constexpr uint32_t icon_box_width = 38;
@@ -85,7 +88,7 @@ void Screen::update()
     x += icon_box_width;
     
     for (int i = 0; i < 10; i++) {
-        bool filled = _progress_percent >= (100.f / 10.f) * (i+1);
+        bool filled = _progressPercent >= (100.f / 10.f) * (i+1);
         _d.drawBitmap(x,
                     (top_bar_height - ICON_BOX_CLEAR_HEIGHT) / 2,
                     filled ? ICON_BOX_FILLED_DATA : ICON_BOX_CLEAR_DATA,
@@ -103,6 +106,15 @@ void Screen::update()
                   GxEPD_BLACK);
     
     _d.drawFastHLine(line_margin, top_bar_height, _d.width() - (line_margin * 2), GxEPD_BLACK);
+
+    _d.drawFastHLine(line_margin, _d.height() - bottom_bar_height, _d.width() - (line_margin * 2), GxEPD_BLACK);
+
+    int16_t x1, y1;
+    uint16_t w, h;
+    _d.getTextBounds(_statusStr.c_str(), 0, 0, &x1, &y1, &w, &h);        
+    _d.setCursor((_d.width() - w) / 2 - x1,
+                 _d.height() - bottom_bar_height + (bottom_bar_height - y1) / 2);
+    _d.print(_statusStr.c_str());
 
     _d.display(true); // partial update
 
