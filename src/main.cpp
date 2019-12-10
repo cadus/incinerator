@@ -4,7 +4,7 @@
 
 #include "ui/buzzer.h"
 #include "ui/debounced_encoder.h"
-#include "ui/screen.h"
+#include "ui/screens/screen.h"
 
 #include "util/timeout.h"
 

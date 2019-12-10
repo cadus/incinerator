@@ -3,7 +3,6 @@
 #include <Fonts/FreeMonoBold9pt7b.h>
 
 #include "ui/icons.h"
-#include "debounced_encoder.h"
 #include "incinerator/incinerator.h"
 
 #include "hw_config.h"
