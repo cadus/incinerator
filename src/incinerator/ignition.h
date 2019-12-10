@@ -4,7 +4,13 @@
 #include "thermocouple.h"
 #include "util/timeout.h"
 
-struct Ignition {
+#include "macros.h"
+
+class Ignition
+{
+    NOT_COPYABLE(Ignition);
+    NOT_MOVEABLE(Ignition);
+
     enum mode {
         idle,        // Idle / off
         start_set,   // Set ignition pulse
@@ -17,6 +23,7 @@ struct Ignition {
         stop,        // Stop ignition & reset state
     };
 
+public:
     Ignition(uint8_t pin, Thermocouple& thermocouple);
     mode getMode();
     void init();

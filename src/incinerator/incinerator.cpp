@@ -2,6 +2,10 @@
 
 #include "hw_config.h"
 
+Incinerator::Incinerator()
+{
+}
+
 void Incinerator::task()
 {
     burner_main.task();

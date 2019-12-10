@@ -2,7 +2,14 @@
 
 #include <stdint.h>
 
-struct Buzzer {
+#include "macros.h"
+
+class Buzzer
+{
+    NOT_COPYABLE(Buzzer);
+    NOT_MOVEABLE(Buzzer);
+
+public:
     Buzzer();
 
     void init();

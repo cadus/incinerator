@@ -2,9 +2,16 @@
 
 #include <GxEPD2_BW.h>
 
+#include "macros.h"
+
 class Display
 {
+    NOT_COPYABLE(Display);
+    NOT_MOVEABLE(Display);
+
 public:
+    Display();
+
     void init();
     void update();
 

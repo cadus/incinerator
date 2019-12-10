@@ -4,8 +4,13 @@
 #include "thermocouple.h"
 #include "util/timeout.h"
 
+#include "macros.h"
+
 class BurnChamber
 {
+    NOT_COPYABLE(BurnChamber);
+    NOT_MOVEABLE(BurnChamber);
+
 public:
     BurnChamber(uint8_t ignition_pin, uint8_t thermocouple_cs);
 

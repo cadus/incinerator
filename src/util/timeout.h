@@ -3,7 +3,9 @@
 #include <stdint.h>
 #include <Arduino.h>
 
-struct Timeout {
+class Timeout
+{
+public:
     Timeout();
 
     void set(int32_t ms);

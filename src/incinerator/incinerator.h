@@ -1,8 +1,14 @@
 #include "burn_chamber.h"
 
+#include "macros.h"
+
 class Incinerator
 {
+    NOT_COPYABLE(Incinerator);
+    NOT_MOVEABLE(Incinerator);
+
 public:
+    Incinerator();
     void task();
 };
 

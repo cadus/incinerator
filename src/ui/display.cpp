@@ -12,6 +12,10 @@ extern void GxEPD2_busyWaitCallback();
 
 GxEPD2_BW<GxEPD2_420, GxEPD2_420::HEIGHT> Display::_d(GxEPD2_420(EPD_CS, EPD_DC, EPD_RST, EPD_BUSY));
 
+Display::Display()
+{
+}
+
 void Display::init()
 {
     _d.init();
