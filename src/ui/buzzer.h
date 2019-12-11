@@ -13,7 +13,7 @@ public:
     Buzzer();
 
     void init();
-    void buzz(uint32_t buzz_length_ms, uint8_t volume=16);
+    void buzz(uint32_t buzz_length_ms);
     void task();
 
 private:

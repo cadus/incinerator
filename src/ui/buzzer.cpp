@@ -1,7 +1,8 @@
 #include <Arduino.h>
-#include "ui/buzzer.h"
 
 #include "hw_config.h"
+#include "ui/buzzer.h"
+#include "util/sys_config.h"
 
 DRAM_ATTR uint32_t Buzzer::_count;
 
@@ -17,11 +18,11 @@ void Buzzer::init()
     _count = 0;
 }
 
-void Buzzer::buzz(uint32_t buzz_length_ms, uint8_t volume)
+void Buzzer::buzz(uint32_t buzz_length_ms)
 {
     if (_count < buzz_length_ms) {
         digitalWrite(LED_INT, true);
-        ledcWrite(PWM_CH_BUZZER, volume);
+        ledcWrite(PWM_CH_BUZZER, sysconfig.get("buzzer_vol") << 4);
         _count = buzz_length_ms;
     }
 }
