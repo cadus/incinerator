@@ -4,7 +4,7 @@
 
 #include "ui/buzzer.h"
 #include "ui/debounced_encoder.h"
-#include "ui/screens/screen.h"
+#include "ui/ui.h"
 
 #include "util/timeout.h"
 #include "util/sys_config.h"
@@ -13,6 +13,8 @@
 
 static void IRAM_ATTR timer_isr(void);
 static hw_timer_t *timer = NULL;
+
+static Ui ui;
 
 void setup()
 {
@@ -29,7 +31,7 @@ void setup()
     buzzer.init();
 
     delay(100);
-    screen.init();
+    ui.init();
 
     timerAlarmEnable(timer);
 }
@@ -46,7 +48,6 @@ static bool check_encoder()
         Serial.print(encoder_pos, DEC);
         Serial.println();
         update |= true;
-        screen.setProgress(encoder_pos * 10);
     }
 
     static bool encoder_was_pressed = false;
@@ -77,7 +78,7 @@ void loop()
     static Timeout to;
     if (check_encoder() || to.elapsed()) {
         to.set(1000);
-        screen.update();
+        ui.update();
     }
     background_task();
 }
