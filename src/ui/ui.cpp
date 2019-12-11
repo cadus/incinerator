@@ -9,6 +9,7 @@ void Ui::init()
     encoder_init();
 
     _current = &_confScreen;
+    _current->reset();
 }
 
 void Ui::task()

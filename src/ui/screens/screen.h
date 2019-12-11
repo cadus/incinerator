@@ -13,6 +13,7 @@ public:
 
     void setProgress(float percent);
 
+    virtual void reset() = 0;
     virtual void draw() = 0;
     virtual bool handleEncoderRotation(int delta) = 0;
     virtual bool handleEncoderSwitch() = 0;
