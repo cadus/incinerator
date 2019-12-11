@@ -3,15 +3,22 @@
 #include "ui/screens/screen.h"
 #include "ui/screens/conf_screen.h"
 
+#include "util/timeout.h"
+
 class Ui
 {
 public:
     void init();
-    void update();
+    void task();
+    void backgroundTask();
 
 private:
-    Screen _screen;
     ConfScreen _confScreen;
 
     Screen *_current;
+
+    Timeout _to;
+    bool _updateReq;
+    int _encoderPos;
+    bool _encoderSw;
 };

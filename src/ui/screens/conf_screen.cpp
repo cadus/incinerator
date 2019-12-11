@@ -5,3 +5,17 @@ void ConfScreen::draw()
     _d.drawLine(0, _content_y, 399, _content_y + _content_height, GxEPD_BLACK);
     _d.drawLine(399, _content_y, 0, _content_y + _content_height, GxEPD_BLACK);
 }
+
+bool ConfScreen::handleEncoderRotation(int delta)
+{
+    _test += delta;
+    setProgress(_test * 10);
+    return true;
+}
+
+bool ConfScreen::handleEncoderSwitch()
+{
+    _test = 5;
+    setProgress(_test * 10);
+    return true;
+}

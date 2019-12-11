@@ -10,12 +10,9 @@
 extern void GxEPD2_busyWaitCallback();
 
 GxEPD2_BW<GxEPD2_420, GxEPD2_420::HEIGHT> Screen::_d(GxEPD2_420(EPD_CS, EPD_DC, EPD_RST, EPD_BUSY));
+float Screen::_progressPercent = 0.f;
+std::string Screen::_statusStr = "";
 
-Screen::Screen()
-:_progressPercent(0.f)
-,_statusStr("")
-{
-}
 
 void Screen::init()
 {

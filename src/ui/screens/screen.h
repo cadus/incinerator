@@ -8,14 +8,14 @@
 class Screen
 {
 public:
-    Screen();
-
-    void init();
+    static void init();
     void update();
 
     void setProgress(float percent);
 
-    virtual void draw() {};
+    virtual void draw() = 0;
+    virtual bool handleEncoderRotation(int delta) = 0;
+    virtual bool handleEncoderSwitch() = 0;
 
 protected:
     static GxEPD2_BW<GxEPD2_420, GxEPD2_420::HEIGHT> _d;
@@ -25,6 +25,6 @@ protected:
     static constexpr uint16_t _content_height = 300 - 76;
 
 private:
-    float _progressPercent;
-    std::string _statusStr;
+    static float _progressPercent;
+    static std::string _statusStr;
 };

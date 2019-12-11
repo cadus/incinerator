@@ -17,9 +17,7 @@ static hw_timer_t *timer = NULL;
 static Ui ui;
 
 void setup()
-{
-    encoder_init();
-    
+{    
     Serial.begin(115200);
 
     sysconfig.init();
@@ -28,44 +26,16 @@ void setup()
     timerAttachInterrupt(timer, timer_isr, true);
     timerAlarmWrite(timer, 250, true);
 
-    buzzer.init();
-
     delay(100);
     ui.init();
 
     timerAlarmEnable(timer);
 }
 
-static bool check_encoder()
+void background_task()
 {
-    bool update = false;
-
-    static int old_encoder_pos = 0;
-    int encoder_pos = encoder_position();
-    if (encoder_pos != old_encoder_pos) {
-        buzzer.buzz(16);
-        old_encoder_pos = encoder_pos;
-        Serial.print(encoder_pos, DEC);
-        Serial.println();
-        update |= true;
-    }
-
-    static bool encoder_was_pressed = false;
-    const bool encoder_pressed = encoder_switch();
-    if (encoder_pressed && !encoder_was_pressed) {
-        Serial.println("SW pressed.");
-        buzzer.buzz(50);
-        update |= true;
-    }
-    encoder_was_pressed = encoder_pressed;
-
-    return update;
-}
-
-static void background_task()
-{
-    check_encoder();
     incinerator.task();
+    ui.backgroundTask();
 }
 
 void GxEPD2_busyWaitCallback()
@@ -75,12 +45,8 @@ void GxEPD2_busyWaitCallback()
 
 void loop()
 {
-    static Timeout to;
-    if (check_encoder() || to.elapsed()) {
-        to.set(1000);
-        ui.update();
-    }
-    background_task();
+    ui.task();
+    ui.backgroundTask();
 }
 
 static void IRAM_ATTR timer_isr(void)
