@@ -17,7 +17,7 @@ public:
     void task();
 
 private:
-    uint32_t _count;
+    static DRAM_ATTR uint32_t _count;
 };
 
 extern Buzzer buzzer;

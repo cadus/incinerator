@@ -3,8 +3,9 @@
 
 #include "hw_config.h"
 
+DRAM_ATTR uint32_t Buzzer::_count;
+
 Buzzer::Buzzer()
-:_count(0)
 {
 }
 
@@ -13,6 +14,7 @@ void Buzzer::init()
     ledcSetup(PWM_CH_BUZZER, 4000, 8);
     ledcAttachPin(BUZZER, PWM_CH_BUZZER);
     pinMode(LED_INT, OUTPUT);
+    _count = 0;
 }
 
 void Buzzer::buzz(uint32_t buzz_length_ms, uint8_t volume)
@@ -24,7 +26,7 @@ void Buzzer::buzz(uint32_t buzz_length_ms, uint8_t volume)
     }
 }
 
-void Buzzer::task()
+void IRAM_ATTR Buzzer::task()
 {
     if (_count > 0) {
         if (!--_count) {

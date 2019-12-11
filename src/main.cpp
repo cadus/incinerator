@@ -7,6 +7,7 @@
 #include "ui/screens/screen.h"
 
 #include "util/timeout.h"
+#include "util/sys_config.h"
 
 #include "hw_config.h"
 
@@ -18,6 +19,8 @@ void setup()
     encoder_init();
     
     Serial.begin(115200);
+
+    sysconfig.init();
 
     timer = timerBegin(0, 80, true);
     timerAttachInterrupt(timer, timer_isr, true);

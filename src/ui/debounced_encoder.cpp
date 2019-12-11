@@ -2,8 +2,8 @@
 
 #include "hw_config.h"
 
-volatile bool encoder_sw = false;
-volatile int encoder_pos = 0;
+volatile DRAM_ATTR bool encoder_sw = false;
+volatile DRAM_ATTR int encoder_pos = 0;
 
 void encoder_init()
 {
@@ -22,11 +22,11 @@ int encoder_position()
     return encoder_pos;
 }
 
-void encoder_check_rotation()
+void IRAM_ATTR encoder_check_rotation()
 {
-    const int8_t transition_valid_tbl[] = { 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0 };
-    static uint8_t transition_code = 0;
-    static uint8_t transition_code_history = 0;
+    static DRAM_ATTR int8_t transition_valid_tbl[] = { 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0 };
+    static DRAM_ATTR uint8_t transition_code = 0;
+    static DRAM_ATTR uint8_t transition_code_history = 0;
 
     transition_code <<= 2;
     transition_code |= digitalRead(ROTARY_DT) ? (1 << 1) : 0;
@@ -45,9 +45,10 @@ void encoder_check_rotation()
     }
 }
 
-void encoder_check_switch(void)
+void IRAM_ATTR encoder_check_switch(void)
 {
-    static uint8_t switch_history = 0;
+    static DRAM_ATTR uint8_t switch_history = 0;
+
     switch_history <<= 1;
     switch_history |= digitalRead(ROTARY_SW) ? 1 : 0;
     if (switch_history == 0x00 || switch_history == 0xff) {
