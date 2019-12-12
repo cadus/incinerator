@@ -12,6 +12,7 @@ public:
     void update();
 
     void setProgress(float percent);
+    void setStatus(const std::string s);
 
     virtual void reset() = 0;
     virtual void draw() = 0;

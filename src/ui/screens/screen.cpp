@@ -28,6 +28,11 @@ void Screen::setProgress(float percent)
     _progressPercent = percent;
 }
 
+void Screen::setStatus(const std::string s)
+{
+    _statusStr = s;
+}
+
 void Screen::printCentered(const std::string s, uint16_t x, uint16_t y, uint16_t w, uint16_t h)
 {
     int16_t x1, y1;
@@ -63,7 +68,7 @@ void Screen::update()
     unsigned long start = millis();
 
     constexpr uint32_t top_bar_height = 40;
-    constexpr uint32_t bottom_bar_height = 36;
+    constexpr uint32_t bottom_bar_height = 32;
     constexpr uint32_t line_margin = 3;
 
     constexpr uint32_t icon_box_width = 38;
@@ -137,12 +142,11 @@ void Screen::update()
     // Draw line on top of bottom bar
     _d.drawFastHLine(line_margin, _d.height() - bottom_bar_height, _d.width() - (line_margin * 2), GxEPD_BLACK);
 
-    // Print status string on bottom bar
-
-    printCentered(_statusStr, 0, _d.height() - bottom_bar_height, _d.width(), bottom_bar_height);
-
     // Let the subclass screen do its thing
     draw();
+
+    // Print status string on bottom bar
+    printCentered(_statusStr, 0, _d.height() - bottom_bar_height, _d.width(), bottom_bar_height);
 
     // partial update
     _d.display(true);

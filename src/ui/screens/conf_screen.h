@@ -7,7 +7,8 @@
 class ConfItem
 {
 public:
-    ConfItem(std::string name,
+    ConfItem(std::string helpText,
+             std::string name,
              std::string desc,
              std::string unit,
              int step,
@@ -18,6 +19,7 @@ public:
     void update(int digits);
     void set();
 
+    std::string _helpText;
     std::string _name;
     std::string _desc;
     std::string _unit;
@@ -36,6 +38,7 @@ public:
     bool handleEncoderSwitch() override;
 
 private:
+    void drawItem(size_t idx, uint16_t x, uint16_t y);
     std::vector<ConfItem> _items;
     ssize_t _currItem;
     bool _enterValueMode;
