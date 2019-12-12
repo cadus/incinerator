@@ -1,6 +1,7 @@
 #include "screen.h"
 
-#include <Fonts/FreeMonoBold9pt7b.h>
+#include <Fonts/FreeSans9pt7b.h>
+#include <Fonts/FreeSansBold9pt7b.h>
 
 #include "ui/icons.h"
 #include "incinerator/incinerator.h"
@@ -76,7 +77,6 @@ void Screen::update()
 
     // Init screen drawing
     _d.setRotation(0);
-    _d.setFont(&FreeMonoBold9pt7b);
     _d.setTextColor(GxEPD_BLACK);
     _d.setPartialWindow(0, 0, _d.width(), _d.height());
     _d.fillScreen(GxEPD_WHITE);
@@ -93,6 +93,7 @@ void Screen::update()
     x += icon_box_width;
 
     // Print burn chamber temperatures
+    _d.setFont(&FreeSansBold9pt7b);
     for (int i = 0; i < 2; i++) {
         const BurnChamber& bch = (i == 0) ? burner_main : burner_aft;
         char tmp[16] = { 0 };
@@ -143,6 +144,7 @@ void Screen::update()
     _d.drawFastHLine(line_margin, _d.height() - bottom_bar_height, _d.width() - (line_margin * 2), GxEPD_BLACK);
 
     // Let the subclass screen do its thing
+    _d.setFont(&FreeSans9pt7b);
     draw();
 
     // Print status string on bottom bar
