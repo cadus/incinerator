@@ -26,15 +26,7 @@ ConfItem::ConfItem(std::string name,
 
 void ConfItem::draw(Adafruit_GFX& d, int16_t x, int16_t y, bool highlightName, bool highlightValue)
 {
-    int16_t x1, y1;
-    uint16_t w, h;
-
-    Serial.printf("drawing %s\r\n", _name.c_str());
-
-    d.getTextBounds(_desc.c_str(), 0, 0, &x1, &y1, &w, &h);        
-    d.setCursor(x + (confNameWidth - w) - x1,
-                y + (confRowHeight - y1) / 2);
-    d.print(_desc.c_str());
+    Screen::printRightJustified(_desc, x, y, confNameWidth, confRowHeight);
     if (highlightName) {
         d.drawRect(x + 2, y + 2, confNameWidth + 2, confRowHeight - 2, GxEPD_BLACK);
     }
@@ -43,10 +35,7 @@ void ConfItem::draw(Adafruit_GFX& d, int16_t x, int16_t y, bool highlightName, b
 
     char tmp[80];
     snprintf(tmp, sizeof(tmp), "%d %s", _val, _unit.c_str());
-    d.getTextBounds(tmp, 0, 0, &x1, &y1, &w, &h);        
-    d.setCursor(x,
-                y + (confRowHeight - y1) / 2);
-    d.print(tmp);
+    Screen::printLeftJustified(tmp, x, y, confValWidth, confRowHeight);
     if (highlightValue) {
         d.drawRect(x - 4, y + 2, confValWidth - 2, confRowHeight - 2, GxEPD_BLACK);
     }

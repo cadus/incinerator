@@ -13,7 +13,6 @@ GxEPD2_BW<GxEPD2_420, GxEPD2_420::HEIGHT> Screen::_d(GxEPD2_420(EPD_CS, EPD_DC, 
 float Screen::_progressPercent = 0.f;
 std::string Screen::_statusStr = "";
 
-
 void Screen::init()
 {
     // init display
@@ -27,6 +26,36 @@ void Screen::init()
 void Screen::setProgress(float percent)
 {
     _progressPercent = percent;
+}
+
+void Screen::printCentered(const std::string s, uint16_t x, uint16_t y, uint16_t w, uint16_t h)
+{
+    int16_t x1, y1;
+    uint16_t wT, hT;
+    _d.getTextBounds(s.c_str(), 0, 0, &x1, &y1, &wT, &hT);
+    _d.setCursor(x + (w - wT) / 2 - x1,
+                 y + 2 * h / 3);
+    _d.print(s.c_str());
+}
+
+void Screen::printLeftJustified(const std::string s, uint16_t x, uint16_t y, uint16_t w, uint16_t h)
+{
+    int16_t x1, y1;
+    uint16_t wT, hT;
+    _d.getTextBounds(s.c_str(), 0, 0, &x1, &y1, &wT, &hT);
+    _d.setCursor(x - x1,
+                 y + 2 * h / 3);
+    _d.print(s.c_str());
+}
+
+void Screen::printRightJustified(const std::string s, uint16_t x, uint16_t y, uint16_t w, uint16_t h)
+{
+    int16_t x1, y1;
+    uint16_t wT, hT;
+    _d.getTextBounds(s.c_str(), 0, 0, &x1, &y1, &wT, &hT);
+    _d.setCursor(x + (w - wT) - x1,
+                 y + 2 * h / 3);
+    _d.print(s.c_str());
 }
 
 void Screen::update()
@@ -63,12 +92,7 @@ void Screen::update()
         const BurnChamber& bch = (i == 0) ? burner_main : burner_aft;
         char tmp[16] = { 0 };
         snprintf(tmp, sizeof(tmp), "%d", int(bch.getTemp().external));
-        int16_t x1, y1;
-        uint16_t w, h;
-        _d.getTextBounds(tmp, 0, 0, &x1, &y1, &w, &h);        
-        _d.setCursor(x + (temp_box_width - w) / 2 - x1,
-                     (top_bar_height - y1) / 2);
-        _d.print(tmp);
+        printCentered(tmp, x, 0, temp_box_width, top_bar_height);
 
         x += temp_box_width;
         _d.drawFastVLine(x, line_margin, top_bar_height - (line_margin * 2), GxEPD_BLACK);
@@ -114,12 +138,8 @@ void Screen::update()
     _d.drawFastHLine(line_margin, _d.height() - bottom_bar_height, _d.width() - (line_margin * 2), GxEPD_BLACK);
 
     // Print status string on bottom bar
-    int16_t x1, y1;
-    uint16_t w, h;
-    _d.getTextBounds(_statusStr.c_str(), 0, 0, &x1, &y1, &w, &h);        
-    _d.setCursor((_d.width() - w) / 2 - x1,
-                 _d.height() - bottom_bar_height + (bottom_bar_height - y1) / 2);
-    _d.print(_statusStr.c_str());
+
+    printCentered(_statusStr, 0, _d.height() - bottom_bar_height, _d.width(), bottom_bar_height);
 
     // Let the subclass screen do its thing
     draw();
