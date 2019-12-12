@@ -4,10 +4,9 @@
 
 #include "util/sys_config.h"
 
-constexpr int16_t confRowHeight = 30;
-constexpr int16_t confNameWidth = 100;
-constexpr int16_t confValWidth = 70;
-constexpr int16_t confUnitWidth = 40;
+constexpr int16_t confRowHeight = 24;
+constexpr int16_t confNameWidth = 120;
+constexpr int16_t confValWidth = 72;
 
 ConfItem::ConfItem(std::string name,
                    std::string desc,
@@ -33,33 +32,31 @@ void ConfItem::draw(Adafruit_GFX& d, int16_t x, int16_t y, bool highlightName, b
     Serial.printf("drawing %s\r\n", _name.c_str());
 
     d.getTextBounds(_desc.c_str(), 0, 0, &x1, &y1, &w, &h);        
-    d.setCursor(x + (confNameWidth - w) / 2 - x1,
-                (confRowHeight - y1) / 2);
+    d.setCursor(x + (confNameWidth - w) - x1,
+                y + (confRowHeight - y1) / 2);
     d.print(_desc.c_str());
     if (highlightName) {
-        d.drawRect(x, y, x + confNameWidth - 1, y + confRowHeight - 1, GxEPD_BLACK);
+        d.drawRect(x + 2, y + 2, confNameWidth + 2, confRowHeight - 2, GxEPD_BLACK);
     }
     x += confNameWidth;
+    x += 8;
 
-    String val(_val);
-    d.getTextBounds(val, 0, 0, &x1, &y1, &w, &h);        
-    d.setCursor(x + (confValWidth - w) / 2 - x1,
-                (confRowHeight - y1) / 2);
-    d.print(_val);
+    char tmp[80];
+    snprintf(tmp, sizeof(tmp), "%d %s", _val, _unit.c_str());
+    d.getTextBounds(tmp, 0, 0, &x1, &y1, &w, &h);        
+    d.setCursor(x,
+                y + (confRowHeight - y1) / 2);
+    d.print(tmp);
     if (highlightValue) {
-        d.drawRect(x, y, x + confValWidth - 1, y + confRowHeight - 1, GxEPD_BLACK);
+        d.drawRect(x - 4, y + 2, confValWidth - 2, confRowHeight - 2, GxEPD_BLACK);
     }
-    x += confValWidth;
-
-    d.getTextBounds(_unit.c_str(), 0, 0, &x1, &y1, &w, &h);        
-    d.setCursor(x + (confNameWidth - w) / 2 - x1,
-                (confRowHeight - y1) / 2);
-    d.print(_unit.c_str());
 }
 
 void ConfItem::update(int digits)
 {
     _val += digits * _step;
+    _val = min(_upperBound, _val);
+    _val = max(_lowerBound, _val);
 }
 
 void ConfItem::set()
@@ -70,9 +67,16 @@ void ConfItem::set()
 void ConfScreen::reset()
 {
     _items = {
-        { "name1", "desc1", "unit1", 1, 0, 100},
-        { "name2", "desc2", "unit2", 1, 0, 100},
-        { "name3", "desc3", "unit3", 1, 0, 100},
+        { "main_T_low", "temp.low", "C", 10, 300, 700 },
+        { "main_T_high", "temp.high", "C", 10, 300, 700 },
+        { "main_ign_t", "ign.time", "s", 1, 1, 15 },
+        { "main_ign_delta", "ign.delta", "C", 1, 1, 100 },
+        { "aft_T_low", "temp.low", "C", 1, 1000, 1500 },
+        { "aft_T_high", "temp.high", "C", 1, 1000, 1500 },
+        { "aft_ign_t", "ign.time", "s", 1, 1, 15 },
+        { "aft_ign_delta", "ign.delta", "C", 1, 1, 100 },
+//        { "airpmp_speed", "pumpspd", "%", 1, 0, 100 },
+//        { "buzzer_vol", "buzz.vol", "", 1, 0, 7 }
     };
     _currItem = 0;
     _enterValueMode = false;
@@ -95,8 +99,12 @@ bool ConfScreen::handleEncoderRotation(int delta)
 {
     if (!_enterValueMode) {
         _currItem += delta;
-        _currItem = max((size_t)0, _currItem);
-        _currItem = min(_items.size() - 1, _currItem);
+        while (_currItem < 0) {
+            _currItem += _items.size();
+        }
+        while (_currItem >= _items.size()) {
+            _currItem -= _items.size();
+        }
     } else {
         _items[_currItem].update(delta);
     }
@@ -105,6 +113,11 @@ bool ConfScreen::handleEncoderRotation(int delta)
 
 bool ConfScreen::handleEncoderSwitch()
 {
+    if (_enterValueMode) {
+        if (_currItem >= 0 && _currItem < _items.size()) {
+            _items[_currItem].set();
+        }
+    }
     _enterValueMode = !_enterValueMode;
     return true;
 }

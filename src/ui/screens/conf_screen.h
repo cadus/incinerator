@@ -37,6 +37,6 @@ public:
 
 private:
     std::vector<ConfItem> _items;
-    size_t _currItem;
+    ssize_t _currItem;
     bool _enterValueMode;
 };

@@ -53,7 +53,10 @@ void SysConfig::set(std::string name, int32_t value)
         return;
     }
     it->second = value;
-    prefs.putInt(it->first.c_str(), it->second);
+    // Only update flash if necessary
+    if (prefs.getInt(it->first.c_str()) != it->second) {
+        prefs.putInt(it->first.c_str(), it->second);
+    }
 }
 
 SysConfig sysconfig;
