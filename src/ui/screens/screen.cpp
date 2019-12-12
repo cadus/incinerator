@@ -40,7 +40,7 @@ void Screen::printCentered(const std::string s, uint16_t x, uint16_t y, uint16_t
     uint16_t wT, hT;
     _d.getTextBounds(s.c_str(), 0, 0, &x1, &y1, &wT, &hT);
     _d.setCursor(x + (w - wT) / 2 - x1,
-                 y + 2 * h / 3);
+                 y + 2 * h / 3 + 1);
     _d.print(s.c_str());
 }
 
@@ -50,7 +50,7 @@ void Screen::printLeftJustified(const std::string s, uint16_t x, uint16_t y, uin
     uint16_t wT, hT;
     _d.getTextBounds(s.c_str(), 0, 0, &x1, &y1, &wT, &hT);
     _d.setCursor(x - x1,
-                 y + 2 * h / 3);
+                 y + 2 * h / 3 + 1);
     _d.print(s.c_str());
 }
 
@@ -60,7 +60,7 @@ void Screen::printRightJustified(const std::string s, uint16_t x, uint16_t y, ui
     uint16_t wT, hT;
     _d.getTextBounds(s.c_str(), 0, 0, &x1, &y1, &wT, &hT);
     _d.setCursor(x + (w - wT) - x1,
-                 y + 2 * h / 3);
+                 y + 2 * h / 3 + 1);
     _d.print(s.c_str());
 }
 

@@ -30,7 +30,7 @@ void ConfItem::draw(Adafruit_GFX& d, int16_t x, int16_t y, bool highlightName, b
 {
     Screen::printRightJustified(_desc, x, y, confNameWidth, confRowHeight);
     if (highlightName) {
-        d.drawRect(x + 2, y + 2, confNameWidth + 2, confRowHeight - 2, GxEPD_BLACK);
+        d.drawRect(x + 22, y + 2, confNameWidth - 20 + 2, confRowHeight - 2, GxEPD_BLACK);
     }
     x += confNameWidth;
     x += 8;
@@ -39,7 +39,7 @@ void ConfItem::draw(Adafruit_GFX& d, int16_t x, int16_t y, bool highlightName, b
     snprintf(tmp, sizeof(tmp), "%d%s", _val, _unit.c_str());
     Screen::printLeftJustified(tmp, x, y, confValWidth, confRowHeight);
     if (highlightValue) {
-        d.drawRect(x - 4, y + 2, confValWidth - 2, confRowHeight - 2, GxEPD_BLACK);
+        d.drawRect(x - 4, y + 2, confValWidth - 20 - 2, confRowHeight - 2, GxEPD_BLACK);
     }
 }
 
@@ -62,8 +62,8 @@ void ConfScreen::reset()
         { "High temp.threshold to close valve", "main_T_high", "temp.high", "C", 10, 300, 700 },
         { "Ignition control timeout", "main_ign_t", "ign.time", "s", 1, 1, 15 },
         { "Ignition control temp.delta", "main_ign_delta", "ign.delta", "C", 1, 1, 100 },
-        { "Low temp.threshold to open valve",  "aft_T_low", "temp.low", "C", 1, 1000, 1500 },
-        { "High temp.threshold to close valve", "aft_T_high", "temp.high", "C", 1, 1000, 1500 },
+        { "Low temp.threshold to open valve",  "aft_T_low", "temp.low", "C", 10, 1000, 1500 },
+        { "High temp.threshold to close valve", "aft_T_high", "temp.high", "C", 10, 1000, 1500 },
         { "Ignition control timeout", "aft_ign_t", "ign.time", "s", 1, 1, 15 },
         { "Ignition control temp.delta", "aft_ign_delta", "ign.delta", "C", 1, 1, 100 },
         { "Air pump speed", "airpmp_speed", "pumpspd", "%", 1, 0, 100 },
