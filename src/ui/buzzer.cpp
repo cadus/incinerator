@@ -25,7 +25,7 @@ void Buzzer::buzz(uint32_t buzz_length_ms)
         ledcWrite(PWM_CH_BUZZER, sysconfig.get("buzzer_vol") << 4);
         portENTER_CRITICAL(&_cnt_mutex);
         _count = buzz_length_ms;
-        portENTER_CRITICAL(&_cnt_mutex);
+        portEXIT_CRITICAL(&_cnt_mutex);
     }
 }
 
