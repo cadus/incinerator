@@ -17,6 +17,8 @@ public:
     void task();
 
 private:
+    void IRAMledcWrite(uint32_t duty);
+
     static uint32_t _count;
     static portMUX_TYPE _cnt_mutex;
 };
