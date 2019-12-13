@@ -28,19 +28,24 @@ ConfItem::ConfItem(std::string helpText,
 
 void ConfItem::draw(Adafruit_GFX& d, int16_t x, int16_t y, bool highlightName, bool highlightValue)
 {
-    Screen::printRightJustified(_desc, x, y, confNameWidth, confRowHeight);
+    Screen::PrintFlags flags;
+    flags.set(Screen::PrintFlag::justifyRight);
     if (highlightName) {
-        d.drawRect(x + 22, y + 2, confNameWidth - 20 + 2, confRowHeight - 2, GxEPD_BLACK);
+        flags.set(Screen::PrintFlag::invert);
     }
+    Screen::print(_desc, x + 20, y, confNameWidth - 20, confRowHeight, flags);
+
     x += confNameWidth;
     x += 8;
 
+    flags = 0;
+    flags.set(Screen::PrintFlag::justifyLeft);
+    if (highlightValue) {
+        flags.set(Screen::PrintFlag::invert);
+    }
     char tmp[80];
     snprintf(tmp, sizeof(tmp), "%d%s", _val, _unit.c_str());
-    Screen::printLeftJustified(tmp, x, y, confValWidth, confRowHeight);
-    if (highlightValue) {
-        d.drawRect(x - 4, y + 2, confValWidth - 20 - 2, confRowHeight - 2, GxEPD_BLACK);
-    }
+    Screen::print(tmp, x, y, confValWidth - 20, confRowHeight, flags);
 }
 
 void ConfItem::update(int digits)
@@ -84,7 +89,7 @@ void ConfScreen::draw()
 {
     uint16_t y = _content_y + 2;
 
-    printCentered("Main burner settings:", 0, y, _d.width(), confRowHeight);
+    print("Main burner settings:", 0, y, _d.width(), confRowHeight);
     y += confRowHeight;
     drawItem(0, 0, y);
     drawItem(1, 0, y + confRowHeight);
@@ -96,7 +101,7 @@ void ConfScreen::draw()
     _d.drawFastHLine(10, y, _d.width()-20, GxEPD_BLACK);
     y += 1;
 
-    printCentered("Afterburner settings:", 0, y, _d.width(), confRowHeight);
+    print("Afterburner settings:", 0, y, _d.width(), confRowHeight);
     y += confRowHeight;
     drawItem(4, 0, y);
     drawItem(5, 0, y + confRowHeight);
@@ -108,7 +113,7 @@ void ConfScreen::draw()
     _d.drawFastHLine(10, y, _d.width()-20, GxEPD_BLACK);
     y += 1;
 
-    printCentered("Misc.settings:", 0, y, _d.width(), confRowHeight);
+    print("Misc.settings:", 0, y, _d.width(), confRowHeight);
     y += confRowHeight;
     drawItem(8, 0, y);
     drawItem(9, 200, y);
@@ -118,10 +123,12 @@ void ConfScreen::draw()
     _d.drawFastHLine(10, y, _d.width()-20, GxEPD_BLACK);
     y += 3;
 
-    printCentered("Apply", 0, y, _d.width(), confRowHeight);
+    PrintFlags flags;
     if (_currItem == _items.size()) {
-        _d.drawRect(125, y, 150, confRowHeight, GxEPD_BLACK);
+        flags.set(PrintFlag::invert);
     }
+    print("Apply", 125, y, _d.width() - 250, confRowHeight, flags);
+
     if (_currItem < _items.size()) {
         setStatus(_items[_currItem]._helpText);
     } else {

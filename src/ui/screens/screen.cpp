@@ -34,33 +34,33 @@ void Screen::setStatus(const std::string s)
     _statusStr = s;
 }
 
-void Screen::printCentered(const std::string s, uint16_t x, uint16_t y, uint16_t w, uint16_t h)
+void Screen::print(const std::string s, uint16_t x, uint16_t y, uint16_t w, uint16_t h, PrintFlags flags)
 {
+    constexpr uint16_t margin = 4;
+    if (flags[PrintFlag::drawRect]) {
+        _d.drawRect(x - margin, y, w + margin*2, h, GxEPD_BLACK);
+    }
+    if (flags[PrintFlag::invert]) {
+        _d.fillRect(x - margin, y, w + margin*2, h, GxEPD_BLACK);
+        _d.setTextColor(GxEPD_WHITE);
+        _d.setFont(&FreeSansBold9pt7b);
+    } else {
+        _d.setTextColor(GxEPD_BLACK);
+        _d.setFont(&FreeSans9pt7b);
+    }
     int16_t x1, y1;
     uint16_t wT, hT;
     _d.getTextBounds(s.c_str(), 0, 0, &x1, &y1, &wT, &hT);
-    _d.setCursor(x + (w - wT) / 2 - x1,
-                 y + 2 * h / 3 + 1);
-    _d.print(s.c_str());
-}
-
-void Screen::printLeftJustified(const std::string s, uint16_t x, uint16_t y, uint16_t w, uint16_t h)
-{
-    int16_t x1, y1;
-    uint16_t wT, hT;
-    _d.getTextBounds(s.c_str(), 0, 0, &x1, &y1, &wT, &hT);
-    _d.setCursor(x - x1,
-                 y + 2 * h / 3 + 1);
-    _d.print(s.c_str());
-}
-
-void Screen::printRightJustified(const std::string s, uint16_t x, uint16_t y, uint16_t w, uint16_t h)
-{
-    int16_t x1, y1;
-    uint16_t wT, hT;
-    _d.getTextBounds(s.c_str(), 0, 0, &x1, &y1, &wT, &hT);
-    _d.setCursor(x + (w - wT) - x1,
-                 y + 2 * h / 3 + 1);
+    if (flags[PrintFlag::justifyLeft]) {
+        _d.setCursor(x - x1,
+                    y + 2 * h / 3 + 1);
+    } else if (flags[PrintFlag::justifyRight]) {
+        _d.setCursor(x + (w - wT) - x1,
+                    y + 2 * h / 3 + 1);
+    } else {
+        _d.setCursor(x + (w - wT) / 2 - x1,
+                    y + 2 * h / 3 + 1);
+    }
     _d.print(s.c_str());
 }
 
@@ -98,7 +98,7 @@ void Screen::update()
         const BurnChamber& bch = (i == 0) ? burner_main : burner_aft;
         char tmp[16] = { 0 };
         snprintf(tmp, sizeof(tmp), "%d", int(bch.getTemp().external));
-        printCentered(tmp, x, 0, temp_box_width, top_bar_height);
+        print(tmp, x, 0, temp_box_width, top_bar_height);
 
         x += temp_box_width;
         _d.drawFastVLine(x, line_margin, top_bar_height - (line_margin * 2), GxEPD_BLACK);
@@ -148,7 +148,7 @@ void Screen::update()
     draw();
 
     // Print status string on bottom bar
-    printCentered(_statusStr, 0, _d.height() - bottom_bar_height, _d.width(), bottom_bar_height);
+    print(_statusStr, 0, _d.height() - bottom_bar_height, _d.width(), bottom_bar_height);
 
     // partial update
     _d.display(true);
