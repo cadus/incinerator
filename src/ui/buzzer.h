@@ -18,7 +18,7 @@ public:
 
 private:
     static uint32_t _count;
-    static portMUX_TYPE Buzzer::_cnt_mutex;
+    static portMUX_TYPE _cnt_mutex;
 };
 
 extern Buzzer buzzer;
