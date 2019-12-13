@@ -155,6 +155,11 @@ bool ConfScreen::handleEncoderRotation(int delta)
 
 bool ConfScreen::handleEncoderSwitch()
 {
+    if (_currItem == _items.size()) {
+        // TODO: close screen
+        return true;
+    }
+
     if (_enterValueMode) {
         if (_currItem >= 0 && _currItem < _items.size()) {
             _items[_currItem].set();
