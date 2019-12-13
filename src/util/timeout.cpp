@@ -18,7 +18,7 @@ bool Timeout::elapsed()
     return (getMs() - _timeout) >= 0;
 }
 
-void Timeout::incrementMs()
+void IRAM_ATTR Timeout::incrementMs()
 {
     // called from interrupt
     portENTER_CRITICAL_ISR(&_tm_mutex);
