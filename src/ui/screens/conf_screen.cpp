@@ -3,7 +3,6 @@
 #include <string>
 
 #include "util/sys_config.h"
-#include "testscreens.h"
 
 ConfItem::ConfItem(InteractiveScreen& parent,
                    std::string helpText,
@@ -96,8 +95,8 @@ void ConfScreen::reset()
         },
     };
 
-    static ScreenChangeButton test(*this, "Test", &fooScreen, 100, _ys+_dy*8, 100, _dy, "Enter Test screen");
-    static ScreenChangeButton exit(*this, "Exit", &barScreen, 220, _ys+_dy*8, 100, _dy, "Exit config screen");
+    static ScreenChangeButton test(*this, "Test", &confScreen, 100, _ys+_dy*8, 100, _dy, "Enter Test screen");
+    static ScreenChangeButton exit(*this, "Exit", &confScreen, 220, _ys+_dy*8, 100, _dy, "Exit config screen");
 
     _items.clear();
     for (auto& c : confs) {
