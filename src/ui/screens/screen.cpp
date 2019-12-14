@@ -57,7 +57,7 @@ void Screen::print(const std::string s, uint16_t x, uint16_t y, uint16_t w, uint
         _d.setFont(&FreeSansBold9pt7b);
     } else {
         _d.setTextColor(GxEPD_BLACK);
-        _d.setFont(&FreeSans9pt7b);
+        _d.setFont(flags[PrintFlag::bold] ? &FreeSansBold9pt7b : &FreeSans9pt7b);
     }
     int16_t x1, y1;
     uint16_t wT, hT;
@@ -88,7 +88,6 @@ void Screen::update(bool fullRefresh)
 
     // Init screen drawing
     _d.setRotation(0);
-    _d.setTextColor(GxEPD_BLACK);
     _d.setPartialWindow(0, 0, _d.width(), _d.height());
     _d.fillScreen(GxEPD_WHITE);
 
@@ -104,12 +103,13 @@ void Screen::update(bool fullRefresh)
     x += icon_box_width;
 
     // Print burn chamber temperatures
-    _d.setFont(&FreeSansBold9pt7b);
     for (int i = 0; i < 2; i++) {
+        PrintFlags flags;
+        flags.set(PrintFlag::bold);
         const BurnChamber& bch = (i == 0) ? burner_main : burner_aft;
         char tmp[16] = { 0 };
         snprintf(tmp, sizeof(tmp), "%d", int(bch.getTemp().external));
-        print(tmp, x, 0, temp_box_width, top_bar_height);
+        print(tmp, x, 0, temp_box_width, top_bar_height, flags);
 
         x += temp_box_width;
         _d.drawFastVLine(x, line_margin, top_bar_height - (line_margin * 2), GxEPD_BLACK);

@@ -25,6 +25,7 @@ public:
     virtual bool handleEncoderSwitch() = 0;
 
     enum PrintFlag {
+        bold,
         justifyLeft,
         justifyRight,
         drawRect,
