@@ -8,7 +8,7 @@ void Ui::init()
     buzzer.init();
     encoder_init();
 
-    _current = &_interactiveScreen;
+    _current = &_fooScreen;
     _current->reset();
 }
 

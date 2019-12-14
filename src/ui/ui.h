@@ -2,7 +2,7 @@
 
 #include "ui/screens/screen.h"
 #include "ui/screens/conf_screen.h"
-#include "ui/screens/interactive_screen.h"
+#include "ui/screens/testscreens.h"
 
 #include "util/timeout.h"
 
@@ -16,7 +16,7 @@ public:
 
 private:
     ConfScreen _confScreen;
-    InteractiveScreen _interactiveScreen;
+    FooScreen _fooScreen;
 
     Screen *_current;
 
