@@ -23,10 +23,6 @@ void Screen::init()
 {
     // init display
     _d.init();
-    _d.setRotation(0);
-    _d.setFullWindow();
-    _d.fillScreen(GxEPD_WHITE);
-    _d.display(false); // full update
 }
 
 void Screen::setProgress(float percent)
