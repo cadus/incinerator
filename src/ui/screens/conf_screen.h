@@ -30,6 +30,12 @@ public:
 
     void reset() override;
     void draw() override;
+
+private:
+    static constexpr uint16_t _dx = 160;
+    static constexpr uint16_t _xs = 400 - _dx * 2;
+    static constexpr uint16_t _ys = _content_y;
+    static constexpr uint16_t _dy = 24;
 };
 
 extern ConfScreen confScreen;

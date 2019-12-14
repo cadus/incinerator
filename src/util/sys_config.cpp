@@ -12,6 +12,8 @@ SysConfig::SysConfig()
     { "main_ign_delta", 5 },
     { "aft_ign_t", 5 },
     { "aft_ign_delta", 5 },
+    { "ign_pulse_w", 100 },
+    { "ign_repeat_itvl", 500 },
     { "airpmp_speed", 50 },
     { "buzzer_vol", 1 },
 })

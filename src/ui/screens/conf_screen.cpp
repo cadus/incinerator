@@ -5,10 +5,6 @@
 #include "util/sys_config.h"
 #include "testscreens.h"
 
-constexpr int16_t confRowHeight = 24;
-constexpr int16_t confNameWidth = 120;
-constexpr int16_t confValWidth = 80;
-
 ConfItem::ConfItem(InteractiveScreen& parent,
                    std::string helpText,
                    std::string id,
@@ -37,71 +33,78 @@ ConfScreen::ConfScreen()
 
 void ConfScreen::reset()
 {
-    constexpr uint16_t dx = 160;
-    constexpr uint16_t x = 400 - dx * 2;
-    constexpr uint16_t y = _content_y;
-    constexpr uint16_t dy = confRowHeight;
-
     static std::vector<ConfItem> confs = {
         {
             *this, "Low temp.threshold to open valve",
-            "main_T_low", "temp.low", "C", 10, 300, 700,
-            x + dx * 0, y + dy * 0, dx, dy
+            "main_T_low", "Temp.Low", "C", 10, 300, 700,
+            _xs + _dx * 0, _ys + _dy * 0, _dx, _dy
         },
         {
             *this, "High temp.threshold to close valve",
-            "main_T_high", "temp.high", "C", 10, 300, 700,
-            x + dx * 0, y + dy * 1, dx, dy
+            "main_T_high", "Temp.High", "C", 10, 300, 700,
+            _xs + _dx * 0, _ys + _dy * 1, _dx, _dy
         },
         {
             *this, "Ignition control timeout",
-            "main_ign_t", "ign.time", "s", 1, 1, 15,
-            x + dx * 1, y + dy * 0, dx, dy
+            "main_ign_t", "Ign.Time", "s", 1, 1, 15,
+            _xs + _dx * 1, _ys + _dy * 0, _dx, _dy
         },
         {
             *this, "Ignition control temp.delta",
-            "main_ign_delta", "ign.delta", "C", 1, 1, 100,
-            x + dx * 1, y + dy * 1, dx, dy
+            "main_ign_delta", "Ign.Delta", "C", 1, 1, 100,
+            _xs + _dx * 1, _ys + _dy * 1, _dx, _dy
         },
         {
             *this, "Low temp.threshold to open valve",
-            "aft_T_low", "temp.low", "C", 10, 1000, 1500,
-            x + dx * 0, y + dy * 2, dx, dy
+            "aft_T_low", "Temp.Low", "C", 10, 1000, 1500,
+            _xs + _dx * 0, _ys + _dy * 2, _dx, _dy
         },
         {
             *this, "High temp.threshold to close valve",
-            "aft_T_high", "temp.high", "C", 10, 1000, 1500,
-            x + dx * 0, y + dy * 3, dx, dy
+            "aft_T_high", "Temp.High", "C", 10, 1000, 1500,
+            _xs + _dx * 0, _ys + _dy * 3, _dx, _dy
         },
         {
             *this, "Ignition control timeout",
-            "aft_ign_t", "ign.time", "s", 1, 1, 15,
-            x + dx * 1, y + dy * 2, dx, dy
+            "aft_ign_t", "Ign.Time", "s", 1, 1, 15,
+            _xs + _dx * 1, _ys + _dy * 2, _dx, _dy
         },
         {
             *this, "Ignition control temp.delta",
-            "aft_ign_delta", "ign.delta", "C", 1, 1, 100,
-            x + dx * 1, y + dy * 3, dx, dy
+            "aft_ign_delta", "Ign.Delta", "C", 1, 1, 100,
+            _xs + _dx * 1, _ys + _dy * 3, _dx, _dy
+        },
+        {
+            *this, "Ignition pulse width",
+            "ign_pulse_w", "Pulse W.", "ms", 5, 1, 100,
+            _xs + _dx * 0, _ys + _dy * 4, _dx, _dy
+        },
+        {
+            *this, "Ignition repeat interval",
+            "ign_repeat_itvl", "Rep.Intvl", "ms", 10, 100, 3000,
+            _xs + _dx * 1, _ys + _dy * 4, _dx, _dy
         },
         {
             *this, "Air pump speed",
-            "airpmp_speed", "pumpspd", "%", 1, 0, 100,
-            x + dx * 0, y + dy * 4, dx, dy
+            "airpmp_speed", "Pump Spd", "%", 1, 0, 100,
+            _xs + _dx * 0, _ys + _dy * 5, _dx, _dy
         },
         {
             *this, "Buzzer volume",
-            "buzzer_vol", "buzz.vol", "", 1, 0, 7,
-            x + dx * 1, y + dy * 4, dx, dy
+            "buzzer_vol", "Buzz.Vol", "", 1, 0, 7,
+            _xs + _dx * 1, _ys + _dy * 5, _dx, _dy
         },
     };
 
-    static ScreenChangeButton ok(*this, "OK", &barScreen, 125, y+dy*5, 150, dy, "Exit config screen");
+    static ScreenChangeButton test(*this, "Test", &fooScreen, 100, _ys+_dy*8, 100, _dy, "Enter Test screen");
+    static ScreenChangeButton exit(*this, "Exit", &barScreen, 220, _ys+_dy*8, 100, _dy, "Exit config screen");
 
     _items.clear();
     for (auto& c : confs) {
         _items.push_back(&c);
     }
-    _items.push_back(&ok);
+    _items.push_back(&test);
+    _items.push_back(&exit);
 
     InteractiveScreen::reset();
 }
@@ -109,6 +112,14 @@ void ConfScreen::reset()
 void ConfScreen::draw()
 {
     InteractiveScreen::draw();
+
+    print("MAIN", 0, _ys, _xs, _dy*2);
+    _d.drawFastHLine(0, _ys+_dy*2, _d.width(), GxEPD_BLACK);
+    print("AFT", 0, _ys+_dy*2, _xs, _dy*2);
+    _d.drawFastHLine(0, _ys+_dy*4, _d.width(), GxEPD_BLACK);
+    print("IGN", 0, _ys+_dy*4, _xs, _dy);
+    _d.drawFastHLine(0, _ys+_dy*5, _d.width(), GxEPD_BLACK);
+    print("MISC", 0, _ys+_dy*5, _xs, _dy);
 }
 
 ConfScreen confScreen;
