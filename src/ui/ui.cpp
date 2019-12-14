@@ -1,7 +1,7 @@
 #include "ui.h"
 #include "buzzer.h"
 #include "debounced_encoder.h"
-#include "ui/screens/testscreens.h"
+#include "screens/conf_screen.h"
 
 void Ui::init()
 {
@@ -9,7 +9,7 @@ void Ui::init()
     buzzer.init();
     encoder_init();
 
-    _current = &fooScreen;
+    _current = &confScreen;
     _current->reset();
 }
 

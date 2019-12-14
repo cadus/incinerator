@@ -26,6 +26,8 @@ void PushButton::draw(bool selected)
     Screen::PrintFlags flags;
     if (selected) {
         flags.set(Screen::PrintFlag::invert);
+    } else {
+        flags.set(Screen::PrintFlag::drawRect);
     }
 
     _parent.print(_text, _x, _y, _w, _h, flags);
@@ -108,6 +110,7 @@ bool ValueEntry::click()
 {
     if (_parent._fixedItemSelection) {
         printf("%s update to %d\r\n", _text.c_str(), _val);
+        update();
     }
     _parent._fixedItemSelection = !_parent._fixedItemSelection;
     return true;

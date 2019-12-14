@@ -66,6 +66,8 @@ public:
     virtual bool rotate(int digits) override;
     virtual bool click() override;
 
+    virtual void update() = 0;
+
     std::string _text;
     std::string _unit;
     int _val;
