@@ -27,6 +27,8 @@ public:
 class ConfScreen : public InteractiveScreen
 {
 public:
+    ConfScreen();
+
     void reset() override;
     void draw() override;
 };

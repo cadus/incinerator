@@ -116,6 +116,11 @@ bool ValueEntry::click()
     return true;
 }
 
+InteractiveScreen::InteractiveScreen(bool wraparound)
+:_wraparound(wraparound)
+{
+}
+
 void InteractiveScreen::reset()
 {
     _selectedItem = 0;
@@ -132,7 +137,7 @@ void InteractiveScreen::draw()
 
 bool InteractiveScreen::handleEncoderRotation(int delta)
 {
-    const size_t range = _items.size();
+    const ssize_t range = _items.size();
     if (!range) {
         // handle edge case of empty item list
         return false;
@@ -151,11 +156,16 @@ bool InteractiveScreen::handleEncoderRotation(int delta)
     // change item selection according to encoder rotation
     ssize_t selected_before =_selectedItem;
     _selectedItem += delta;
-    while (_selectedItem < 0) {
-        _selectedItem += range;
-    }
-    while (_selectedItem >= range) {
-        _selectedItem -= range;
+    if (_wraparound) {
+        while (_selectedItem < 0) {
+            _selectedItem += range;
+        }
+        while (_selectedItem >= range) {
+            _selectedItem -= range;
+        }
+    } else {
+        _selectedItem = max(_selectedItem, 0);
+        _selectedItem = min(_selectedItem, range-1);
     }
     return _selectedItem != selected_before;
 }

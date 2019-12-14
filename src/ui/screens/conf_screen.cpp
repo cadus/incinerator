@@ -39,6 +39,11 @@ void ConfItem::update()
     sysconfig.set(_id, _val);
 }
 
+ConfScreen::ConfScreen()
+:InteractiveScreen(true)
+{
+}
+
 void ConfScreen::reset()
 {
     constexpr uint16_t x = 0;

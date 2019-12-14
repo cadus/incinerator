@@ -83,6 +83,8 @@ class InteractiveScreen : public Screen
     friend class ValueEntry;
 
 public:
+    InteractiveScreen(bool wraparound = false);
+
     void reset() override;
     void draw() override;
     bool handleEncoderRotation(int delta) override;
@@ -92,4 +94,5 @@ protected:
     std::vector<InteractiveItem*> _items;
     ssize_t _selectedItem;
     bool _fixedItemSelection;
+    bool _wraparound;
 };
