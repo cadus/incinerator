@@ -14,6 +14,11 @@ GxEPD2_BW<GxEPD2_420, GxEPD2_420::HEIGHT> Screen::_d(GxEPD2_420(EPD_CS, EPD_DC, 
 float Screen::_progressPercent = 0.f;
 std::string Screen::_statusStr = "";
 
+Screen::Screen()
+:_nextScreen(nullptr)
+{
+}
+
 void Screen::init()
 {
     // init display
@@ -32,6 +37,11 @@ void Screen::setProgress(float percent)
 void Screen::setStatus(const std::string s)
 {
     _statusStr = s;
+}
+
+Screen *Screen::nextScreen()
+{
+    return _nextScreen;
 }
 
 void Screen::print(const std::string s, uint16_t x, uint16_t y, uint16_t w, uint16_t h, PrintFlags flags)

@@ -9,11 +9,14 @@
 class Screen
 {
 public:
+    Screen();
+
     static void init();
     void update();
 
     void setProgress(float percent);
     void setStatus(const std::string s);
+    Screen *nextScreen();
 
     virtual void reset() = 0;
     virtual void draw() = 0;
@@ -41,4 +44,6 @@ protected:
 private:
     static float _progressPercent;
     static std::string _statusStr;
+
+    Screen *_nextScreen;
 };
