@@ -15,7 +15,7 @@ public:
 
 private:
     Screen *_current;
-    bool _controlsActive;
+    bool _screenChange;
 
     Timeout _to;
     bool _updateReq;

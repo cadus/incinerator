@@ -5,7 +5,7 @@
 
 Ui::Ui()
 :_current(nullptr)
-,_controlsActive(false)
+,_screenChange(true)
 ,_updateReq(false)
 ,_encoderPos(0)
 ,_encoderSw(false)
@@ -27,14 +27,16 @@ void Ui::task()
     if (_to.elapsed() || _updateReq) {
         _updateReq = false;
         _to.set(1000);
-        _current->update();
-        _controlsActive = true;
+        bool fullRefresh = _screenChange;
+        // reset _screenChange before updating, b/c it can be set again during the update
+        _screenChange = false;
+        _current->update(fullRefresh);
     }
 }
 
 void Ui::backgroundTask()
 {
-    if (!_current || !_controlsActive) {
+    if (!_current || _screenChange) {
         return;
     }
 
@@ -53,12 +55,13 @@ void Ui::backgroundTask()
         }
         _encoderSw = encoderSw;
     }
-    auto next = _current->nextScreen();
+    auto next = _current->getNextScreen();
     if (next) {
         // Screen has changed
+        _current->setNextScreen(nullptr);
         _current = next;
         _current->reset();
         _updateReq |= true;
-        _controlsActive = false;
+        _screenChange = true;
     }
 }

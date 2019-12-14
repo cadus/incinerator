@@ -50,7 +50,7 @@ ScreenChangeButton::ScreenChangeButton(InteractiveScreen& parent,
                                        uint16_t x, uint16_t y, uint16_t w, uint16_t h)
 :PushButton(parent,
             text,
-            [this, target] () { _parent._nextScreen = target; return true; },
+            [this, target] () { _parent.setNextScreen(target); return true; },
             x, y, w, h)
 {
 }

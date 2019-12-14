@@ -12,11 +12,12 @@ public:
     Screen();
 
     static void init();
-    void update();
+    void update(bool fullRefresh);
 
     void setProgress(float percent);
     void setStatus(const std::string s);
-    Screen *nextScreen();
+    void setNextScreen(Screen *nextScreen);
+    Screen *getNextScreen();
 
     virtual void reset() = 0;
     virtual void draw() = 0;
@@ -41,9 +42,8 @@ protected:
     static constexpr uint16_t _content_y = 40;
     static constexpr uint16_t _content_height = 300 - 76;
 
-    Screen *_nextScreen;
-
 private:
+    Screen *_nextScreen;
     static float _progressPercent;
     static std::string _statusStr;
 };

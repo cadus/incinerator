@@ -46,7 +46,7 @@ void GxEPD2_busyWaitCallback()
 void loop()
 {
     ui.task();
-    ui.backgroundTask();
+    background_task();
 }
 
 static void IRAM_ATTR timer_isr(void)

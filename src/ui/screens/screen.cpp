@@ -39,11 +39,14 @@ void Screen::setStatus(const std::string s)
     _statusStr = s;
 }
 
-Screen *Screen::nextScreen()
+void Screen::setNextScreen(Screen *nextScreen)
 {
-    auto tmp = _nextScreen;
-    _nextScreen = nullptr;
-    return tmp;
+    _nextScreen = nextScreen;
+}
+
+Screen *Screen::getNextScreen()
+{
+    return _nextScreen;
 }
 
 void Screen::print(const std::string s, uint16_t x, uint16_t y, uint16_t w, uint16_t h, PrintFlags flags)
@@ -76,7 +79,7 @@ void Screen::print(const std::string s, uint16_t x, uint16_t y, uint16_t w, uint
     _d.print(s.c_str());
 }
 
-void Screen::update()
+void Screen::update(bool fullRefresh)
 {
     unsigned long start = millis();
 
@@ -162,8 +165,8 @@ void Screen::update()
     // Print status string on bottom bar
     print(_statusStr, 0, _d.height() - bottom_bar_height, _d.width(), bottom_bar_height);
 
-    // partial update
-    _d.display(true);
+    // partial update or full update if necessary
+    _d.display(!fullRefresh);
 
     unsigned long elapsed = millis() - start;
     Serial.printf("time spent: %lu ms\r\n", elapsed);
