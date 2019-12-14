@@ -37,12 +37,67 @@ bool PushButton::rotate(int digits)
 
 bool PushButton::click()
 {
-    _parent._fixedItemSelection = !_parent._fixedItemSelection;
-    if (_parent._fixedItemSelection) {
-        printf("%s selection begin\r\n", _text.c_str());
-    } else  {
-        printf("%s selection end\r\n", _text.c_str());
+    // TODO: process action handler
+    return true;
+}
+
+ValueEntry::ValueEntry(InteractiveScreen& parent,
+                       std::string text,
+                       std::string unit,
+                       int initial,
+                       int step,
+                       int lowerBound,
+                       int upperBound,
+                       uint16_t x, uint16_t y, uint16_t w, uint16_t h)
+:InteractiveItem(parent, x, y, w, h)
+,_text(text)
+,_unit(unit)
+,_val(initial)
+,_step(step)
+,_lowerBound(lowerBound)
+,_upperBound(upperBound)
+{
+}
+
+void ValueEntry::draw(bool selected)
+{
+    uint16_t x = _x;
+
+    Screen::PrintFlags flags;
+    flags.set(Screen::PrintFlag::justifyRight);
+    if (selected && !_parent._fixedItemSelection) {
+        flags.set(Screen::PrintFlag::invert);
     }
+    Screen::print(_text, x, _y, _w / 2 - 4, _h, flags);
+
+    x += _w / 2 + 4;
+
+    flags = 0;
+    flags.set(Screen::PrintFlag::justifyLeft);
+    if (selected && _parent._fixedItemSelection) {
+        flags.set(Screen::PrintFlag::invert);
+    }
+    char tmp[80];
+    snprintf(tmp, sizeof(tmp), "%d%s", _val, _unit.c_str());
+    Screen::print(tmp, x, _y, _w / 2 - 4, _h, flags);
+}
+
+bool ValueEntry::rotate(int digits)
+{
+    auto val_before = _val;
+    _val += digits * _step;
+    _val = min(_upperBound, _val);
+    _val = max(_lowerBound, _val);
+
+    return val_before != _val;
+}
+
+bool ValueEntry::click()
+{
+    if (_parent._fixedItemSelection) {
+        printf("%s update to %d\r\n", _text.c_str(), _val);
+    }
+    _parent._fixedItemSelection = !_parent._fixedItemSelection;
     return true;
 }
 
@@ -52,10 +107,14 @@ void InteractiveScreen::reset()
     constexpr uint16_t dy = 24;
 
     static PushButton b1(*this, "Button1", 50, y+dy*0, 150, dy);
-    static PushButton b2(*this, "Button2", 50, y+dy*1, 150, dy);
-    static PushButton b3(*this, "Button3", 50, y+dy*2, 150, dy);
+    static ValueEntry v1(*this, "Value1", "ms", 42, 1, 0, 100,
+                         50, y+dy*1, 150, dy);
+    static PushButton b2(*this, "Button2", 50, y+dy*2, 150, dy);
+    static ValueEntry v2(*this, "Value2", "ms", 42, 1, 0, 100,
+                         50, y+dy*3, 150, dy);
+    static PushButton b3(*this, "Button3", 50, y+dy*4, 150, dy);
 
-    _items = { &b1, &b2, &b3 };
+    _items = { &b1, &v1, &b2, &v2, &b3 };
 }
 
 void InteractiveScreen::draw()

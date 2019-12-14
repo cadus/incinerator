@@ -37,10 +37,35 @@ private:
     std::string _text;
 };
 
+class ValueEntry : public InteractiveItem
+{
+public:
+    ValueEntry(InteractiveScreen& parent,
+               std::string text,
+               std::string unit,
+               int initial,
+               int step,
+               int lowerBound,
+               int upperBound,
+               uint16_t x, uint16_t y, uint16_t w, uint16_t h);
+
+    virtual void draw(bool selected) override;
+    virtual bool rotate(int digits) override;
+    virtual bool click() override;
+
+    std::string _text;
+    std::string _unit;
+    int _val;
+    int _step;
+    int _lowerBound;
+    int _upperBound;
+};
+
 class InteractiveScreen : public Screen
 {
     friend class InteractiveItem;
     friend class PushButton;
+    friend class ValueEntry;
 
 public:
     void reset() override;
