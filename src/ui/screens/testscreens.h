@@ -6,7 +6,20 @@ class FooScreen : public InteractiveScreen
 {
 public:
     void reset() override;
-private:
-    bool action1();
-    bool action2();
 };
+
+class BarScreen : public InteractiveScreen
+{
+public:
+    void reset() override;
+};
+
+class TestScreen : public InteractiveScreen
+{
+public:
+    void reset() override;
+};
+
+extern FooScreen fooScreen;
+extern BarScreen barScreen;
+extern TestScreen testScreen;

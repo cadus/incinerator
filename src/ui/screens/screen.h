@@ -41,9 +41,9 @@ protected:
     static constexpr uint16_t _content_y = 40;
     static constexpr uint16_t _content_height = 300 - 76;
 
+    Screen *_nextScreen;
+
 private:
     static float _progressPercent;
     static std::string _statusStr;
-
-    Screen *_nextScreen;
 };

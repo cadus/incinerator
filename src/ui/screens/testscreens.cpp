@@ -2,38 +2,88 @@
 
 void FooScreen::reset()
 {
-    constexpr uint16_t y = _content_y;
+    constexpr uint16_t x = 30;
+    constexpr uint16_t y = _content_y + 100;
+    constexpr uint16_t dx = 100;
     constexpr uint16_t dy = 24;
 
-    static PushButton b1(*this, "Button1",
-                         std::bind(&FooScreen::action1, this),
-                         50, y+dy*0, 150, dy);
-    static ValueEntry v1(*this, "Value1", "ms", 42, 1, 0, 100,
-                         50, y+dy*1, 150, dy);
-    static PushButton b2(*this, "Button2",
-                         std::bind(&FooScreen::action2, this),
-                         50, y+dy*2, 150, dy);
-    static ValueEntry v2(*this, "Value2", "ms", 42, 1, 0, 100,
-                         50, y+dy*3, 150, dy);
-    static PushButton b3(*this, "Button3",
+    static PushButton b1(*this, "Back",
                          [] () {
-                           printf("Lambda action3\r\n"); return true;
+                           printf("Back\r\n"); return true;
                          },
-                         50, y+dy*4, 150, dy);
+                         x+dx*0, y, dx, dy);
+    static PushButton b2(*this, "Bar",
+                         [this] () {
+                             _nextScreen = &barScreen; printf("Bar\r\n"); return true;
+                         },
+                         x+dx*1, y, dx, dy);
+    static PushButton b3(*this, "Test",
+                         [this] () {
+                             _nextScreen = &testScreen; printf("Test\r\n"); return true;
+                         },
+                         x+dx*2, y, dx, dy);
 
-    _items = { &b1, &v1, &b2, &v2, &b3 };
+    _items = { &b1, &b2, &b3 };
 
     InteractiveScreen::reset();
 }
 
-bool FooScreen::action1()
+void BarScreen::reset()
 {
-    printf("action1\r\n");
-    return true;
+    constexpr uint16_t x = 30;
+    constexpr uint16_t y = _content_y + 100;
+    constexpr uint16_t dx = 100;
+    constexpr uint16_t dy = 24;
+
+    static PushButton b1(*this, "Back",
+                         [] () {
+                           printf("Back\r\n"); return true;
+                         },
+                         x+dx*0, y, dx, dy);
+    static PushButton b2(*this, "Foo",
+                         [this] () {
+                             _nextScreen = &fooScreen; printf("Foo\r\n"); return true;
+                         },
+                         x+dx*1, y, dx, dy);
+    static PushButton b3(*this, "Test",
+                         [this] () {
+                             _nextScreen = &testScreen; printf("Test\r\n"); return true;
+                         },
+                         x+dx*2, y, dx, dy);
+
+    _items = { &b1, &b2, &b3 };
+
+    InteractiveScreen::reset();
 }
 
-bool FooScreen::action2()
+void TestScreen::reset()
 {
-    printf("action2\r\n");
-    return true;
+    constexpr uint16_t x = 30;
+    constexpr uint16_t y = _content_y + 100;
+    constexpr uint16_t dx = 100;
+    constexpr uint16_t dy = 24;
+
+    static PushButton b1(*this, "Back",
+                         [] () {
+                           printf("Back\r\n"); return true;
+                         },
+                         x+dx*0, y, dx, dy);
+    static PushButton b2(*this, "Foo",
+                         [this] () {
+                             _nextScreen = &fooScreen; printf("Foo\r\n"); return true;
+                         },
+                         x+dx*1, y, dx, dy);
+    static PushButton b3(*this, "Bar",
+                         [this] () {
+                             _nextScreen = &barScreen; printf("Bar\r\n"); return true;
+                         },
+                         x+dx*2, y, dx, dy);
+
+    _items = { &b1, &b2, &b3 };
+
+    InteractiveScreen::reset();
 }
+
+FooScreen fooScreen;
+BarScreen barScreen;
+TestScreen testScreen;

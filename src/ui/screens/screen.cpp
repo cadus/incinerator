@@ -41,7 +41,9 @@ void Screen::setStatus(const std::string s)
 
 Screen *Screen::nextScreen()
 {
-    return _nextScreen;
+    auto tmp = _nextScreen;
+    _nextScreen = nullptr;
+    return tmp;
 }
 
 void Screen::print(const std::string s, uint16_t x, uint16_t y, uint16_t w, uint16_t h, PrintFlags flags)

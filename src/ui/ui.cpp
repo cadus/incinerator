@@ -1,6 +1,7 @@
 #include "ui.h"
 #include "buzzer.h"
 #include "debounced_encoder.h"
+#include "ui/screens/testscreens.h"
 
 void Ui::init()
 {
@@ -8,7 +9,7 @@ void Ui::init()
     buzzer.init();
     encoder_init();
 
-    _current = &_fooScreen;
+    _current = &fooScreen;
     _current->reset();
 }
 
@@ -23,6 +24,10 @@ void Ui::task()
 
 void Ui::backgroundTask()
 {
+    if (!_current) {
+        return;
+    }
+
     int encoderPos = encoder_position();
     if (encoderPos != _encoderPos) {
         buzzer.buzz(16);
@@ -37,5 +42,12 @@ void Ui::backgroundTask()
             _updateReq |= _current->handleEncoderSwitch();
         }
         _encoderSw = encoderSw;
+    }
+    auto next = _current->nextScreen();
+    if (next) {
+        // Screen has changed
+        _current = next;
+        _current->reset();
+        _updateReq |= true;
     }
 }
