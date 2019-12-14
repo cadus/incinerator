@@ -20,18 +20,9 @@ ConfItem::ConfItem(InteractiveScreen& parent,
                    uint16_t x, uint16_t y, uint16_t w, uint16_t h)
 :ValueEntry(parent, desc, unit,
             sysconfig.get(id), step, lowerBound, upperBound,
-            x, y, w, h, 40)
-,_helpText(helpText)
+            x, y, w, h, 40, helpText)
 ,_id(id)
 {
-}
-
-void ConfItem::draw(bool selected)
-{
-    if (selected) {
-        _parent.setStatus(_helpText);
-    }
-    ValueEntry::draw(selected);
 }
 
 void ConfItem::update()
@@ -104,7 +95,7 @@ void ConfScreen::reset()
         },
     };
 
-    static ScreenChangeButton ok(*this, "OK", &barScreen, 125, y+dy*5, 150, dy);
+    static ScreenChangeButton ok(*this, "OK", &barScreen, 125, y+dy*5, 150, dy, "Exit config screen");
 
     _items.clear();
     for (auto& c : confs) {

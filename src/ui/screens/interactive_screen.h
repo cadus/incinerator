@@ -11,17 +11,23 @@ class InteractiveItem
 {
 public:
     InteractiveItem(InteractiveScreen& parent,
-                    uint16_t x, uint16_t y, uint16_t w, uint16_t h);
+                    uint16_t x, uint16_t y, uint16_t w, uint16_t h,
+                    std::string helpText="");
 
     virtual void draw(bool selected) = 0;
     virtual bool rotate(int digits) = 0;
     virtual bool click() = 0;
+
+protected:
+    void showHelpText();
 
     InteractiveScreen& _parent;
     uint16_t _x;
     uint16_t _y;
     uint16_t _w;
     uint16_t _h;
+
+    std::string _helpText;
 };
 
 class PushButton : public InteractiveItem
@@ -30,7 +36,8 @@ public:
     PushButton(InteractiveScreen& parent,
                std::string text,
                std::function<bool()> handler,
-               uint16_t x, uint16_t y, uint16_t w, uint16_t h);
+               uint16_t x, uint16_t y, uint16_t w, uint16_t h,
+               std::string helpText="");
 
     virtual void draw(bool selected) override;
     virtual bool rotate(int digits) override;
@@ -47,7 +54,8 @@ public:
     ScreenChangeButton(InteractiveScreen& parent,
                        std::string text,
                        Screen *target,
-                       uint16_t x, uint16_t y, uint16_t w, uint16_t h);
+                       uint16_t x, uint16_t y, uint16_t w, uint16_t h,
+                       std::string helpText="");
 };
 
 class ValueEntry : public InteractiveItem
@@ -61,7 +69,8 @@ public:
                int lowerBound,
                int upperBound,
                uint16_t x, uint16_t y, uint16_t w, uint16_t h,
-               uint16_t text_value_ratio = 50);
+               uint16_t text_value_ratio = 50,
+               std::string helpText="");
 
     virtual void draw(bool selected) override;
     virtual bool rotate(int digits) override;

@@ -1,24 +1,31 @@
 #include "interactive_screen.h"
 
 InteractiveItem::InteractiveItem(InteractiveScreen& parent,
-                                 uint16_t x, uint16_t y, uint16_t w, uint16_t h)
+                                 uint16_t x, uint16_t y, uint16_t w, uint16_t h,
+                                 std::string helpText)
 :_parent(parent)
 ,_x(x)
 ,_y(y)
 ,_w(w)
 ,_h(h)
+,_helpText(helpText)
 {
+}
+
+void InteractiveItem::showHelpText()
+{
+    _parent.setStatus(_helpText);
 }
 
 PushButton::PushButton(InteractiveScreen& parent,
                        std::string text,
                        std::function<bool()> handler,
-                       uint16_t x, uint16_t y, uint16_t w, uint16_t h)
-:InteractiveItem(parent,x,y,w,h)
+                       uint16_t x, uint16_t y, uint16_t w, uint16_t h,
+                       std::string helpText)
+:InteractiveItem(parent, x, y, w, h, helpText)
 ,_text(text)
 ,_handler(handler)
 {
-    
 }
 
 void PushButton::draw(bool selected)
@@ -31,6 +38,9 @@ void PushButton::draw(bool selected)
     }
 
     _parent.print(_text, _x, _y, _w, _h, flags);
+    if (selected) {
+        showHelpText();
+    }
 }
 
 bool PushButton::rotate(int digits)
@@ -47,11 +57,12 @@ bool PushButton::click()
 ScreenChangeButton::ScreenChangeButton(InteractiveScreen& parent,
                                        std::string text,
                                        Screen *target,
-                                       uint16_t x, uint16_t y, uint16_t w, uint16_t h)
+                                       uint16_t x, uint16_t y, uint16_t w, uint16_t h,
+                                       std::string helpText)
 :PushButton(parent,
             text,
             [this, target] () { _parent.setNextScreen(target); return true; },
-            x, y, w, h)
+            x, y, w, h, helpText)
 {
 }
 
@@ -63,8 +74,9 @@ ValueEntry::ValueEntry(InteractiveScreen& parent,
                        int lowerBound,
                        int upperBound,
                        uint16_t x, uint16_t y, uint16_t w, uint16_t h,
-                       uint16_t text_value_ratio)
-:InteractiveItem(parent, x, y, w, h)
+                       uint16_t text_value_ratio,
+                       std::string helpText)
+:InteractiveItem(parent, x, y, w, h, helpText)
 ,_text(text)
 ,_unit(unit)
 ,_val(initial)
@@ -96,6 +108,10 @@ void ValueEntry::draw(bool selected)
     char tmp[80];
     snprintf(tmp, sizeof(tmp), "%d%s", _val, _unit.c_str());
     Screen::print(tmp, x, _y, _value_width - 4, _h, flags);
+
+    if (selected) {
+        showHelpText();
+    }
 }
 
 bool ValueEntry::rotate(int digits)
