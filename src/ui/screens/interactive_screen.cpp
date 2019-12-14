@@ -62,7 +62,8 @@ ValueEntry::ValueEntry(InteractiveScreen& parent,
                        int step,
                        int lowerBound,
                        int upperBound,
-                       uint16_t x, uint16_t y, uint16_t w, uint16_t h)
+                       uint16_t x, uint16_t y, uint16_t w, uint16_t h,
+                       uint16_t text_value_ratio)
 :InteractiveItem(parent, x, y, w, h)
 ,_text(text)
 ,_unit(unit)
@@ -70,6 +71,7 @@ ValueEntry::ValueEntry(InteractiveScreen& parent,
 ,_step(step)
 ,_lowerBound(lowerBound)
 ,_upperBound(upperBound)
+,_value_width(w * text_value_ratio / 100)
 {
 }
 
@@ -82,9 +84,9 @@ void ValueEntry::draw(bool selected)
     if (selected && !_parent._fixedItemSelection) {
         flags.set(Screen::PrintFlag::invert);
     }
-    Screen::print(_text, x, _y, _w / 2 - 4, _h, flags);
+    Screen::print(_text, x, _y, _w - _value_width - 4, _h, flags);
 
-    x += _w / 2 + 4;
+    x += _w - _value_width + 4;
 
     flags = 0;
     flags.set(Screen::PrintFlag::justifyLeft);
@@ -93,7 +95,7 @@ void ValueEntry::draw(bool selected)
     }
     char tmp[80];
     snprintf(tmp, sizeof(tmp), "%d%s", _val, _unit.c_str());
-    Screen::print(tmp, x, _y, _w / 2 - 4, _h, flags);
+    Screen::print(tmp, x, _y, _value_width - 4, _h, flags);
 }
 
 bool ValueEntry::rotate(int digits)

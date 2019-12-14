@@ -60,7 +60,8 @@ public:
                int step,
                int lowerBound,
                int upperBound,
-               uint16_t x, uint16_t y, uint16_t w, uint16_t h);
+               uint16_t x, uint16_t y, uint16_t w, uint16_t h,
+               uint16_t text_value_ratio = 50);
 
     virtual void draw(bool selected) override;
     virtual bool rotate(int digits) override;
@@ -74,6 +75,8 @@ public:
     int _step;
     int _lowerBound;
     int _upperBound;
+
+    uint16_t _value_width;
 };
 
 class InteractiveScreen : public Screen

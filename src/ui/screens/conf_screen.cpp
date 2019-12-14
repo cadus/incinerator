@@ -20,7 +20,7 @@ ConfItem::ConfItem(InteractiveScreen& parent,
                    uint16_t x, uint16_t y, uint16_t w, uint16_t h)
 :ValueEntry(parent, desc, unit,
             sysconfig.get(id), step, lowerBound, upperBound,
-            x, y, w, h)
+            x, y, w, h, 40)
 ,_helpText(helpText)
 ,_id(id)
 {
@@ -46,8 +46,8 @@ ConfScreen::ConfScreen()
 
 void ConfScreen::reset()
 {
-    constexpr uint16_t x = 0;
-    constexpr uint16_t dx = 200;
+    constexpr uint16_t dx = 160;
+    constexpr uint16_t x = 400 - dx * 2;
     constexpr uint16_t y = _content_y;
     constexpr uint16_t dy = confRowHeight;
 
@@ -60,12 +60,12 @@ void ConfScreen::reset()
         {
             *this, "High temp.threshold to close valve",
             "main_T_high", "temp.high", "C", 10, 300, 700,
-            x + dx * 1, y + dy * 0, dx, dy
+            x + dx * 0, y + dy * 1, dx, dy
         },
         {
             *this, "Ignition control timeout",
             "main_ign_t", "ign.time", "s", 1, 1, 15,
-            x + dx * 0, y + dy * 1, dx, dy
+            x + dx * 1, y + dy * 0, dx, dy
         },
         {
             *this, "Ignition control temp.delta",
@@ -80,12 +80,12 @@ void ConfScreen::reset()
         {
             *this, "High temp.threshold to close valve",
             "aft_T_high", "temp.high", "C", 10, 1000, 1500,
-            x + dx * 1, y + dy * 2, dx, dy
+            x + dx * 0, y + dy * 3, dx, dy
         },
         {
             *this, "Ignition control timeout",
             "aft_ign_t", "ign.time", "s", 1, 1, 15,
-            x + dx * 0, y + dy * 3, dx, dy
+            x + dx * 1, y + dy * 2, dx, dy
         },
         {
             *this, "Ignition control temp.delta",
