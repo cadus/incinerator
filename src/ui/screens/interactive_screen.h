@@ -1,6 +1,8 @@
 #pragma once
 
+#include <functional>
 #include <string>
+
 #include "screen.h"
 
 class InteractiveScreen;
@@ -27,6 +29,7 @@ class PushButton : public InteractiveItem
 public:
     PushButton(InteractiveScreen& parent,
                std::string text,
+               std::function<bool()> handler,
                uint16_t x, uint16_t y, uint16_t w, uint16_t h);
 
     virtual void draw(bool selected) override;
@@ -35,6 +38,7 @@ public:
 
 private:
     std::string _text;
+    std::function<bool()> _handler;
 };
 
 class ValueEntry : public InteractiveItem

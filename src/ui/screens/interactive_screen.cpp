@@ -12,9 +12,11 @@ InteractiveItem::InteractiveItem(InteractiveScreen& parent,
 
 PushButton::PushButton(InteractiveScreen& parent,
                        std::string text,
+                       std::function<bool()> handler,
                        uint16_t x, uint16_t y, uint16_t w, uint16_t h)
 :InteractiveItem(parent,x,y,w,h)
 ,_text(text)
+,_handler(handler)
 {
     
 }
@@ -31,14 +33,13 @@ void PushButton::draw(bool selected)
 
 bool PushButton::rotate(int digits)
 {
-    printf("%s rotated by: %d\r\n", _text.c_str(), digits);
+    // push button doesn't accept encoder input
     return false;
 }
 
 bool PushButton::click()
 {
-    // TODO: process action handler
-    return true;
+    return _handler();
 }
 
 ValueEntry::ValueEntry(InteractiveScreen& parent,
