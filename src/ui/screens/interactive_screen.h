@@ -41,6 +41,15 @@ private:
     std::function<bool()> _handler;
 };
 
+class ScreenChangeButton : public PushButton
+{
+public:
+    ScreenChangeButton(InteractiveScreen& parent,
+                       std::string text,
+                       Screen *target,
+                       uint16_t x, uint16_t y, uint16_t w, uint16_t h);
+};
+
 class ValueEntry : public InteractiveItem
 {
 public:
@@ -67,8 +76,8 @@ public:
 
 class InteractiveScreen : public Screen
 {
-    friend class InteractiveItem;
     friend class PushButton;
+    friend class ScreenChangeButton;
     friend class ValueEntry;
 
 public:

@@ -42,6 +42,17 @@ bool PushButton::click()
     return _handler();
 }
 
+ScreenChangeButton::ScreenChangeButton(InteractiveScreen& parent,
+                                       std::string text,
+                                       Screen *target,
+                                       uint16_t x, uint16_t y, uint16_t w, uint16_t h)
+:PushButton(parent,
+            text,
+            [this, target] () { _parent._nextScreen = target; return true; },
+            x, y, w, h)
+{
+}
+
 ValueEntry::ValueEntry(InteractiveScreen& parent,
                        std::string text,
                        std::string unit,
