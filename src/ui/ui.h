@@ -6,6 +6,8 @@
 class Ui
 {
 public:
+    Ui();
+
     void init();
     void task();
     void backgroundTask();
@@ -13,6 +15,7 @@ public:
 
 private:
     Screen *_current;
+    bool _controlsActive;
 
     Timeout _to;
     bool _updateReq;

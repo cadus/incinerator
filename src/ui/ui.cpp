@@ -3,6 +3,15 @@
 #include "debounced_encoder.h"
 #include "screens/conf_screen.h"
 
+Ui::Ui()
+:_current(nullptr)
+,_controlsActive(false)
+,_updateReq(false)
+,_encoderPos(0)
+,_encoderSw(false)
+{
+}
+
 void Ui::init()
 {
     Screen::init();
@@ -19,12 +28,13 @@ void Ui::task()
         _updateReq = false;
         _to.set(1000);
         _current->update();
+        _controlsActive = true;
     }
 }
 
 void Ui::backgroundTask()
 {
-    if (!_current) {
+    if (!_current || !_controlsActive) {
         return;
     }
 
@@ -49,5 +59,6 @@ void Ui::backgroundTask()
         _current = next;
         _current->reset();
         _updateReq |= true;
+        _controlsActive = false;
     }
 }
