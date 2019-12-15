@@ -32,103 +32,9 @@ VCC
 Wire Wire Line
 	9600 3250 9600 2650
 Wire Wire Line
-	2600 5050 5850 5050
-Wire Wire Line
-	2600 4450 6200 4450
-Wire Wire Line
-	1350 3250 6200 3250
-Wire Wire Line
 	6200 4050 3550 4050
 Wire Wire Line
 	3550 4050 3550 2100
-Connection ~ 2600 4450
-Connection ~ 1850 5050
-Wire Wire Line
-	2600 5050 2600 4900
-Wire Wire Line
-	1850 5050 2600 5050
-Wire Wire Line
-	2600 4450 2600 4600
-Wire Wire Line
-	2450 4450 2600 4450
-Wire Wire Line
-	850  5050 1850 5050
-Connection ~ 1850 4450
-Wire Wire Line
-	1850 4450 2050 4450
-Wire Wire Line
-	850  4450 1850 4450
-$Comp
-L pspice:DIODE D1
-U 1 1 5DE4177F
-P 2250 4450
-F 0 "D1" H 2250 4715 50  0000 C CNN
-F 1 "DIODE" H 2250 4624 50  0000 C CNN
-F 2 "" H 2250 4450 50  0001 C CNN
-F 3 "~" H 2250 4450 50  0001 C CNN
-	1    2250 4450
-	1    0    0    -1  
-$EndComp
-$Comp
-L power:Earth #PWR02
-U 1 1 5DDFE9E9
-P 850 5050
-F 0 "#PWR02" H 850 4800 50  0001 C CNN
-F 1 "Earth" H 850 4900 50  0001 C CNN
-F 2 "" H 850 5050 50  0001 C CNN
-F 3 "~" H 850 5050 50  0001 C CNN
-	1    850  5050
-	1    0    0    -1  
-$EndComp
-$Comp
-L power:+5V #PWR01
-U 1 1 5DDF91A5
-P 850 4450
-F 0 "#PWR01" H 850 4300 50  0001 C CNN
-F 1 "+5V" H 865 4623 50  0000 C CNN
-F 2 "" H 850 4450 50  0001 C CNN
-F 3 "" H 850 4450 50  0001 C CNN
-	1    850  4450
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:R R2
-U 1 1 5DDF87E8
-P 1850 4900
-F 0 "R2" H 1920 4946 50  0000 L CNN
-F 1 "300K" H 1920 4855 50  0000 L CNN
-F 2 "" V 1780 4900 50  0001 C CNN
-F 3 "~" H 1850 4900 50  0001 C CNN
-	1    1850 4900
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:R R1
-U 1 1 5DDF76C5
-P 1850 4600
-F 0 "R1" H 1920 4646 50  0000 L CNN
-F 1 "200K" H 1920 4555 50  0000 L CNN
-F 2 "" V 1780 4600 50  0001 C CNN
-F 3 "~" H 1850 4600 50  0001 C CNN
-	1    1850 4600
-	1    0    0    -1  
-$EndComp
-Connection ~ 2600 5050
-Wire Wire Line
-	1850 4750 1350 4750
-Wire Wire Line
-	1350 4750 1350 3250
-$Comp
-L Device:CP C1
-U 1 1 5DD9E3EF
-P 2600 4750
-F 0 "C1" H 2718 4796 50  0000 L CNN
-F 1 "0.33" H 2718 4705 50  0000 L CNN
-F 2 "" H 2638 4600 50  0001 C CNN
-F 3 "~" H 2600 4750 50  0001 C CNN
-	1    2600 4750
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	5600 3150 6200 3150
 Wire Wire Line
@@ -162,10 +68,6 @@ F 3 "~" H 5300 1250 50  0001 C CNN
 	1    5300 1250
 	1    0    0    1   
 $EndComp
-Wire Wire Line
-	5850 4350 6200 4350
-Wire Wire Line
-	5850 5050 5850 4350
 $Comp
 L power:Earth #PWR03
 U 1 1 5DDC81B5
@@ -473,13 +375,10 @@ F 3 "~" H 6400 3750 50  0001 C CNN
 	1    6400 3750
 	1    0    0    1   
 $EndComp
-Connection ~ 1850 4750
 Wire Wire Line
 	8500 3850 7250 3850
 Wire Wire Line
 	8500 3450 8500 3850
-Text Label 2650 4950 0    50   ~ 0
-Goldcap_5.5V
 $Comp
 L Connector:Conn_01x06_Male J1
 U 1 1 5DFDA08A
