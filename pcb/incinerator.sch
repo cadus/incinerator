@@ -32,10 +32,6 @@ VCC
 Wire Wire Line
 	9600 3250 9600 2650
 Wire Wire Line
-	6200 4050 3550 4050
-Wire Wire Line
-	3550 4050 3550 2100
-Wire Wire Line
 	5600 3150 6200 3150
 Wire Wire Line
 	6200 3950 3900 3950
@@ -395,13 +391,13 @@ IGNITION1
 Text Label 2100 1700 0    50   ~ 0
 IGNITION2
 Text Label 2100 1800 0    50   ~ 0
-AIRPMP
-Text Label 2100 1900 0    50   ~ 0
 VALVE1
-Text Label 2100 2000 0    50   ~ 0
+Text Label 2100 1900 0    50   ~ 0
 VALVE2
-Text Label 2100 2100 0    50   ~ 0
+Text Label 2100 2000 0    50   ~ 0
 VALVE3
+Text Label 2100 2100 0    50   ~ 0
+AIRPMP
 Wire Wire Line
 	2700 1600 5300 1600
 Connection ~ 5300 1600
@@ -429,7 +425,6 @@ Wire Wire Line
 	3900 2000 3900 1400
 Wire Wire Line
 	2700 2100 3550 2100
-Connection ~ 3550 2100
 Wire Wire Line
 	3550 2100 3550 1400
 $Comp
@@ -443,10 +438,6 @@ F 3 "~" H 6650 5760 50  0001 C CNN
 	1    6650 5500
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	5500 4250 6200 4250
-Wire Wire Line
-	5350 4150 6200 4150
 Wire Wire Line
 	6350 5500 6200 5500
 Wire Wire Line
@@ -472,11 +463,7 @@ Wire Wire Line
 Wire Wire Line
 	6350 5400 5500 5400
 Wire Wire Line
-	5500 5400 5500 4250
-Wire Wire Line
 	6350 5600 5350 5600
-Wire Wire Line
-	5350 5600 5350 4150
 Wire Wire Line
 	7250 3650 9000 3650
 Text Label 9850 5000 0    50   ~ 0
@@ -691,4 +678,17 @@ Wire Wire Line
 	7250 4350 7600 4350
 Wire Wire Line
 	7250 4450 7600 4450
+Wire Wire Line
+	6200 4250 3550 4250
+Wire Wire Line
+	3550 4250 3550 2100
+Connection ~ 3550 2100
+Wire Wire Line
+	6200 4150 5500 4150
+Wire Wire Line
+	5500 4150 5500 5400
+Wire Wire Line
+	6200 4050 5350 4050
+Wire Wire Line
+	5350 4050 5350 5600
 $EndSCHEMATC

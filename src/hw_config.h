@@ -1,8 +1,8 @@
 #pragma once
 
 #define ROTARY_SW 15
-#define ROTARY_CLK 13
-#define ROTARY_DT 12
+#define ROTARY_CLK 12
+#define ROTARY_DT 14
 
 #define TEMP_CH1_CS 16
 #define TEMP_CH2_CS 4
@@ -15,18 +15,11 @@
 #define PWM_CH_BUZZER 0
 #define BUZZER 22
 
-#define PWR_GOOD 39
-
 #define IGNITION_1 32
 #define IGNITION_2 33
-#define AIRPMP 25
-#define VALVE_1 26
-#define VALVE_2 27
-#define VALVE_3 14
+#define AIRPMP 13
+#define VALVE_1 25
+#define VALVE_2 26
+#define VALVE_3 27
 
 #define LED_INT 2
-
-#define LED_TEST1 AIRPMP
-#define LED_TEST2 VALVE_1
-#define LED_TEST3 VALVE_2
-#define LED_TEST4 VALVE_3
