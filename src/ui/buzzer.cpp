@@ -15,7 +15,8 @@ Buzzer::Buzzer()
 
 void Buzzer::init()
 {
-    ledcSetup(PWM_CH_BUZZER, 4000, 8);
+    // Can't set LEDC resolution for each channel independently?!?
+    ledcSetup(PWM_CH_BUZZER, 4000, 10);
     ledcAttachPin(BUZZER, PWM_CH_BUZZER);
     pinMode(LED_INT, OUTPUT);
 }
@@ -24,7 +25,7 @@ void Buzzer::buzz(uint32_t buzz_length_ms)
 {
     if (_count < buzz_length_ms) {
         digitalWrite(LED_INT, true);
-        IRAMledcWrite(sysconfig.get("buzzer_vol") << 4);
+        IRAMledcWrite(sysconfig.get("buzzer_vol") << 6);
         portENTER_CRITICAL(&_cnt_mutex);
         _count = buzz_length_ms;
         portEXIT_CRITICAL(&_cnt_mutex);

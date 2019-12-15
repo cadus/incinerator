@@ -90,7 +90,7 @@ void ConfScreen::reset()
         },
         {
             *this, "Buzzer volume",
-            "buzzer_vol", "Buzz.Vol", "", 1, 0, 7,
+            "buzzer_vol", "Buzz.Vol", "", 1, 0, 8,
             _xs + _dx * 1, _ys + _dy * 5, _dx, _dy
         },
     };

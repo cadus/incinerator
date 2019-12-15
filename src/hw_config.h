@@ -12,7 +12,6 @@
 #define EPD_RST 21
 #define EPD_BUSY 36
 
-#define PWM_CH_BUZZER 0
 #define BUZZER 22
 
 #define IGNITION_1 32
@@ -23,3 +22,6 @@
 #define VALVE_3 27
 
 #define LED_INT 2
+
+#define PWM_CH_BUZZER 0
+#define PWM_CH_AIRPMP 1
