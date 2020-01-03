@@ -14,8 +14,9 @@ public:
     static void init();
     void update(bool fullRefresh);
 
-    void setProgress(float percent);
-    void setStatus(const std::string s);
+    static void setProgress(float percent);
+    static void setStatus(const std::string s);
+
     void setNextScreen(Screen *nextScreen);
     Screen *getNextScreen();
 

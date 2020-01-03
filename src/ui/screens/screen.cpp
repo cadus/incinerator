@@ -3,10 +3,10 @@
 #include <Fonts/FreeSans9pt7b.h>
 #include <Fonts/FreeSansBold9pt7b.h>
 
-#include "ui/icons.h"
-#include "incinerator/incinerator.h"
-
 #include "hw_config.h"
+#include "incinerator/incinerator.h"
+#include "ui/icons.h"
+#include "util/syslog.h"
 
 extern void GxEPD2_busyWaitCallback();
 
@@ -165,5 +165,5 @@ void Screen::update(bool fullRefresh)
     _d.display(!fullRefresh);
 
     unsigned long elapsed = millis() - start;
-    Serial.printf("time spent: %lu ms\r\n", elapsed);
+    syslog(LOG_DEBUG, "time spent: %lu ms", elapsed);
 }
