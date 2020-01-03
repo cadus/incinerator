@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdint.h>
+#include <string>
 #include "thermocouple.h"
 #include "util/timeout.h"
 
@@ -24,7 +25,7 @@ class Ignition
     };
 
 public:
-    Ignition(uint8_t pin, Thermocouple& thermocouple);
+    Ignition(std::string name, uint8_t pin, Thermocouple& thermocouple);
     mode getMode();
     void init();
     void start();
@@ -34,6 +35,7 @@ public:
     void task();
 
 private:
+    const std::string _name;
     const uint8_t _pin;
     mode _mode;
     bool _startFlag;

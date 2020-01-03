@@ -2,8 +2,9 @@
 
 #include <Arduino.h>
 
-Ignition::Ignition(uint8_t pin, Thermocouple& thermocouple)
-:_pin(pin)
+Ignition::Ignition(std::string name, uint8_t pin, Thermocouple& thermocouple)
+:_name(name)
+,_pin(pin)
 ,_startFlag(false)
 ,_thermocouple(thermocouple)
 {

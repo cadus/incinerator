@@ -1,8 +1,11 @@
 #include "thermocouple.h"
 #include "hw_config.h"
 
-Thermocouple::Thermocouple(uint8_t cs)
-:_max31855(cs)
+#include "util/syslog.h"
+
+Thermocouple::Thermocouple(std::string name, uint8_t cs)
+:_name(name)
+,_max31855(cs)
 {
 }
 
@@ -24,9 +27,9 @@ void Thermocouple::update()
     thermocouple_meas_t tmp;
     while (retries-- && !success) {
         tmp = (thermocouple_meas_t) {
-        .internal = float(_max31855.readInternal()),
-        .external = float(_max31855.readCelsius())
-    };
+            .internal = float(_max31855.readInternal()),
+            .external = float(_max31855.readCelsius())
+        };
         if (isnan(tmp.internal) || isnan(tmp.external)) {
             continue;
         }

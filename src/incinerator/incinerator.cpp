@@ -5,14 +5,16 @@
 #include "util/syslog.h"
 
 Incinerator::Incinerator()
-:_burner_main(IGNITION_1, TEMP_CH1_CS)
-,_burner_aft(IGNITION_2, TEMP_CH2_CS)
+:_burner_main("MAIN", IGNITION_1, TEMP_CH1_CS)
+,_burner_aft("AFT", IGNITION_2, TEMP_CH2_CS)
 ,_airPump(AIRPMP, PWM_CH_AIRPMP)
 {
 }
 
 void Incinerator::init()
 {
+    _burner_main.init();
+    _burner_aft.init();
     _airPump.init();
 }
 
