@@ -38,19 +38,6 @@ void setup()
 
 void background_task()
 {
-    // PWM TEST CODE
-    static Timeout to;
-    if (to.elapsed()) {
-        static bool b = false;
-        b = !b;
-        if (b) {
-            airPump.on();
-        } else {
-            airPump.off();
-        }
-        to.set(500);
-    }
-    //////
     incinerator.task();
     ui.backgroundTask();
 }
