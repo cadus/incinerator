@@ -2,6 +2,7 @@
 
 #include <string>
 
+#include "test_screen.h"
 #include "util/sys_config.h"
 
 ConfItem::ConfItem(InteractiveScreen& parent,
@@ -95,7 +96,7 @@ void ConfScreen::reset()
         },
     };
 
-    static ScreenChangeButton test(*this, "Test", &confScreen, 100, _ys+_dy*8, 100, _dy, "Enter Test screen");
+    static ScreenChangeButton test(*this, "Test", &testScreen, 100, _ys+_dy*8, 100, _dy, "Enter Test screen");
     static ScreenChangeButton exit(*this, "Exit", &confScreen, 220, _ys+_dy*8, 100, _dy, "Exit config screen");
 
     _items.clear();
