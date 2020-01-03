@@ -29,3 +29,8 @@ void AirPump::off()
 {
     ledcWrite(_pwm_ch, 0);
 }
+
+bool AirPump::isOn()
+{
+    return ledcRead(_pwm_ch) != 0;
+}

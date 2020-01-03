@@ -14,6 +14,7 @@ public:
     void init();
     void on();
     void off();
+    bool isOn();
 
 private:
     const uint8_t _pin;
