@@ -21,10 +21,12 @@ PushButton::PushButton(InteractiveScreen& parent,
                        std::string text,
                        std::function<bool()> handler,
                        uint16_t x, uint16_t y, uint16_t w, uint16_t h,
-                       std::string helpText)
+                       std::string helpText,
+                       bool withRect)
 :InteractiveItem(parent, x, y, w, h, helpText)
 ,_text(text)
 ,_handler(handler)
+,_withRect(withRect)
 {
 }
 
@@ -34,7 +36,9 @@ void PushButton::draw(bool selected)
     if (selected) {
         flags.set(Screen::PrintFlag::invert);
     } else {
-        flags.set(Screen::PrintFlag::drawRect);
+        if (_withRect) {
+            flags.set(Screen::PrintFlag::drawRect);
+        }
     }
 
     _parent.print(_text, _x, _y, _w, _h, flags);

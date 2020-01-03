@@ -37,7 +37,8 @@ public:
                std::string text,
                std::function<bool()> handler,
                uint16_t x, uint16_t y, uint16_t w, uint16_t h,
-               std::string helpText="");
+               std::string helpText="",
+               bool withRect=true);
 
     virtual void draw(bool selected) override;
     virtual bool rotate(int digits) override;
@@ -46,6 +47,7 @@ public:
 private:
     std::string _text;
     std::function<bool()> _handler;
+    bool _withRect;
 };
 
 class ScreenChangeButton : public PushButton
