@@ -11,8 +11,6 @@
 
 #include "hw_config.h"
 
-#include "incinerator/air_pump.h"
-
 static void IRAM_ATTR timer_isr(void);
 static hw_timer_t *timer = NULL;
 
@@ -31,7 +29,7 @@ void setup()
     delay(100);
     ui.init();
 
-    airPump.init();
+    incinerator.init();
 
     timerAlarmEnable(timer);
 }

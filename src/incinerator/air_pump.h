@@ -19,5 +19,3 @@ private:
     const uint8_t _pin;
     const uint8_t _pwm_ch;
 };
-
-extern AirPump airPump;

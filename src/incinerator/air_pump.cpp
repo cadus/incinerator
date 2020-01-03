@@ -29,5 +29,3 @@ void AirPump::off()
 {
     ledcWrite(_pwm_ch, 0);
 }
-
-AirPump airPump(AIRPMP, PWM_CH_AIRPMP);
