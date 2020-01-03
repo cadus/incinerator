@@ -164,6 +164,8 @@ void Screen::update(bool fullRefresh)
     // partial update or full update if necessary
     _d.display(!fullRefresh);
 
-    unsigned long elapsed = millis() - start;
-    syslog(LOG_DEBUG, "time spent: %lu ms", elapsed);
+    if (0) {
+        unsigned long elapsed = millis() - start;
+        syslog(LOG_DEBUG, "time spent: %lu ms", elapsed);
+    }
 }
