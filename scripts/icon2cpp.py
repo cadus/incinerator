@@ -58,11 +58,13 @@ with open("tmp.pnm", 'rb') as f:
     img_dimensions = f.readline().strip().decode('utf-8').split(" ")
 
     with open(args.include, "a+") as ofile:
+        ofile.write(f"\n")
         ofile.write(f"#define ICON_{icon_name}_WIDTH {img_dimensions[0]}\n")
         ofile.write(f"#define ICON_{icon_name}_HEIGHT {img_dimensions[1]}\n")
-        ofile.write(f"extern const uint8_t ICON_{icon_name}_DATA[];\n\n")
+        ofile.write(f"extern const uint8_t ICON_{icon_name}_DATA[];\n")
 
     with open(args.source, "a+") as ofile:
+        ofile.write(f"\n")
         ofile.write(f"const uint8_t ICON_{icon_name}_DATA[] = " + "{\n")
         img_data = f.read()
         out_str = ""
