@@ -17,4 +17,4 @@ extra_javascript:
 # navigation
 nav:
     - 'Introduction': 'index.md'
-    - 'Test Page': 'test.md'
+    - 'Ignition': 'ignition.md'
