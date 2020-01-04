@@ -10,6 +10,7 @@
 #include "util/timeout.h"
 
 #include "hw_config.h"
+#include "version.h"
 
 static void IRAM_ATTR timer_isr(void);
 static hw_timer_t* timer = NULL;
@@ -32,6 +33,8 @@ void setup()
     incinerator.init();
 
     timerAlarmEnable(timer);
+
+    Serial.printf("Incinerator version %s, build date %s\r\n", gitversion, builddate);
 }
 
 void background_task()

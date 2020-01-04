@@ -4,3 +4,4 @@
 /pcb/fp-info-cache
 /pcb/_autosave*
 /site
+/src/version.cpp
