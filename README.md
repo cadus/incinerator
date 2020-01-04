@@ -25,3 +25,5 @@ PlatformIO CLI:
 pio run --target upload
 ```
 
+## Project Docs
+Project documentation is available on [GitHub pages](https://patrislav1.github.io/incinerator/)
