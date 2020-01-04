@@ -15,7 +15,7 @@ graph LR
   B-->C
   A-- Enable -->C
   B-->A
-  C-->D
+  C-- Disable -->D
   D-->C
   D-->B
   D-->A
