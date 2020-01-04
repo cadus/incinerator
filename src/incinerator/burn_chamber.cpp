@@ -1,9 +1,9 @@
 #include "incinerator/burn_chamber.h"
 
 BurnChamber::BurnChamber(std::string name, uint8_t ignition_pin, uint8_t thermocouple_cs)
-:_name(name)
-,_thermocouple(name, thermocouple_cs)
-,_ignition(name, ignition_pin, _thermocouple)
+: _name(name)
+, _thermocouple(name, thermocouple_cs)
+, _ignition(name, ignition_pin, _thermocouple)
 {
 }
 

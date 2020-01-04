@@ -22,9 +22,9 @@ public:
     thermocouple_meas_t get() const;
     void init();
     void update();
+
 private:
     const std::string _name;
     Adafruit_MAX31855 _max31855;
     thermocouple_meas_t _curr_readout;
 };
-

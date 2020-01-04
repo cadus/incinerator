@@ -15,7 +15,7 @@ float Screen::_progressPercent = 0.f;
 std::string Screen::_statusStr = "";
 
 Screen::Screen()
-:_nextScreen(nullptr)
+: _nextScreen(nullptr)
 {
 }
 
@@ -35,12 +35,12 @@ void Screen::setStatus(const std::string s)
     _statusStr = s;
 }
 
-void Screen::setNextScreen(Screen *nextScreen)
+void Screen::setNextScreen(Screen* nextScreen)
 {
     _nextScreen = nextScreen;
 }
 
-Screen *Screen::getNextScreen()
+Screen* Screen::getNextScreen()
 {
     return _nextScreen;
 }
@@ -49,10 +49,10 @@ void Screen::print(const std::string s, uint16_t x, uint16_t y, uint16_t w, uint
 {
     constexpr uint16_t margin = 4;
     if (flags[PrintFlag::drawRect]) {
-        _d.drawRect(x - margin, y, w + margin*2, h, GxEPD_BLACK);
+        _d.drawRect(x - margin, y, w + margin * 2, h, GxEPD_BLACK);
     }
     if (flags[PrintFlag::invert]) {
-        _d.fillRect(x - margin, y, w + margin*2, h, GxEPD_BLACK);
+        _d.fillRect(x - margin, y, w + margin * 2, h, GxEPD_BLACK);
         _d.setTextColor(GxEPD_WHITE);
         _d.setFont(&FreeSansBold9pt7b);
     } else {
@@ -64,13 +64,13 @@ void Screen::print(const std::string s, uint16_t x, uint16_t y, uint16_t w, uint
     _d.getTextBounds(s.c_str(), 0, 0, &x1, &y1, &wT, &hT);
     if (flags[PrintFlag::justifyLeft]) {
         _d.setCursor(x - x1,
-                    y + 2 * h / 3 + 1);
+                     y + 2 * h / 3 + 1);
     } else if (flags[PrintFlag::justifyRight]) {
         _d.setCursor(x + (w - wT) - x1,
-                    y + 2 * h / 3 + 1);
+                     y + 2 * h / 3 + 1);
     } else {
         _d.setCursor(x + (w - wT) / 2 - x1,
-                    y + 2 * h / 3 + 1);
+                     y + 2 * h / 3 + 1);
     }
     _d.print(s.c_str());
 }
@@ -127,16 +127,16 @@ void Screen::update(bool fullRefresh)
                   ICON_CLOCK_HEIGHT,
                   GxEPD_BLACK);
     x += icon_box_width;
-    
+
     // Draw progress bar
     for (int i = 0; i < 10; i++) {
-        bool filled = _progressPercent >= (100.f / 10.f) * (i+1);
+        bool filled = _progressPercent >= (100.f / 10.f) * (i + 1);
         _d.drawBitmap(x,
-                    (top_bar_height - ICON_BOX_CLEAR_HEIGHT) / 2,
-                    filled ? ICON_BOX_FILLED_DATA : ICON_BOX_CLEAR_DATA,
-                    ICON_BOX_CLEAR_WIDTH,
-                    ICON_BOX_CLEAR_HEIGHT,
-                    GxEPD_BLACK);
+                      (top_bar_height - ICON_BOX_CLEAR_HEIGHT) / 2,
+                      filled ? ICON_BOX_FILLED_DATA : ICON_BOX_CLEAR_DATA,
+                      ICON_BOX_CLEAR_WIDTH,
+                      ICON_BOX_CLEAR_HEIGHT,
+                      GxEPD_BLACK);
         x += ICON_BOX_CLEAR_WIDTH;
     }
 

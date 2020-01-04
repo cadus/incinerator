@@ -5,9 +5,9 @@
 #include "util/syslog.h"
 
 Incinerator::Incinerator()
-:_burner_main("MAIN", IGNITION_1, TEMP_CH1_CS)
-,_burner_aft("AFT", IGNITION_2, TEMP_CH2_CS)
-,_airPump(AIRPMP, PWM_CH_AIRPMP)
+: _burner_main("MAIN", IGNITION_1, TEMP_CH1_CS)
+, _burner_aft("AFT", IGNITION_2, TEMP_CH2_CS)
+, _airPump(AIRPMP, PWM_CH_AIRPMP)
 {
 }
 
@@ -29,7 +29,7 @@ thermocouple_meas_t Incinerator::getTemp(burn_chamber_t ch)
     switch (ch) {
     default:
         syslog(LOG_ERROR, "Unknown burn chamber %d", ch);
-        return (thermocouple_meas_t){0, 0};
+        return (thermocouple_meas_t){ 0, 0 };
     case chamber_main:
         return _burner_main.getTemp();
     case chamber_aft:

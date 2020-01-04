@@ -3,20 +3,20 @@
 #include <vector>
 
 SysConfig::SysConfig()
-:_default({
-    { "main_T_low", 500 },
-    { "main_T_high", 550 },
-    { "aft_T_low", 1200 },
-    { "aft_T_high", 1250 },
-    { "main_ign_t", 5 },
-    { "main_ign_delta", 5 },
-    { "aft_ign_t", 5 },
-    { "aft_ign_delta", 5 },
-    { "ign_pulse_w", 100 },
-    { "ign_repeat_itvl", 500 },
-    { "airpmp_speed", 50 },
-    { "buzzer_vol", 1 },
-})
+: _default({
+      { "main_T_low", 500 },
+      { "main_T_high", 550 },
+      { "aft_T_low", 1200 },
+      { "aft_T_high", 1250 },
+      { "main_ign_t", 5 },
+      { "main_ign_delta", 5 },
+      { "aft_ign_t", 5 },
+      { "aft_ign_delta", 5 },
+      { "ign_pulse_w", 100 },
+      { "ign_repeat_itvl", 500 },
+      { "airpmp_speed", 50 },
+      { "buzzer_vol", 1 },
+  })
 {
 }
 
@@ -24,8 +24,8 @@ void SysConfig::init()
 {
     prefs.begin("incinerator", false);
 
-  // Remove all preferences under the opened namespace
-  //preferences.clear();
+    // Remove all preferences under the opened namespace
+    //preferences.clear();
 
     _items = _default;
     for (auto& i : _items) {

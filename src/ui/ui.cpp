@@ -4,11 +4,11 @@
 #include "screens/conf_screen.h"
 
 Ui::Ui()
-:_current(nullptr)
-,_screenChange(true)
-,_updateReq(false)
-,_encoderPos(0)
-,_encoderSw(false)
+: _current(nullptr)
+, _screenChange(true)
+, _updateReq(false)
+, _encoderPos(0)
+, _encoderSw(false)
 {
 }
 

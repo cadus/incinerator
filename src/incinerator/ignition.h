@@ -1,9 +1,9 @@
 #pragma once
 
-#include <stdint.h>
-#include <string>
 #include "thermocouple.h"
 #include "util/timeout.h"
+#include <stdint.h>
+#include <string>
 
 #include "macros.h"
 
@@ -13,15 +13,15 @@ class Ignition
     NOT_MOVEABLE(Ignition);
 
     enum mode {
-        idle,        // Idle / off
-        start_set,   // Set ignition pulse
-        start_wait,  // Wait until ignition period is done
+        idle, // Idle / off
+        start_set, // Set ignition pulse
+        start_wait, // Wait until ignition period is done
         start_reset, // Reset ignition pulse
-        check_wait,  // Wait for temperature rise
-        check,       // Check temperature rise
-        burning,     // Temperature check OK, Burning
-        failure,     // Temperature check failed repeatedly
-        stop,        // Stop ignition & reset state
+        check_wait, // Wait for temperature rise
+        check, // Check temperature rise
+        burning, // Temperature check OK, Burning
+        failure, // Temperature check failed repeatedly
+        stop, // Stop ignition & reset state
     };
 
 public:

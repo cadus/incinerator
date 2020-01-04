@@ -3,12 +3,12 @@
 InteractiveItem::InteractiveItem(InteractiveScreen& parent,
                                  uint16_t x, uint16_t y, uint16_t w, uint16_t h,
                                  std::string helpText)
-:_parent(parent)
-,_x(x)
-,_y(y)
-,_w(w)
-,_h(h)
-,_helpText(helpText)
+: _parent(parent)
+, _x(x)
+, _y(y)
+, _w(w)
+, _h(h)
+, _helpText(helpText)
 {
 }
 
@@ -23,10 +23,10 @@ PushButton::PushButton(InteractiveScreen& parent,
                        uint16_t x, uint16_t y, uint16_t w, uint16_t h,
                        std::string helpText,
                        bool withRect)
-:InteractiveItem(parent, x, y, w, h, helpText)
-,_text(text)
-,_handler(handler)
-,_withRect(withRect)
+: InteractiveItem(parent, x, y, w, h, helpText)
+, _text(text)
+, _handler(handler)
+, _withRect(withRect)
 {
 }
 
@@ -60,13 +60,13 @@ bool PushButton::click()
 
 ScreenChangeButton::ScreenChangeButton(InteractiveScreen& parent,
                                        std::string text,
-                                       Screen *target,
+                                       Screen* target,
                                        uint16_t x, uint16_t y, uint16_t w, uint16_t h,
                                        std::string helpText)
-:PushButton(parent,
-            text,
-            [this, target] () { _parent.setNextScreen(target); return true; },
-            x, y, w, h, helpText)
+: PushButton(parent,
+             text,
+             [this, target]() { _parent.setNextScreen(target); return true; },
+             x, y, w, h, helpText)
 {
 }
 
@@ -80,14 +80,14 @@ ValueEntry::ValueEntry(InteractiveScreen& parent,
                        uint16_t x, uint16_t y, uint16_t w, uint16_t h,
                        uint16_t text_value_ratio,
                        std::string helpText)
-:InteractiveItem(parent, x, y, w, h, helpText)
-,_text(text)
-,_unit(unit)
-,_val(initial)
-,_step(step)
-,_lowerBound(lowerBound)
-,_upperBound(upperBound)
-,_value_width(w * text_value_ratio / 100)
+: InteractiveItem(parent, x, y, w, h, helpText)
+, _text(text)
+, _unit(unit)
+, _val(initial)
+, _step(step)
+, _lowerBound(lowerBound)
+, _upperBound(upperBound)
+, _value_width(w * text_value_ratio / 100)
 {
 }
 
@@ -139,7 +139,7 @@ bool ValueEntry::click()
 }
 
 InteractiveScreen::InteractiveScreen(bool wraparound)
-:_wraparound(wraparound)
+: _wraparound(wraparound)
 {
 }
 
@@ -176,7 +176,7 @@ bool InteractiveScreen::handleEncoderRotation(int delta)
     }
 
     // change item selection according to encoder rotation
-    ssize_t selected_before =_selectedItem;
+    ssize_t selected_before = _selectedItem;
     _selectedItem += delta;
     if (_wraparound) {
         while (_selectedItem < 0) {
@@ -187,7 +187,7 @@ bool InteractiveScreen::handleEncoderRotation(int delta)
         }
     } else {
         _selectedItem = max(_selectedItem, 0);
-        _selectedItem = min(_selectedItem, range-1);
+        _selectedItem = min(_selectedItem, range - 1);
     }
     return _selectedItem != selected_before;
 }

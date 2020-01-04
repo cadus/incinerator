@@ -1,7 +1,7 @@
 #pragma once
 
-#include <stdint.h>
 #include "macros.h"
+#include <stdint.h>
 
 class AirPump
 {

@@ -7,7 +7,7 @@ TestButton::TestButton(InteractiveScreen& parent,
                        std::string text,
                        uint16_t x, uint16_t y, uint16_t w, uint16_t h,
                        std::string helpText)
-:PushButton(parent, text, std::bind(&TestButton::handler, this), x, y, w/2, h, helpText, false)
+: PushButton(parent, text, std::bind(&TestButton::handler, this), x, y, w / 2, h, helpText, false)
 {
 }
 
@@ -25,9 +25,8 @@ bool TestButton::handler()
 
 AirPumpTest::AirPumpTest(InteractiveScreen& parent,
                          uint16_t x, uint16_t y, uint16_t w, uint16_t h)
-:TestButton(parent, "AirPump", x, y, w, h, "Toggle Air Pump")
+: TestButton(parent, "AirPump", x, y, w, h, "Toggle Air Pump")
 {
-
 }
 
 void AirPumpTest::toggle()
@@ -44,17 +43,16 @@ std::string AirPumpTest::getState()
     return incinerator._airPump.isOn() ? "ON" : "OFF";
 }
 
-
 TestScreen::TestScreen()
-:InteractiveScreen(true)
+: InteractiveScreen(true)
 {
 }
 
 void TestScreen::reset()
 {
-    static AirPumpTest airPumpTest(*this, 100, _ys+_dy*0, 200, _dy);
-    static ScreenChangeButton conf(*this, "Config", &confScreen, 100, _ys+_dy*8, 100, _dy, "Enter config screen");
-    static ScreenChangeButton exit(*this, "Exit", &confScreen, 220, _ys+_dy*8, 100, _dy, "Exit test screen");
+    static AirPumpTest airPumpTest(*this, 100, _ys + _dy * 0, 200, _dy);
+    static ScreenChangeButton conf(*this, "Config", &confScreen, 100, _ys + _dy * 8, 100, _dy, "Enter config screen");
+    static ScreenChangeButton exit(*this, "Exit", &confScreen, 220, _ys + _dy * 8, 100, _dy, "Exit test screen");
 
     _items.clear();
     _items.push_back(&airPumpTest);

@@ -7,4 +7,4 @@ enum log_level_t {
     LOG_ERROR
 };
 
-void syslog(enum log_level_t lvl, const char *fmt, ...);
+void syslog(enum log_level_t lvl, const char* fmt, ...);

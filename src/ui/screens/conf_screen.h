@@ -1,8 +1,8 @@
 #pragma once
 
+#include "interactive_screen.h"
 #include <string>
 #include <vector>
-#include "interactive_screen.h"
 
 class ConfItem : public ValueEntry
 {

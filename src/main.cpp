@@ -6,18 +6,18 @@
 #include "ui/debounced_encoder.h"
 #include "ui/ui.h"
 
-#include "util/timeout.h"
 #include "util/sys_config.h"
+#include "util/timeout.h"
 
 #include "hw_config.h"
 
 static void IRAM_ATTR timer_isr(void);
-static hw_timer_t *timer = NULL;
+static hw_timer_t* timer = NULL;
 
 static Ui ui;
 
 void setup()
-{    
+{
     Serial.begin(115200);
 
     sysconfig.init();

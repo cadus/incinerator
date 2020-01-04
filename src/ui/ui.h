@@ -11,10 +11,10 @@ public:
     void init();
     void task();
     void backgroundTask();
-    void switchScreen(Screen *newScreen);
+    void switchScreen(Screen* newScreen);
 
 private:
-    Screen *_current;
+    Screen* _current;
     bool _screenChange;
 
     Timeout _to;

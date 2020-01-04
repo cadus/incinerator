@@ -8,7 +8,7 @@ public:
     TestButton(InteractiveScreen& parent,
                std::string text,
                uint16_t x, uint16_t y, uint16_t w, uint16_t h,
-               std::string helpText="");
+               std::string helpText = "");
 
     virtual void draw(bool selected) override;
 

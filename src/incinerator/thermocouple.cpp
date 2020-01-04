@@ -4,8 +4,8 @@
 #include "util/syslog.h"
 
 Thermocouple::Thermocouple(std::string name, uint8_t cs)
-:_name(name)
-,_max31855(cs)
+: _name(name)
+, _max31855(cs)
 {
 }
 
@@ -26,7 +26,7 @@ void Thermocouple::update()
 
     thermocouple_meas_t tmp;
     while (retries-- && !success) {
-        tmp = (thermocouple_meas_t) {
+        tmp = (thermocouple_meas_t){
             .internal = float(_max31855.readInternal()),
             .external = float(_max31855.readCelsius())
         };
@@ -48,5 +48,5 @@ void Thermocouple::update()
     }
 
     _curr_readout = tmp;
-//  syslog(LOG_DEBUG, "R = %d, T_int: %.1f, T_ext: %.1f", retries, _curr_readout.internal, _curr_readout.external);
+    //  syslog(LOG_DEBUG, "R = %d, T_int: %.1f, T_ext: %.1f", retries, _curr_readout.internal, _curr_readout.external);
 }

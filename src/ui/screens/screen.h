@@ -1,8 +1,8 @@
 #pragma once
 
-#include <string>
-#include <bitset>
 #include <GxEPD2_BW.h>
+#include <bitset>
+#include <string>
 
 #include "macros.h"
 
@@ -17,8 +17,8 @@ public:
     static void setProgress(float percent);
     static void setStatus(const std::string s);
 
-    void setNextScreen(Screen *nextScreen);
-    Screen *getNextScreen();
+    void setNextScreen(Screen* nextScreen);
+    Screen* getNextScreen();
 
     virtual void reset() = 0;
     virtual void draw() = 0;
@@ -45,7 +45,7 @@ protected:
     static constexpr uint16_t _content_height = 300 - 76;
 
 private:
-    Screen *_nextScreen;
+    Screen* _nextScreen;
     static float _progressPercent;
     static std::string _statusStr;
 };

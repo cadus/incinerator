@@ -23,4 +23,3 @@ extern const uint8_t ICON_FLAME_DATA[];
 #define ICON_THERMOMETER_WIDTH 23
 #define ICON_THERMOMETER_HEIGHT 30
 extern const uint8_t ICON_THERMOMETER_DATA[];
-

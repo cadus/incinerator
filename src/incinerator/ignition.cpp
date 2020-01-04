@@ -3,10 +3,10 @@
 #include <Arduino.h>
 
 Ignition::Ignition(std::string name, uint8_t pin, Thermocouple& thermocouple)
-:_name(name)
-,_pin(pin)
-,_startFlag(false)
-,_thermocouple(thermocouple)
+: _name(name)
+, _pin(pin)
+, _startFlag(false)
+, _thermocouple(thermocouple)
 {
 }
 
@@ -60,7 +60,7 @@ void Ignition::task()
         break;
     case mode::start_wait:
         if (!_timeout.elapsed()) {
-            break;            
+            break;
         }
         _mode = mode::start_reset;
         // fall through
@@ -89,7 +89,7 @@ void Ignition::task()
         } else {
             // Temperature has risen enough. We're burning!
             _mode = mode::burning;
-        }  
+        }
     } break;
     case mode::burning:
     case mode::failure:

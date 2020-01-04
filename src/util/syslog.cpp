@@ -9,7 +9,7 @@
 static constexpr log_level_t lvl_console = LOG_DEBUG;
 static constexpr log_level_t lvl_display = LOG_INFO;
 
-void syslog(log_level_t lvl, const char *fmt, ...)
+void syslog(log_level_t lvl, const char* fmt, ...)
 {
     char tmp[300];
 
