@@ -1,0 +1,20 @@
+# site metadata
+site_name: Incinerator firmware docs
+site_author: Patrick Huesmann
+repo_name: patrislav1/incinerator
+repo_url: https://github.com/patrislav1/incinerator
+
+# theme settings
+theme: readthedocs
+
+# enable mermaid
+# (pip3 install mkdocs-plugin-mermaid)
+plugins:
+    - markdownmermaid
+extra_javascript:
+    - https://cdnjs.cloudflare.com/ajax/libs/mermaid/8.4.4/mermaid.min.js
+
+# navigation
+nav:
+    - 'Introduction': 'index.md'
+    - 'Test Page': 'test.md'
