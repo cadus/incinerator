@@ -18,3 +18,4 @@ extra_javascript:
 nav:
     - 'Introduction': 'index.md'
     - 'Ignition': 'ignition.md'
+    - 'PCB': 'pcb.md'
