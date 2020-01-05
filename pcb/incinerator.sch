@@ -1158,9 +1158,9 @@ L Regulator_Switching:R-78E9.0-0.5 U1
 U 1 1 5E4D40A1
 P 2450 6050
 F 0 "U1" H 2450 6292 50  0000 C CNN
-F 1 "R-78E9.0-0.5" H 2450 6201 50  0000 C CNN
+F 1 "R-7890-0.5" H 2450 6201 50  0000 C CNN
 F 2 "Converter_DCDC:Converter_DCDC_RECOM_R-78E-0.5_THT" H 2500 5800 50  0001 L CIN
-F 3 "https://www.recom-power.com/pdf/Innoline/R-78Exx-0.5.pdf" H 2450 6050 50  0001 C CNN
+F 3 "https://cdn-reichelt.de/documents/datenblatt/D400/R-78XX-05.pdf" H 2450 6050 50  0001 C CNN
 	1    2450 6050
 	1    0    0    -1  
 $EndComp
@@ -1170,11 +1170,11 @@ Wire Wire Line
 	1700 6050 1700 5850
 Connection ~ 1700 6050
 Wire Wire Line
-	1700 6050 2150 6050
+	1700 6050 1900 6050
 Wire Wire Line
 	1700 6150 1700 6350
 Wire Wire Line
-	1700 6350 2450 6350
+	1700 6350 1900 6350
 Wire Wire Line
 	2450 6450 2450 6350
 Connection ~ 2450 6350
@@ -1197,4 +1197,21 @@ F 3 "~" H 6400 4450 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	6750 4450 6400 4450
+$Comp
+L Device:C C1
+U 1 1 5E12B8A7
+P 1900 6200
+F 0 "C1" H 2015 6246 50  0000 L CNN
+F 1 "10u" H 2015 6155 50  0000 L CNN
+F 2 "" H 1938 6050 50  0001 C CNN
+F 3 "~" H 1900 6200 50  0001 C CNN
+	1    1900 6200
+	1    0    0    -1  
+$EndComp
+Connection ~ 1900 6050
+Wire Wire Line
+	1900 6050 2150 6050
+Connection ~ 1900 6350
+Wire Wire Line
+	1900 6350 2450 6350
 $EndSCHEMATC
