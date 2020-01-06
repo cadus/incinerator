@@ -5,8 +5,8 @@
 #include "util/syslog.h"
 
 Incinerator::Incinerator()
-: _burner_main("MAIN", IGNITION_1, TEMP_CH1_CS)
-, _burner_aft("AFT", IGNITION_2, TEMP_CH2_CS)
+: _burner_main("MAIN", IGNITION_MAIN, TEMP_MAIN_CS)
+, _burner_aft("AFT", IGNITION_AFT, TEMP_AFT_CS)
 , _airPump(AIRPMP, PWM_CH_AIRPMP)
 {
 }
