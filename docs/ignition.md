@@ -9,19 +9,14 @@ Ignition control features a simple protection logic to make sure there's no gas 
 
 ### State machine
 ``` mermaid
-graph TD
-  I(idle)
-  S("Set coil")
-  WC("Wait ign_pulse_w")
-  R("Reset coil")
-  WI("Wait ign_repeat_itvl")
-  SUCC("Ignition successful")
-  FAIL("Ignition failed")
-  I-- Ignition requested -->S
-  S-->WC
-  WC-- ign_pulse_w elapsed -->R
-  R-->WI
-  WI-- ign_repeat_itvl elapsed -->S
-  WI-- Temp. raised by ign_delta -->SUCC
-  WI-- ign_t elapsed -->FAIL
+stateDiagram
+  [*] --> setCoil: Ignition request
+  setCoil --> waitPulse
+  waitPulse --> resetCoil: ign_pulse_w elapsed
+  resetCoil --> waitIgnition
+  waitIgnition --> setCoil: ign_repeat_itvl elapsed
+  waitIgnition --> success: Temp. raised
+  waitIgnition --> failure: Timeout
+  success --> [*]: Reset
+  failure --> [*]: Reset
 ```
