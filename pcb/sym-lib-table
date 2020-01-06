@@ -1,0 +1,3 @@
+(sym_lib_table
+  (lib (name incinerator)(type Legacy)(uri ${KIPRJMOD}/incinerator.lib)(options "")(descr ""))
+)

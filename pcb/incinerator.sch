@@ -48,8 +48,6 @@ F 3 "~" H 8000 2350 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	8200 3250 8200 2550
-Wire Wire Line
-	7800 3250 8200 3250
 $Comp
 L Device:Buzzer BZ1
 U 1 1 5DDA88F7
@@ -64,97 +62,11 @@ $EndComp
 Wire Wire Line
 	8950 3550 8950 3450
 Wire Wire Line
-	7800 3550 8950 3550
-Wire Wire Line
 	9150 3850 9150 3650
-Wire Wire Line
-	7800 3850 9150 3850
 Wire Wire Line
 	6150 2750 6150 3250
 Wire Wire Line
 	10150 2750 6150 2750
-Wire Wire Line
-	7800 3150 9250 3150
-Text Label 7850 4550 0    50   ~ 0
-3V3
-Text Label 7850 4450 0    50   ~ 0
-GND
-Text Label 7850 4350 0    50   ~ 0
-D15
-Text Label 7850 4250 0    50   ~ 0
-D2
-Text Label 7850 3950 0    50   ~ 0
-TX2
-Text Label 7850 3850 0    50   ~ 0
-D5
-Text Label 7850 3750 0    50   ~ 0
-D18
-Text Label 7850 3650 0    50   ~ 0
-D19
-Text Label 7850 3550 0    50   ~ 0
-D21
-Text Label 7850 3450 0    50   ~ 0
-RXD
-Text Label 7850 3350 0    50   ~ 0
-TXD
-Text Label 7850 3250 0    50   ~ 0
-D22
-Text Label 7850 3150 0    50   ~ 0
-D23
-Text Label 6550 4550 0    50   ~ 0
-VIN
-Text Label 6550 4450 0    50   ~ 0
-GND
-Text Label 6550 4350 0    50   ~ 0
-D13
-Text Label 6550 4250 0    50   ~ 0
-D12
-Text Label 6550 4150 0    50   ~ 0
-D14
-Text Label 6550 4050 0    50   ~ 0
-D27
-Text Label 6550 3950 0    50   ~ 0
-D26
-Text Label 6550 3850 0    50   ~ 0
-D25
-Text Label 6550 3750 0    50   ~ 0
-D33
-Text Label 6550 3650 0    50   ~ 0
-D32
-Text Label 6550 3550 0    50   ~ 0
-D35
-Text Label 6550 3450 0    50   ~ 0
-D34
-Text Label 6550 3350 0    50   ~ 0
-VN
-Text Label 6550 3250 0    50   ~ 0
-VP
-Text Label 6550 3150 0    50   ~ 0
-EN
-$Comp
-L Connector_Generic:Conn_01x15 J9
-U 1 1 5DD97FE0
-P 7600 3850
-F 0 "J9" H 7518 2925 50  0000 C CNN
-F 1 "ESP32 NodeMCU" H 7518 3016 50  0000 C CNN
-F 2 "" H 7600 3850 50  0001 C CNN
-F 3 "~" H 7600 3850 50  0001 C CNN
-	1    7600 3850
-	-1   0    0    1   
-$EndComp
-$Comp
-L Connector_Generic:Conn_01x15 J8
-U 1 1 5DD971B9
-P 6950 3850
-F 0 "J8" H 6868 2925 50  0000 C CNN
-F 1 "ESP32 NodeMCU" H 6868 3016 50  0000 C CNN
-F 2 "" H 6950 3850 50  0001 C CNN
-F 3 "~" H 6950 3850 50  0001 C CNN
-	1    6950 3850
-	1    0    0    1   
-$EndComp
-Wire Wire Line
-	9050 3950 7800 3950
 Wire Wire Line
 	9050 3550 9050 3950
 $Comp
@@ -194,8 +106,6 @@ Wire Wire Line
 	6900 5500 6050 5500
 Wire Wire Line
 	6900 5700 5900 5700
-Wire Wire Line
-	7800 3750 9550 3750
 Text Label 10400 5100 0    50   ~ 0
 VCC
 Text Label 10400 5000 0    50   ~ 0
@@ -207,10 +117,10 @@ CS
 Text Label 10400 4700 0    50   ~ 0
 SCK
 $Comp
-L Connector:Conn_01x05_Male J11
+L Connector:Conn_01x05_Male J9
 U 1 1 5DE8FF2A
 P 10350 4900
-F 0 "J11" H 10458 4567 50  0000 C CNN
+F 0 "J9" H 10458 4567 50  0000 C CNN
 F 1 "MAX31855 Breakout Board" H 10458 4476 50  0000 C CNN
 F 2 "" H 10350 4900 50  0001 C CNN
 F 3 "~" H 10350 4900 50  0001 C CNN
@@ -228,10 +138,10 @@ CS
 Text Label 10400 5500 0    50   ~ 0
 SCK
 $Comp
-L Connector:Conn_01x05_Male J12
+L Connector:Conn_01x05_Male J10
 U 1 1 5DEAED10
 P 10350 5700
-F 0 "J12" H 10458 5367 50  0000 C CNN
+F 0 "J10" H 10458 5367 50  0000 C CNN
 F 1 "MAX31855 Breakout Board" H 10458 5276 50  0000 C CNN
 F 2 "" H 10350 5700 50  0001 C CNN
 F 3 "~" H 10350 5700 50  0001 C CNN
@@ -250,24 +160,14 @@ Wire Wire Line
 Connection ~ 9550 4700
 Wire Wire Line
 	9450 4800 10150 4800
-Text Label 7850 4050 0    50   ~ 0
-RX2
-Text Label 7850 4150 0    50   ~ 0
-D4
-Wire Wire Line
-	7800 4050 9450 4050
 Wire Wire Line
 	9450 4050 9450 4800
-Wire Wire Line
-	7800 4150 9350 4150
 Wire Wire Line
 	9350 4150 9350 5600
 Wire Wire Line
 	9350 5600 10150 5600
 Wire Wire Line
 	9250 3150 9250 3850
-Wire Wire Line
-	7800 3650 8950 3650
 Wire Wire Line
 	8950 3650 8950 4900
 Wire Wire Line
@@ -301,10 +201,10 @@ $EndComp
 Wire Wire Line
 	10050 3950 10150 3950
 $Comp
-L Connector:Conn_01x08_Male J10
+L Connector:Conn_01x08_Male J8
 U 1 1 5DDAE1A1
 P 10350 3650
-F 0 "J10" H 10458 3117 50  0000 C CNN
+F 0 "J8" H 10458 3117 50  0000 C CNN
 F 1 "Waveshare 4.2\" e-paper" H 10458 3026 50  0000 C CNN
 F 2 "" H 10350 3650 50  0001 C CNN
 F 3 "~" H 10350 3650 50  0001 C CNN
@@ -379,8 +279,6 @@ Wire Wire Line
 Wire Wire Line
 	8600 4350 8600 5500
 Wire Wire Line
-	7800 4350 8600 4350
-Wire Wire Line
 	7500 5500 8600 5500
 $Comp
 L power:+3.3V #PWR019
@@ -404,10 +302,6 @@ F 3 "~" H 8150 4450 50  0001 C CNN
 	1    8150 4450
 	0    -1   1    0   
 $EndComp
-Wire Wire Line
-	7800 4450 8150 4450
-Wire Wire Line
-	7800 4550 8150 4550
 Wire Wire Line
 	6750 4250 6050 4250
 Wire Wire Line
@@ -1214,4 +1108,39 @@ Wire Wire Line
 Connection ~ 1900 6350
 Wire Wire Line
 	1900 6350 2450 6350
+$Comp
+L incinerator:NodeMCU_ESP32 U2
+U 1 1 5E143B46
+P 7250 3900
+F 0 "U2" H 7250 4915 50  0000 C CNN
+F 1 "NodeMCU_ESP32" H 7250 4824 50  0000 C CNN
+F 2 "" H 7100 4200 50  0001 C CNN
+F 3 "" H 7100 4200 50  0001 C CNN
+	1    7250 3900
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7750 3150 9250 3150
+Wire Wire Line
+	7750 3250 8200 3250
+Wire Wire Line
+	7750 3550 8950 3550
+Wire Wire Line
+	7750 3650 8950 3650
+Wire Wire Line
+	7750 3750 9550 3750
+Wire Wire Line
+	7750 3850 9150 3850
+Wire Wire Line
+	7750 3950 9050 3950
+Wire Wire Line
+	7750 4050 9450 4050
+Wire Wire Line
+	7750 4150 9350 4150
+Wire Wire Line
+	7750 4350 8600 4350
+Wire Wire Line
+	7750 4450 8150 4450
+Wire Wire Line
+	7750 4550 8150 4550
 $EndSCHEMATC
