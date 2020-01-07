@@ -17,5 +17,7 @@ extra_javascript:
 # navigation
 nav:
     - 'Introduction': 'index.md'
+    - 'Incinerator': 'incinerator.md'
+    - 'Burn chamber': 'burn_chamber.md'
     - 'Ignition': 'ignition.md'
     - 'PCB': 'pcb.md'
