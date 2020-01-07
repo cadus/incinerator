@@ -4,14 +4,14 @@ EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
 Sheet 1 1
-Title ""
+Title "Incinerator Control Module"
 Date ""
-Rev ""
-Comp ""
+Rev "v00"
+Comp "cadus.org"
 Comment1 ""
-Comment2 ""
-Comment3 ""
-Comment4 ""
+Comment2 "creativecommons.org/licenses/by/4.0"
+Comment3 "License: CC BY 4.0"
+Comment4 "Author: Patrick Huesmann"
 $EndDescr
 Text Label 10400 3350 0    50   ~ 0
 BUSY
