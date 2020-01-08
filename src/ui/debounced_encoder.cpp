@@ -2,6 +2,8 @@
 
 #include "hw_config.h"
 
+#define ALPS_ENCODER
+
 volatile DRAM_ATTR bool encoder_sw = false;
 volatile DRAM_ATTR int encoder_pos = 0;
 
@@ -37,11 +39,21 @@ void IRAM_ATTR encoder_check_rotation()
         transition_code_history <<= 4;
         transition_code_history |= transition_code;
 
+#ifdef ALPS_ENCODER
+        if ((transition_code_history == 0x2b)
+            || (transition_code_history == 0xd4)) {
+            encoder_pos--;
+        } else if ((transition_code_history == 0x17)
+                   || (transition_code_history == 0xe8)) {
+            encoder_pos++;
+        }
+#else
         if (transition_code_history == 0x2b) {
             encoder_pos--;
         } else if (transition_code_history == 0x17) {
             encoder_pos++;
         }
+#endif
     }
 }
 
