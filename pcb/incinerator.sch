@@ -13,21 +13,21 @@ Comment2 "creativecommons.org/licenses/by/4.0"
 Comment3 "License: CC BY 4.0"
 Comment4 "Author: Patrick Huesmann"
 $EndDescr
-Text Label 10400 3350 0    50   ~ 0
+Text Label 10150 3350 2    50   ~ 0
 BUSY
-Text Label 10400 3450 0    50   ~ 0
+Text Label 10150 3450 2    50   ~ 0
 RST
-Text Label 10400 3550 0    50   ~ 0
+Text Label 10150 3550 2    50   ~ 0
 DC
-Text Label 10400 3650 0    50   ~ 0
+Text Label 10150 3650 2    50   ~ 0
 CS
-Text Label 10400 3750 0    50   ~ 0
+Text Label 10150 3750 2    50   ~ 0
 CLK
-Text Label 10400 3850 0    50   ~ 0
+Text Label 10150 3850 2    50   ~ 0
 DIN
-Text Label 10400 3950 0    50   ~ 0
+Text Label 10150 3950 2    50   ~ 0
 GND
-Text Label 10400 4050 0    50   ~ 0
+Text Label 10150 4050 2    50   ~ 0
 VCC
 Wire Wire Line
 	10150 3350 10150 2750
@@ -69,43 +69,6 @@ Wire Wire Line
 	10150 2750 6150 2750
 Wire Wire Line
 	9050 3550 9050 3950
-$Comp
-L Device:Rotary_Encoder_Switch SW1
-U 1 1 5DFF2455
-P 7200 5600
-F 0 "SW1" H 7200 5967 50  0000 C CNN
-F 1 "Rotary_Encoder_Switch" H 7200 5876 50  0000 C CNN
-F 2 "" H 7050 5760 50  0001 C CNN
-F 3 "~" H 7200 5860 50  0001 C CNN
-	1    7200 5600
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	6900 5600 6750 5600
-Wire Wire Line
-	6750 5600 6750 5900
-$Comp
-L power:Earth #PWR024
-U 1 1 5DFFCCE8
-P 6750 6050
-F 0 "#PWR024" H 6750 5800 50  0001 C CNN
-F 1 "Earth" H 6750 5900 50  0001 C CNN
-F 2 "" H 6750 6050 50  0001 C CNN
-F 3 "~" H 6750 6050 50  0001 C CNN
-	1    6750 6050
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	7500 5700 7500 5900
-Wire Wire Line
-	7500 5900 6750 5900
-Connection ~ 6750 5900
-Wire Wire Line
-	6750 5900 6750 6050
-Wire Wire Line
-	6900 5500 6050 5500
-Wire Wire Line
-	6900 5700 5900 5700
 Connection ~ 9550 3750
 Wire Wire Line
 	9250 3150 9250 3850
@@ -122,16 +85,16 @@ Wire Wire Line
 $Comp
 L power:Earth #PWR010
 U 1 1 5DEEEE26
-P 10050 3950
-F 0 "#PWR010" H 10050 3700 50  0001 C CNN
-F 1 "Earth" H 10050 3800 50  0001 C CNN
-F 2 "" H 10050 3950 50  0001 C CNN
-F 3 "~" H 10050 3950 50  0001 C CNN
-	1    10050 3950
+P 10000 3950
+F 0 "#PWR010" H 10000 3700 50  0001 C CNN
+F 1 "Earth" H 10000 3800 50  0001 C CNN
+F 2 "" H 10000 3950 50  0001 C CNN
+F 3 "~" H 10000 3950 50  0001 C CNN
+	1    10000 3950
 	0    1    1    0   
 $EndComp
 Wire Wire Line
-	10050 3950 10150 3950
+	10000 3950 10150 3950
 $Comp
 L Connector:Conn_01x08_Male J5
 U 1 1 5DDAE1A1
@@ -146,16 +109,16 @@ $EndComp
 $Comp
 L power:+3.3V #PWR011
 U 1 1 5DEFD454
-P 10050 4050
-F 0 "#PWR011" H 10050 3900 50  0001 C CNN
-F 1 "+3.3V" V 10065 4178 50  0000 L CNN
-F 2 "" H 10050 4050 50  0001 C CNN
-F 3 "" H 10050 4050 50  0001 C CNN
-	1    10050 4050
+P 10000 4050
+F 0 "#PWR011" H 10000 3900 50  0001 C CNN
+F 1 "+3.3V" V 10015 4178 50  0000 L CNN
+F 2 "" H 10000 4050 50  0001 C CNN
+F 3 "" H 10000 4050 50  0001 C CNN
+	1    10000 4050
 	0    -1   -1   0   
 $EndComp
 Wire Wire Line
-	10050 4050 10150 4050
+	10000 4050 10150 4050
 $Comp
 L power:Earth #PWR019
 U 1 1 5DF0E96B
@@ -201,9 +164,7 @@ F 3 "" H 9950 5750 50  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 Wire Wire Line
-	8600 4350 8600 5500
-Wire Wire Line
-	7500 5500 8600 5500
+	8600 4350 8600 4850
 $Comp
 L power:+3.3V #PWR015
 U 1 1 5DF1C567
@@ -229,11 +190,9 @@ $EndComp
 Wire Wire Line
 	6750 4250 6050 4250
 Wire Wire Line
-	6050 4250 6050 5500
+	6050 4250 6050 4850
 Wire Wire Line
 	6750 4150 5900 4150
-Wire Wire Line
-	5900 4150 5900 5700
 $Comp
 L Device:Q_NMOS_GDS Q1
 U 1 1 5E18E483
@@ -1318,4 +1277,65 @@ NoConn ~ 6750 3550
 NoConn ~ 7750 4250
 NoConn ~ 7750 3450
 NoConn ~ 7750 3350
+$Comp
+L power:Earth #PWR?
+U 1 1 5E1FC7FA
+P 7150 5050
+F 0 "#PWR?" H 7150 4800 50  0001 C CNN
+F 1 "Earth" H 7150 4900 50  0001 C CNN
+F 2 "" H 7150 5050 50  0001 C CNN
+F 3 "~" H 7150 5050 50  0001 C CNN
+	1    7150 5050
+	-1   0    0    1   
+$EndComp
+$Comp
+L power:Earth #PWR?
+U 1 1 5E1FD446
+P 7450 5050
+F 0 "#PWR?" H 7450 4800 50  0001 C CNN
+F 1 "Earth" H 7450 4900 50  0001 C CNN
+F 2 "" H 7450 5050 50  0001 C CNN
+F 3 "~" H 7450 5050 50  0001 C CNN
+	1    7450 5050
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	7450 5400 7450 5050
+Wire Wire Line
+	7150 5400 7150 5050
+Text Label 7050 5400 1    50   ~ 0
+ROT_DT
+Text Label 7250 5400 1    50   ~ 0
+ROT_CLK
+Text Label 7350 5400 1    50   ~ 0
+SW
+$Comp
+L Connector:Conn_01x05_Male J?
+U 1 1 5E1A7E2D
+P 7250 5600
+F 0 "J?" V 7404 5844 50  0000 L CNN
+F 1 "To Rotary Encoder / Switch" V 7313 5844 50  0000 L CNN
+F 2 "" H 7250 5600 50  0001 C CNN
+F 3 "~" H 7250 5600 50  0001 C CNN
+	1    7250 5600
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	6050 4850 7250 4850
+Wire Wire Line
+	7250 4850 7250 5400
+Wire Wire Line
+	5900 5000 7050 5000
+Wire Wire Line
+	7050 5000 7050 5400
+Wire Wire Line
+	5900 4150 5900 5000
+Wire Wire Line
+	8600 4850 7350 4850
+Wire Wire Line
+	7350 4850 7350 5400
+Text Label 7150 5400 1    50   ~ 0
+ROT_GND
+Text Label 7450 5400 1    50   ~ 0
+SW_GND
 $EndSCHEMATC
