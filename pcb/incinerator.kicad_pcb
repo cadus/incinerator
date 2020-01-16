@@ -71,7 +71,7 @@
     (aux_axis_origin 0 0)
     (visible_elements FFFFFF7F)
     (pcbplotparams
-      (layerselection 0x010fc_ffffffff)
+      (layerselection 0x010f0_ffffffff)
       (usegerberextensions false)
       (usegerberattributes false)
       (usegerberadvancedattributes false)
@@ -94,9 +94,9 @@
       (subtractmaskfromsilk false)
       (outputformat 1)
       (mirror false)
-      (drillshape 1)
+      (drillshape 0)
       (scaleselection 1)
-      (outputdirectory ""))
+      (outputdirectory "gerbers/"))
   )
 
   (net 0 "")
@@ -2718,7 +2718,7 @@
   (segment (start 127.254 110.744) (end 133.858 110.744) (width 0.25) (layer F.Cu) (net 50))
   (segment (start 125.476 108.966) (end 127.254 110.744) (width 0.25) (layer F.Cu) (net 50))
 
-  (zone (net 2) (net_name Earth) (layer F.Cu) (tstamp 5E213F9E) (hatch edge 0.508)
+  (zone (net 2) (net_name Earth) (layer F.Cu) (tstamp 5E20CDD2) (hatch edge 0.508)
     (connect_pads (clearance 0.254))
     (min_thickness 0.254)
     (fill yes (arc_segments 32) (thermal_gap 0.508) (thermal_bridge_width 0.508))
@@ -3802,7 +3802,7 @@
       )
     )
   )
-  (zone (net 2) (net_name Earth) (layer B.Cu) (tstamp 5E213F9B) (hatch edge 0.508)
+  (zone (net 2) (net_name Earth) (layer B.Cu) (tstamp 5E20CDCF) (hatch edge 0.508)
     (connect_pads (clearance 0.254))
     (min_thickness 0.254)
     (fill yes (arc_segments 32) (thermal_gap 0.508) (thermal_bridge_width 0.508))
