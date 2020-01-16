@@ -100,7 +100,7 @@ L Connector:Conn_01x08_Male J9
 U 1 1 5DDAE1A1
 P 10350 3650
 F 0 "J9" H 10458 3117 50  0000 C CNN
-F 1 "Waveshare 4.2\" e-paper" H 10458 3026 50  0000 C CNN
+F 1 "To Display" H 10458 3026 50  0000 C CNN
 F 2 "Connector_PinHeader_2.54mm:PinHeader_1x08_P2.54mm_Vertical" H 10350 3650 50  0001 C CNN
 F 3 "~" H 10350 3650 50  0001 C CNN
 	1    10350 3650
@@ -187,12 +187,6 @@ F 3 "~" H 8150 4450 50  0001 C CNN
 	1    8150 4450
 	0    -1   1    0   
 $EndComp
-Wire Wire Line
-	6750 4250 6050 4250
-Wire Wire Line
-	6050 4250 6050 4850
-Wire Wire Line
-	6750 4150 5900 4150
 $Comp
 L Device:Q_NMOS_GDS Q1
 U 1 1 5E18E483
@@ -603,7 +597,7 @@ L Connector:Conn_01x05_Male J8
 U 1 1 5E1A7E2D
 P 7250 5600
 F 0 "J8" V 7404 5844 50  0000 L CNN
-F 1 "To Rotary Encoder / Switch" V 7313 5844 50  0000 L CNN
+F 1 "To Encoder" V 7313 5844 50  0000 L CNN
 F 2 "Connector_PinHeader_2.54mm:PinHeader_1x05_P2.54mm_Vertical" H 7250 5600 50  0001 C CNN
 F 3 "~" H 7250 5600 50  0001 C CNN
 	1    7250 5600
@@ -613,12 +607,6 @@ Wire Wire Line
 	6050 4850 7250 4850
 Wire Wire Line
 	7250 4850 7250 5400
-Wire Wire Line
-	5900 5000 7050 5000
-Wire Wire Line
-	7050 5000 7050 5400
-Wire Wire Line
-	5900 4150 5900 5000
 Wire Wire Line
 	8600 4850 7350 4850
 Wire Wire Line
@@ -1349,4 +1337,16 @@ F 3 "~" H 4100 5350 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	5050 5050 5550 5050
+Wire Wire Line
+	6050 4150 6750 4150
+Wire Wire Line
+	6050 4150 6050 4850
+Wire Wire Line
+	6750 4250 6150 4250
+Wire Wire Line
+	6150 4250 6150 4950
+Wire Wire Line
+	6150 4950 7050 4950
+Wire Wire Line
+	7050 4950 7050 5400
 $EndSCHEMATC
