@@ -42,10 +42,12 @@ void setup()
 
     sysconfig.init();
 
+    // Register timer ISR at 4kHz (250us)
     timer = timerBegin(0, 80, true);
     timerAttachInterrupt(timer, timer_isr, true);
     timerAlarmWrite(timer, 250, true);
 
+    // Give display some time to start up
     delay(100);
     ui.init();
 
@@ -56,12 +58,14 @@ void setup()
     Serial.printf("Incinerator version %s, build date %s\r\n", gitversion, builddate);
 }
 
+// Lightweight tasks to run in the background
 void background_task()
 {
     incinerator.task();
     ui.backgroundTask();
 }
 
+// Called by display code, while waiting for display BUSY flag to reset
 void GxEPD2_busyWaitCallback()
 {
     background_task();
@@ -69,7 +73,10 @@ void GxEPD2_busyWaitCallback()
 
 void loop()
 {
+    // UI task refreshes display every second (or on user input)
+    // & calls background_task() while busy waiting for display
     ui.task();
+    // Call background_task() explicitly, so it runs even if display wasn't refreshed.
     background_task();
 }
 
