@@ -20,8 +20,8 @@
 #pragma once
 
 #define ROTARY_SW 15
-#define ROTARY_CLK 12
-#define ROTARY_DT 14
+#define ROTARY_CLK 14
+#define ROTARY_DT 12
 
 #define TEMP_MAIN_CS 16
 #define TEMP_AFT_CS 4
