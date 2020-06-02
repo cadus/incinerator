@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: GPL-3.0-or-later
- * This file is part of CADUS Incinerator, https://github.com/patrislav1/incinerator
+ * This file is part of CADUS Incinerator, https://github.com/cadus/incinerator
  * Copyright (C) 2019-2020 Patrick Huesmann <info@patrick-huesmann.de>
  *
  * This program is free software: you can redistribute it and/or modify

@@ -1,8 +1,8 @@
 # site metadata
 site_name: Incinerator firmware docs
 site_author: Patrick Huesmann
-repo_name: patrislav1/incinerator
-repo_url: https://github.com/patrislav1/incinerator
+repo_name: cadus/incinerator
+repo_url: https://github.com/cadus/incinerator
 
 # theme settings
 theme: readthedocs
