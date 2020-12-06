@@ -42,6 +42,29 @@ bool TestButton::handler()
     return true;
 }
 
+IgnMainTest::IgnMainTest(InteractiveScreen& parent,
+                         uint16_t x, uint16_t y, uint16_t w, uint16_t h)
+: TestButton(parent, "IgnMain", x, y, w, h, "Toggle Main Ignition")
+{
+}
+
+void IgnMainTest::toggle()
+{
+    Ignition& i = incinerator._burner_main.ignition;
+    auto m = i.getMode();
+    if (m != Ignition::mode::burning && m != Ignition::mode::failure) {
+        i.start();
+    } else {
+        i.reset();
+    }
+}
+
+std::string IgnMainTest::getState()
+{
+    Ignition& i = incinerator._burner_main.ignition;
+    return i.getModeStr();
+}
+
 AirPumpTest::AirPumpTest(InteractiveScreen& parent,
                          uint16_t x, uint16_t y, uint16_t w, uint16_t h)
 : TestButton(parent, "AirPump", x, y, w, h, "Toggle Air Pump")
@@ -69,11 +92,13 @@ TestScreen::TestScreen()
 
 void TestScreen::reset()
 {
-    static AirPumpTest airPumpTest(*this, 100, _ys + _dy * 0, 200, _dy);
+    static IgnMainTest ignMainTest(*this, 100, _ys + _dy * 0, 200, _dy);
+    static AirPumpTest airPumpTest(*this, 100, _ys + _dy * 1, 200, _dy);
     static ScreenChangeButton conf(*this, "Config", &confScreen, 100, _ys + _dy * 8, 100, _dy, "Enter config screen");
     static ScreenChangeButton exit(*this, "Exit", &confScreen, 220, _ys + _dy * 8, 100, _dy, "Exit test screen");
 
     _items.clear();
+    _items.push_back(&ignMainTest);
     _items.push_back(&airPumpTest);
     _items.push_back(&conf);
     _items.push_back(&exit);
