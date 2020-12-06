@@ -31,6 +31,7 @@ class Ignition
     NOT_COPYABLE(Ignition);
     NOT_MOVEABLE(Ignition);
 
+public:
     enum mode {
         idle, // Idle / off
         start_set, // Set ignition pulse
@@ -43,9 +44,9 @@ class Ignition
         stop, // Stop ignition & reset state
     };
 
-public:
     Ignition(std::string name, uint8_t pin, Thermocouple& thermocouple);
     mode getMode();
+    std::string getModeStr();
     void init();
     void start();
     void reset();

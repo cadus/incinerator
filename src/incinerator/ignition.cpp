@@ -20,6 +20,7 @@
 #include "ignition.h"
 
 #include <Arduino.h>
+#include <map>
 
 Ignition::Ignition(std::string name, uint8_t pin, Thermocouple& thermocouple)
 : _name(name)
@@ -38,6 +39,23 @@ void Ignition::init()
 Ignition::mode Ignition::getMode()
 {
     return _mode;
+}
+
+std::string Ignition::getModeStr()
+{
+    const std::map<mode, std::string> lookupTbl {
+        {idle, "Idle"},
+        {start_set, "Pulse"},
+        {start_wait, "WaitP"},
+        {start_reset, "Reset"},
+        {check_wait, "WaitT"},
+        {check, "CheckT"},
+        {burning, "Burn"},
+        {failure, "Fail"},
+        {stop, "Stop"}
+    };
+    auto it = lookupTbl.find(getMode());
+    return it != lookupTbl.end() ? it->second : "N/A";
 }
 
 void Ignition::start()
@@ -112,8 +130,6 @@ void Ignition::task()
     } break;
     case mode::burning:
     case mode::failure:
-        break;
-    case mode::stop:
         if (_resetFlag) {
             digitalWrite(_pin, LOW);
             _mode = mode::idle;
