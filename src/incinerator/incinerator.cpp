@@ -50,9 +50,9 @@ thermocouple_meas_t Incinerator::getTemp(burn_chamber_t ch)
         syslog(LOG_ERROR, "Unknown burn chamber %d", ch);
         return (thermocouple_meas_t){ 0, 0 };
     case chamber_main:
-        return _burner_main.getTemp();
+        return _burner_main.thermocouple.get();
     case chamber_aft:
-        return _burner_aft.getTemp();
+        return _burner_aft.thermocouple.get();
     }
 }
 

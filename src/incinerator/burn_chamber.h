@@ -40,10 +40,11 @@ public:
     void init();
     void task();
 
+    Ignition ignition;
+    Thermocouple thermocouple;
+
 private:
     const std::string _name;
-    Thermocouple _thermocouple;
-    Ignition _ignition;
     Timeout _tempReadTimeout;
 
     static constexpr uint32_t _tempReadInterval = 500;
