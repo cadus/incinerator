@@ -53,7 +53,7 @@ IgnTest::IgnTest(InteractiveScreen& parent, uint16_t x, uint16_t y, uint16_t w, 
 void IgnTest::toggle()
 {
     auto m = _ignition.getMode();
-    if (m != Ignition::mode::burning && m != Ignition::mode::failure) {
+    if (m == Ignition::mode::idle) {
         _ignition.start();
     } else {
         _ignition.reset();

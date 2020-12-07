@@ -22,6 +22,8 @@
 #include <Arduino.h>
 #include <map>
 
+#include "util/sys_config.h"
+
 Ignition::Ignition(std::string name, uint8_t pin, Thermocouple& thermocouple)
 : _name(name)
 , _pin(pin)
@@ -45,14 +47,11 @@ std::string Ignition::getModeStr()
 {
     const std::map<mode, std::string> lookupTbl {
         {idle, "Idle"},
-        {start_set, "Pulse"},
-        {start_wait, "WaitP"},
-        {start_reset, "Reset"},
-        {check_wait, "WaitT"},
-        {check, "CheckT"},
-        {burning, "Burn"},
-        {failure, "Fail"},
-        {stop, "Stop"}
+        {setCoil, "SetCoil"},
+        {waitPulse, "WaitPulse"},
+        {waitIgnition, "WaitIgnition"},
+        {success, "Success"},
+        {failure, "Failure"},
     };
     auto it = lookupTbl.find(getMode());
     return it != lookupTbl.end() ? it->second : "N/A";
@@ -70,21 +69,15 @@ void Ignition::start()
 
 void Ignition::reset()
 {
-    _resetFlag = true;
-}
-
-bool Ignition::ready()
-{
-    return getMode() == mode::burning;
-}
-
-bool Ignition::failed()
-{
-    return getMode() == mode::failure;
+    digitalWrite(_pin, LOW);
+    _mode = mode::idle;
 }
 
 void Ignition::task()
 {
+    std::string name_lower = getName();
+    transform(name_lower.begin(), name_lower.end(), name_lower.begin(), ::tolower); 
+
     switch (_mode) {
     default:
     case mode::idle:
@@ -92,53 +85,45 @@ void Ignition::task()
             break;
         }
         _startFlag = false;
-        _mode = mode::start_set;
-        _retries = _num_retries;
-        // fall through
-    case mode::start_set:
-        digitalWrite(_pin, HIGH);
-        _timeout.set(_pulse_ms);
-        _mode = mode::start_wait;
-        break;
-    case mode::start_wait:
-        if (!_timeout.elapsed()) {
-            break;
-        }
-        _mode = mode::start_reset;
-        // fall through
-    case mode::start_reset:
-        digitalWrite(_pin, LOW);
-        _timeout.set(_check_delay_ms);
+        _burn_timeout.set(sysconfig.get(name_lower + "_ign_t") * 1000);
         _temp_begin = _thermocouple.get().external;
-        _mode = mode::check_wait;
+        _mode = mode::setCoil;
+        // fall through
+    case mode::setCoil:
+        digitalWrite(_pin, HIGH);
+        _pulse_timeout.set(sysconfig.get("ign_pulse_w"));
+        _mode = mode::waitPulse;
         break;
-    case mode::check_wait:
-        if (!_timeout.elapsed()) {
+    case mode::waitPulse:
+        if (!_pulse_timeout.elapsed()) {
             break;
         }
-        _mode = mode::check;
-        // fall through
-    case mode::check: {
-        const float temp_end = _thermocouple.get().external;
-        if (temp_end - _temp_begin < _check_delta_T) {
-            // Temperature has not risen enough - assuming the ignition didn't work
-            _retries--;
-            if (!_retries) {
-                _mode = mode::failure;
-            } else {
-                _mode = mode::start_set;
+        digitalWrite(_pin, LOW);
+        _pulse_timeout.set(sysconfig.get("ign_repeat_itvl"));
+        _mode = mode::waitIgnition;
+        break;
+    case mode::waitIgnition:
+        {
+            const float temp_end = _thermocouple.get().external;
+            if (temp_end - _temp_begin >= sysconfig.get(name_lower + "_ign_delta")) {
+                // Temperature has risen enough. We're burning!
+                _mode = mode::success;
+                break;
             }
-        } else {
-            // Temperature has risen enough. We're burning!
-            _mode = mode::burning;
         }
-    } break;
-    case mode::burning:
+        if (_burn_timeout.elapsed()) {
+            // Timeout for burn start elapsed. Ignition failure!
+            _mode = mode::failure;
+            break;
+        }
+        if (_pulse_timeout.elapsed()) {
+            // Timeout for pulse interval elapsed. Try to ignite again.
+            _mode = mode::setCoil;
+            break;
+        }
+        break;
+    case mode::success:
     case mode::failure:
-        if (_resetFlag) {
-            digitalWrite(_pin, LOW);
-            _mode = mode::idle;
-        }
         break;
     }
 }
