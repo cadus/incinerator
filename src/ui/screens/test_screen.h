@@ -20,6 +20,7 @@
 #pragma once
 
 #include "interactive_screen.h"
+#include "incinerator/ignition.h"
 
 class TestButton : public PushButton
 {
@@ -37,15 +38,16 @@ private:
     virtual std::string getState() = 0;
 };
 
-class IgnMainTest : public TestButton
+class IgnTest : public TestButton
 {
 public:
-    IgnMainTest(InteractiveScreen& parent,
-                uint16_t x, uint16_t y, uint16_t w, uint16_t h);
+    IgnTest(InteractiveScreen& parent,
+            uint16_t x, uint16_t y, uint16_t w, uint16_t h, Ignition& ignition);
 
 private:
     virtual void toggle() override;
     virtual std::string getState() override;
+    Ignition& _ignition;
 };
 
 class AirPumpTest : public TestButton

@@ -47,6 +47,7 @@ public:
     Ignition(std::string name, uint8_t pin, Thermocouple& thermocouple);
     mode getMode();
     std::string getModeStr();
+    std::string getName();
     void init();
     void start();
     void reset();

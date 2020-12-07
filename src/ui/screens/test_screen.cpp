@@ -42,27 +42,27 @@ bool TestButton::handler()
     return true;
 }
 
-IgnMainTest::IgnMainTest(InteractiveScreen& parent,
-                         uint16_t x, uint16_t y, uint16_t w, uint16_t h)
-: TestButton(parent, "IgnMain", x, y, w, h, "Toggle Main Ignition")
+IgnTest::IgnTest(InteractiveScreen& parent, uint16_t x, uint16_t y, uint16_t w, uint16_t h,
+                 Ignition& ignition)
+: TestButton(parent, "Ign" + ignition.getName(), x, y, w, h,
+             "Toggle " + ignition.getName() + " Ignition")
+, _ignition(ignition)
 {
 }
 
-void IgnMainTest::toggle()
+void IgnTest::toggle()
 {
-    Ignition& i = incinerator._burner_main.ignition;
-    auto m = i.getMode();
+    auto m = _ignition.getMode();
     if (m != Ignition::mode::burning && m != Ignition::mode::failure) {
-        i.start();
+        _ignition.start();
     } else {
-        i.reset();
+        _ignition.reset();
     }
 }
 
-std::string IgnMainTest::getState()
+std::string IgnTest::getState()
 {
-    Ignition& i = incinerator._burner_main.ignition;
-    return i.getModeStr();
+    return _ignition.getModeStr();
 }
 
 AirPumpTest::AirPumpTest(InteractiveScreen& parent,
@@ -92,13 +92,15 @@ TestScreen::TestScreen()
 
 void TestScreen::reset()
 {
-    static IgnMainTest ignMainTest(*this, 100, _ys + _dy * 0, 200, _dy);
-    static AirPumpTest airPumpTest(*this, 100, _ys + _dy * 1, 200, _dy);
+    static IgnTest ignMainTest(*this, 100, _ys + _dy * 0, 200, _dy, incinerator._burner_main.ignition);
+    static IgnTest ignAftTest(*this, 100, _ys + _dy * 1, 200, _dy, incinerator._burner_aft.ignition);
+    static AirPumpTest airPumpTest(*this, 100, _ys + _dy * 2, 200, _dy);
     static ScreenChangeButton conf(*this, "Config", &confScreen, 100, _ys + _dy * 8, 100, _dy, "Enter config screen");
     static ScreenChangeButton exit(*this, "Exit", &confScreen, 220, _ys + _dy * 8, 100, _dy, "Exit test screen");
 
     _items.clear();
     _items.push_back(&ignMainTest);
+    _items.push_back(&ignAftTest);
     _items.push_back(&airPumpTest);
     _items.push_back(&conf);
     _items.push_back(&exit);

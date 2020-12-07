@@ -58,6 +58,11 @@ std::string Ignition::getModeStr()
     return it != lookupTbl.end() ? it->second : "N/A";
 }
 
+std::string Ignition::getName()
+{
+    return _name;
+}
+
 void Ignition::start()
 {
     _startFlag = true;
