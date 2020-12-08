@@ -24,8 +24,8 @@
 #include "util/syslog.h"
 
 Incinerator::Incinerator()
-: _burner_main("MAIN", IGNITION_MAIN, TEMP_MAIN_CS)
-, _burner_aft("AFT", IGNITION_AFT, TEMP_AFT_CS)
+: _burner_main("MAIN", IGNITION_MAIN, TEMP_MAIN_CS, VALVE_MAIN)
+, _burner_aft("AFT", IGNITION_AFT, TEMP_AFT_CS, VALVE_AFT_HI, VALVE_AFT_LO)
 , _airPump(AIRPMP, PWM_CH_AIRPMP)
 {
 }

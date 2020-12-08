@@ -27,18 +27,23 @@
 
 #include "macros.h"
 
+enum class ValveState { off, low, high };
+
 class BurnChamber
 {
     NOT_COPYABLE(BurnChamber);
     NOT_MOVEABLE(BurnChamber);
 
 public:
-    BurnChamber(std::string name, uint8_t ignition_pin, uint8_t thermocouple_cs);
+    BurnChamber(std::string name, uint8_t ignition_pin, uint8_t thermocouple_cs, uint8_t valve_hi, uint8_t valve_lo=0);
 
     thermocouple_meas_t getTemp() const;
 
     void init();
     void task();
+
+    void valve_state_set(ValveState state);
+    ValveState valve_state_get();
 
     Ignition ignition;
     Thermocouple thermocouple;
@@ -46,6 +51,9 @@ public:
 private:
     const std::string _name;
     Timeout _tempReadTimeout;
+    uint8_t _valve_hi;
+    uint8_t _valve_lo;
+    ValveState _valve_state;
 
     static constexpr uint32_t _tempReadInterval = 500;
 };
