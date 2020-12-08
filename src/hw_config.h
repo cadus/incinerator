@@ -37,8 +37,8 @@
 #define IGNITION_AFT 33
 #define AIRPMP 13
 #define VALVE_MAIN 25
-#define VALVE_AFT_LO 26
-#define VALVE_AFT_HI 27
+#define VALVE_AFT_HI 26
+#define VALVE_AFT_LO 27
 
 #define LED_INT 2
 
