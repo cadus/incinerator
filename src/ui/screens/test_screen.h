@@ -21,6 +21,7 @@
 
 #include "interactive_screen.h"
 #include "incinerator/ignition.h"
+#include "incinerator/burn_chamber.h"
 
 class TestButton : public PushButton
 {
@@ -59,6 +60,23 @@ public:
 private:
     virtual void toggle() override;
     virtual std::string getState() override;
+};
+
+class ValveTest : public TestButton
+{
+public:
+    ValveTest(InteractiveScreen& parent,
+              uint16_t x, uint16_t y, uint16_t w, uint16_t h,
+              std::string name,
+              BurnChamber& bch, bool highLevel);
+
+private:
+    virtual void toggle() override;
+    virtual std::string getState() override;
+
+    BurnChamber& _bch;
+    bool _highLevel;
+    bool _active;
 };
 
 class TestScreen : public InteractiveScreen

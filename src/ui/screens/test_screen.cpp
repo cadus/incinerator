@@ -85,6 +85,34 @@ std::string AirPumpTest::getState()
     return incinerator._airPump.isOn() ? "ON" : "OFF";
 }
 
+ValveTest::ValveTest(InteractiveScreen& parent,
+           uint16_t x, uint16_t y, uint16_t w, uint16_t h,
+           std::string name,
+           BurnChamber& bch, bool highLevel)
+: TestButton(parent, name, x, y, w, h, "Toggle " + name)
+, _bch(bch)
+, _highLevel(highLevel)
+, _active(false)
+{
+}
+
+void ValveTest::toggle()
+{
+    ValveState state = _bch.valve_state_get();
+    const ValveState onState = (_highLevel ? ValveState::high : ValveState::low);
+    bool active = (state == onState);
+    // toggle
+    _bch.valve_state_set(active ? ValveState::off : onState);
+}
+
+std::string ValveTest::getState()
+{
+    ValveState state = _bch.valve_state_get();
+    const ValveState onState = (_highLevel ? ValveState::high : ValveState::low);
+
+    return state == onState ? "ON" : "OFF";
+}
+
 TestScreen::TestScreen()
 : InteractiveScreen(true)
 {
@@ -94,13 +122,20 @@ void TestScreen::reset()
 {
     static IgnTest ignMainTest(*this, 100, _ys + _dy * 0, 200, _dy, incinerator._burner_main.ignition);
     static IgnTest ignAftTest(*this, 100, _ys + _dy * 1, 200, _dy, incinerator._burner_aft.ignition);
-    static AirPumpTest airPumpTest(*this, 100, _ys + _dy * 2, 200, _dy);
+    static ValveTest valveMainTest(*this, 100, _ys + _dy * 2, 200, _dy, "ValveMAIN", incinerator._burner_main, true);
+    static ValveTest valveAftHiTest(*this, 100, _ys + _dy * 3, 200, _dy, "ValveAftHI", incinerator._burner_aft, true);
+    static ValveTest valveAftLoTest(*this, 100, _ys + _dy * 4, 200, _dy, "ValveAftLO", incinerator._burner_aft, false);
+
+    static AirPumpTest airPumpTest(*this, 100, _ys + _dy * 5, 200, _dy);
     static ScreenChangeButton conf(*this, "Config", &confScreen, 100, _ys + _dy * 8, 100, _dy, "Enter config screen");
     static ScreenChangeButton exit(*this, "Exit", &confScreen, 220, _ys + _dy * 8, 100, _dy, "Exit test screen");
 
     _items.clear();
     _items.push_back(&ignMainTest);
     _items.push_back(&ignAftTest);
+    _items.push_back(&valveMainTest);
+    _items.push_back(&valveAftHiTest);
+    _items.push_back(&valveAftLoTest);
     _items.push_back(&airPumpTest);
     _items.push_back(&conf);
     _items.push_back(&exit);
