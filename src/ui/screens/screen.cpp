@@ -102,7 +102,7 @@ void Screen::update(bool fullRefresh)
     constexpr uint16_t bottom_bar_height = 32;
     constexpr uint16_t line_margin = 3;
 
-    constexpr uint16_t icon_box_width = 38;
+    constexpr uint16_t icon_box_width = 36;
     constexpr uint16_t temp_box_width = 64;
     constexpr uint16_t icon_prog_width = 16;
 
@@ -133,6 +133,7 @@ void Screen::update(bool fullRefresh)
     // Draw 2nd line after temperature readouts
     x += line_margin;
     _d.drawFastVLine(x, line_margin, top_bar_height - (line_margin * 2), GxEPD_BLACK);
+    x += 2;
 
     // Draw stopwatch icon
     icon_clock.draw(_d, x, 0, icon_box_width, top_bar_height);
@@ -147,6 +148,7 @@ void Screen::update(bool fullRefresh)
     }
 
     // Draw flame to the right
+    // TODO: Check if in cooling mode
     icon_flame.draw(_d, x, 0, icon_box_width, top_bar_height);
 
     // Draw line below top bar
