@@ -98,12 +98,13 @@ void Screen::update(bool fullRefresh)
 {
     unsigned long start = millis();
 
-    constexpr uint32_t top_bar_height = 40;
-    constexpr uint32_t bottom_bar_height = 32;
-    constexpr uint32_t line_margin = 3;
+    constexpr uint16_t top_bar_height = 40;
+    constexpr uint16_t bottom_bar_height = 32;
+    constexpr uint16_t line_margin = 3;
 
-    constexpr uint32_t icon_box_width = 38;
-    constexpr uint32_t temp_box_width = 64;
+    constexpr uint16_t icon_box_width = 38;
+    constexpr uint16_t temp_box_width = 64;
+    constexpr uint16_t icon_prog_width = 16;
 
     // Init screen drawing
     _d.setRotation(0);
@@ -113,12 +114,7 @@ void Screen::update(bool fullRefresh)
     // Draw top bar. Start at the left side
     uint16_t x = 0;
     // Draw thermometer icon
-    _d.drawBitmap(x + (icon_box_width - ICON_THERMOMETER_WIDTH) / 2,
-                  (top_bar_height - ICON_THERMOMETER_HEIGHT) / 2,
-                  ICON_THERMOMETER_DATA,
-                  ICON_THERMOMETER_WIDTH,
-                  ICON_THERMOMETER_HEIGHT,
-                  GxEPD_BLACK);
+    icon_thermometer.draw(_d, x, 0, icon_box_width, top_bar_height);
     x += icon_box_width;
 
     // Print burn chamber temperatures
@@ -139,33 +135,19 @@ void Screen::update(bool fullRefresh)
     _d.drawFastVLine(x, line_margin, top_bar_height - (line_margin * 2), GxEPD_BLACK);
 
     // Draw stopwatch icon
-    _d.drawBitmap(x + (icon_box_width - ICON_CLOCK_WIDTH) / 2,
-                  (top_bar_height - ICON_CLOCK_HEIGHT) / 2,
-                  ICON_CLOCK_DATA,
-                  ICON_CLOCK_WIDTH,
-                  ICON_CLOCK_HEIGHT,
-                  GxEPD_BLACK);
+    icon_clock.draw(_d, x, 0, icon_box_width, top_bar_height);
     x += icon_box_width;
 
     // Draw progress bar
     for (int i = 0; i < 10; i++) {
         bool filled = _progressPercent >= (100.f / 10.f) * (i + 1);
-        _d.drawBitmap(x,
-                      (top_bar_height - ICON_BOX_CLEAR_HEIGHT) / 2,
-                      filled ? ICON_BOX_FILLED_DATA : ICON_BOX_CLEAR_DATA,
-                      ICON_BOX_CLEAR_WIDTH,
-                      ICON_BOX_CLEAR_HEIGHT,
-                      GxEPD_BLACK);
-        x += ICON_BOX_CLEAR_WIDTH;
+        const Icon& icon = filled ? icon_box_filled : icon_box_clear;
+        icon.draw(_d, x, 0, icon_prog_width, top_bar_height);
+        x += icon_prog_width;
     }
 
     // Draw flame to the right
-    _d.drawBitmap(x + (icon_box_width - ICON_FLAME_WIDTH) / 2,
-                  (top_bar_height - ICON_FLAME_HEIGHT) / 2,
-                  ICON_FLAME_DATA,
-                  ICON_FLAME_WIDTH,
-                  ICON_FLAME_HEIGHT,
-                  GxEPD_BLACK);
+    icon_flame.draw(_d, x, 0, icon_box_width, top_bar_height);
 
     // Draw line below top bar
     _d.drawFastHLine(line_margin, top_bar_height, _d.width() - (line_margin * 2), GxEPD_BLACK);

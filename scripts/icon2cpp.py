@@ -33,7 +33,7 @@ args = parser.parse_args()
 
 icon_name_base = os.path.splitext(os.path.basename(args.gfxfile))
 icon_name_ext = icon_name_base[1].lower()
-icon_name = icon_name_base[0].upper()
+icon_name = icon_name_base[0]
 
 print(f"Converting {icon_name} ...")
 
@@ -76,21 +76,19 @@ with open("tmp.pnm", 'rb') as f:
     img_dimensions = f.readline().strip().decode('utf-8').split(" ")
 
     with open(args.include, "a+") as ofile:
-        ofile.write(f"\n")
-        ofile.write(f"#define ICON_{icon_name}_WIDTH {img_dimensions[0]}\n")
-        ofile.write(f"#define ICON_{icon_name}_HEIGHT {img_dimensions[1]}\n")
-        ofile.write(f"extern const uint8_t ICON_{icon_name}_DATA[];\n")
+        ofile.write(f"extern const Icon icon_{icon_name};\n")
 
     with open(args.source, "a+") as ofile:
         ofile.write(f"\n")
-        ofile.write(f"const uint8_t ICON_{icon_name}_DATA[] = " + "{\n")
+        ofile.write(f"const Icon icon_{icon_name}" + " {\n")
+        ofile.write(f"    {img_dimensions[0]}, {img_dimensions[1]}," + " {\n")
         img_data = f.read()
         out_str = ""
         for img_chunk in [img_data[i:i+16] for i in range(0, len(img_data), 16)]:
-            line_str = "    " + " ".join(['0x%02x,' % val for val in img_chunk]) + "\n"
+            line_str = "    " * 2 + " ".join(['0x%02x,' % val for val in img_chunk]) + "\n"
             out_str += line_str
         ofile.write(out_str[:-2]) # discard last comma
-        ofile.write("\n};\n")
+        ofile.write("\n    }\n};\n")
 
 if png_name == "tmp.png":
     os.remove("tmp.png")
