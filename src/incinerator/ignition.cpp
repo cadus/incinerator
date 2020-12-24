@@ -27,7 +27,6 @@
 Ignition::Ignition(std::string name, uint8_t pin, Thermocouple& thermocouple)
 : _name(name)
 , _pin(pin)
-, _startFlag(false)
 , _thermocouple(thermocouple)
 {
 }
@@ -38,14 +37,14 @@ void Ignition::init()
     digitalWrite(_pin, LOW);
 }
 
-Ignition::mode Ignition::getMode()
+Ignition::mode Ignition::getMode() const
 {
     return _mode;
 }
 
-std::string Ignition::getModeStr()
+std::string Ignition::getModeStr() const
 {
-    const std::map<mode, std::string> lookupTbl {
+    static const std::map<mode, std::string> lookupTbl {
         {idle, "Idle"},
         {setCoil, "SetCoil"},
         {waitPulse, "WaitPulse"},
@@ -57,7 +56,7 @@ std::string Ignition::getModeStr()
     return it != lookupTbl.end() ? it->second : "N/A";
 }
 
-std::string Ignition::getName()
+std::string Ignition::getName() const
 {
     return _name;
 }

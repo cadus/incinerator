@@ -42,9 +42,9 @@ public:
     };
 
     Ignition(std::string name, uint8_t pin, Thermocouple& thermocouple);
-    mode getMode();
-    std::string getModeStr();
-    std::string getName();
+    mode getMode() const;
+    std::string getModeStr() const;
+    std::string getName() const;
     void init();
     void start();
     void reset();
@@ -54,7 +54,7 @@ private:
     const std::string _name;
     const uint8_t _pin;
     mode _mode;
-    bool _startFlag;
+    bool _startFlag = false;
     Timeout _pulse_timeout;
     Timeout _burn_timeout;
     float _temp_begin;
