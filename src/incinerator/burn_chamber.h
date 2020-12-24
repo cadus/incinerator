@@ -35,25 +35,40 @@ class BurnChamber
     NOT_MOVEABLE(BurnChamber);
 
 public:
+    enum mode {
+        idle,
+        startIgnition,
+        waitIgnition,
+        waitTemp,
+        burnHigh,
+        burnLow,
+        failed
+    };
+
     BurnChamber(std::string name, uint8_t ignition_pin, uint8_t thermocouple_cs, uint8_t valve_hi, uint8_t valve_lo=0);
 
-    thermocouple_meas_t getTemp() const;
-
+    mode getMode() const;
+    std::string getModeStr() const;
+    std::string getName() const;
     void init();
+    void start();
+    void reset();
     void task();
 
     void valve_state_set(ValveState state);
-    ValveState valve_state_get();
+    ValveState valve_state_get() const;
 
     Ignition ignition;
     Thermocouple thermocouple;
 
 private:
+    mode _mode = mode::idle;
     const std::string _name;
     Timeout _tempReadTimeout;
     uint8_t _valve_hi;
     uint8_t _valve_lo;
     ValveState _valve_state;
+    bool _startFlag = false;
 
     static constexpr uint32_t _tempReadInterval = 500;
 };

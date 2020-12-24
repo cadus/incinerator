@@ -19,6 +19,8 @@
 
 #include "incinerator/burn_chamber.h"
 
+#include <map>
+
 BurnChamber::BurnChamber(std::string name, uint8_t ignition_pin, uint8_t thermocouple_cs, uint8_t valve_hi, uint8_t valve_lo)
 : ignition(name, ignition_pin, thermocouple)
 , thermocouple(name, thermocouple_cs)
@@ -41,6 +43,43 @@ void BurnChamber::init()
     }
 }
 
+BurnChamber::mode BurnChamber::getMode() const
+{
+    return _mode;
+}
+
+std::string BurnChamber::getModeStr() const
+{
+    static const std::map<mode, std::string> lookupTbl {
+        {idle, "Idle"},
+        {startIgnition, "StartIgn"},
+        {waitIgnition, "WaitIgn"},
+        {waitTemp, "WaitTemp"},
+        {burnHigh, "BurnHigh"},
+        {burnLow, "BurnLow"},
+        {failed, "Failed"}
+    };
+    auto it = lookupTbl.find(getMode());
+    return it != lookupTbl.end() ? it->second : "N/A";
+}
+
+std::string BurnChamber::getName() const
+{
+    return _name;
+}
+
+void BurnChamber::start()
+{
+    _startFlag = true;
+}
+
+void BurnChamber::reset()
+{
+    ignition.reset();
+    valve_state_set(ValveState::off);
+    _mode = mode::idle;
+}
+    
 void BurnChamber::task()
 {
     if (_tempReadTimeout.elapsed()) {
@@ -67,7 +106,7 @@ void BurnChamber::valve_state_set(ValveState state)
     }
 }
 
-ValveState BurnChamber::valve_state_get()
+ValveState BurnChamber::valve_state_get() const
 {
     return _valve_state;
 }
