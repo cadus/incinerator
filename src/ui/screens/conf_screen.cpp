@@ -21,7 +21,7 @@
 
 #include <string>
 
-#include "test_screen.h"
+#include "home_screen.h"
 #include "util/sys_config.h"
 
 ConfItem::ConfItem(InteractiveScreen& parent,
@@ -91,14 +91,12 @@ void ConfScreen::reset()
           _xs + _dx * 1, _ys + _dy * 5, _dx, _dy },
     };
 
-    static ScreenChangeButton test(*this, "Test", &testScreen, 100, _ys + _dy * 8, 100, _dy, "Enter Test screen");
-    static ScreenChangeButton exit(*this, "Exit", &confScreen, 220, _ys + _dy * 8, 100, _dy, "Exit config screen");
+    static ScreenChangeButton exit(*this, "Exit", &homeScreen, 220, _ys + _dy * 8, 100, _dy, "Exit config screen");
 
     _items.clear();
     for (auto& c : confs) {
         _items.push_back(&c);
     }
-    _items.push_back(&test);
     _items.push_back(&exit);
 
     InteractiveScreen::reset();

@@ -54,8 +54,10 @@ else:
 # Convert the PNG to Portable Anymap (PNM)
 
 imagemagick_cmd = ["convert"]
-if args.height is not None:
-    imagemagick_cmd += ["-resize", f"x{args.height}"]
+if args.width or args.height:
+    w_arg = args.width or ""
+    h_arg = args.height or ""
+    imagemagick_cmd += ["-resize", f"{w_arg}x{h_arg}"]
 
 imagemagick_cmd += ["-background", "white",
                     "-alpha", "remove",

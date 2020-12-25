@@ -19,7 +19,7 @@
 
 #include "test_screen.h"
 
-#include "conf_screen.h"
+#include "home_screen.h"
 #include "incinerator/incinerator.h"
 
 TestButton::TestButton(InteractiveScreen& parent,
@@ -127,8 +127,8 @@ void TestScreen::reset()
     static ValveTest valveAftLoTest(*this, 100, _ys + _dy * 4, 200, _dy, "ValveAftLO", incinerator._burner_aft, false);
 
     static AirPumpTest airPumpTest(*this, 100, _ys + _dy * 5, 200, _dy);
-    static ScreenChangeButton conf(*this, "Config", &confScreen, 100, _ys + _dy * 8, 100, _dy, "Enter config screen");
-    static ScreenChangeButton exit(*this, "Exit", &confScreen, 220, _ys + _dy * 8, 100, _dy, "Exit test screen");
+
+    static ScreenChangeButton exit(*this, "Exit", &homeScreen, 220, _ys + _dy * 8, 100, _dy, "Exit config screen");
 
     _items.clear();
     _items.push_back(&ignMainTest);
@@ -137,7 +137,6 @@ void TestScreen::reset()
     _items.push_back(&valveAftHiTest);
     _items.push_back(&valveAftLoTest);
     _items.push_back(&airPumpTest);
-    _items.push_back(&conf);
     _items.push_back(&exit);
 
     InteractiveScreen::reset();
