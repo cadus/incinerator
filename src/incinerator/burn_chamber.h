@@ -55,8 +55,8 @@ public:
     void reset();
     void task();
 
-    void valve_state_set(ValveState state);
-    ValveState valve_state_get() const;
+    void setValveState(ValveState state);
+    ValveState getValveState() const;
 
     Ignition ignition;
     Thermocouple thermocouple;

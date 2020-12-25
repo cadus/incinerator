@@ -98,16 +98,16 @@ ValveTest::ValveTest(InteractiveScreen& parent,
 
 void ValveTest::toggle()
 {
-    ValveState state = _bch.valve_state_get();
+    ValveState state = _bch.getValveState();
     const ValveState onState = (_highLevel ? ValveState::high : ValveState::low);
     bool active = (state == onState);
     // toggle
-    _bch.valve_state_set(active ? ValveState::off : onState);
+    _bch.setValveState(active ? ValveState::off : onState);
 }
 
 std::string ValveTest::getState()
 {
-    ValveState state = _bch.valve_state_get();
+    ValveState state = _bch.getValveState();
     const ValveState onState = (_highLevel ? ValveState::high : ValveState::low);
 
     return state == onState ? "ON" : "OFF";

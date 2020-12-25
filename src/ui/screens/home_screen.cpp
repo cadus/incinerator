@@ -45,7 +45,7 @@ void HomeScreen::reset()
 
 void HomeScreen::draw()
 {
-    uint16_t y = _content_y;
+    uint16_t y = _ys;
     icon_cadus_logo.draw(_d, 0, y, GxEPD2_420::WIDTH, _dy * 4);
     y += _dy * 4;
 

@@ -89,7 +89,7 @@ void BurnChamber::task()
     ignition.task();
 }
 
-void BurnChamber::valve_state_set(ValveState state)
+void BurnChamber::setValveState(ValveState state)
 {
     _valveState = state;
 
@@ -106,7 +106,7 @@ void BurnChamber::valve_state_set(ValveState state)
     }
 }
 
-ValveState BurnChamber::valve_state_get() const
+ValveState BurnChamber::getValveState() const
 {
     return _valveState;
 }
