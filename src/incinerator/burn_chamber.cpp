@@ -25,9 +25,9 @@ BurnChamber::BurnChamber(std::string name, uint8_t ignition_pin, uint8_t thermoc
 : ignition(name, ignition_pin, thermocouple)
 , thermocouple(name, thermocouple_cs)
 , _name(name)
-, _valve_hi(valve_hi)
-, _valve_lo(valve_lo)
-, _valve_state(ValveState::off)
+, _valveHiPin(valve_hi)
+, _valveLoPin(valve_lo)
+, _valveState(ValveState::off)
 {
 }
 
@@ -35,11 +35,11 @@ void BurnChamber::init()
 {
     thermocouple.init();
     ignition.init();
-    pinMode(_valve_hi, OUTPUT);
-    digitalWrite(_valve_hi, LOW);
-    if (_valve_lo) {
-        pinMode(_valve_lo, OUTPUT);
-        digitalWrite(_valve_lo, LOW);
+    pinMode(_valveHiPin, OUTPUT);
+    digitalWrite(_valveHiPin, LOW);
+    if (_valveLoPin) {
+        pinMode(_valveLoPin, OUTPUT);
+        digitalWrite(_valveLoPin, LOW);
     }
 }
 
@@ -91,22 +91,22 @@ void BurnChamber::task()
 
 void BurnChamber::valve_state_set(ValveState state)
 {
-    _valve_state = state;
+    _valveState = state;
 
     if (state == ValveState::off) {
-        digitalWrite(_valve_hi, LOW);
-        digitalWrite(_valve_lo, LOW);
+        digitalWrite(_valveHiPin, LOW);
+        digitalWrite(_valveLoPin, LOW);
         return;
     }
 
     bool highLevel = (state == ValveState::high);
-    digitalWrite(_valve_hi, highLevel ? HIGH : LOW);
-    if (_valve_lo) {
-        digitalWrite(_valve_lo, highLevel ? LOW : HIGH);
+    digitalWrite(_valveHiPin, highLevel ? HIGH : LOW);
+    if (_valveLoPin) {
+        digitalWrite(_valveLoPin, highLevel ? LOW : HIGH);
     }
 }
 
 ValveState BurnChamber::valve_state_get() const
 {
-    return _valve_state;
+    return _valveState;
 }

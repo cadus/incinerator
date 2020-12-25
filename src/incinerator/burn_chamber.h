@@ -65,9 +65,9 @@ private:
     mode _mode = mode::idle;
     const std::string _name;
     Timeout _tempReadTimeout;
-    uint8_t _valve_hi;
-    uint8_t _valve_lo;
-    ValveState _valve_state;
+    uint8_t _valveHiPin;
+    uint8_t _valveLoPin;
+    ValveState _valveState;
     bool _startFlag = false;
 
     static constexpr uint32_t _tempReadInterval = 500;
