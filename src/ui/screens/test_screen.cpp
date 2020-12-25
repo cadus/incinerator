@@ -44,7 +44,7 @@ bool TestButton::handler()
 
 IgnTest::IgnTest(InteractiveScreen& parent, uint16_t x, uint16_t y, uint16_t w, uint16_t h,
                  Ignition& ignition)
-: TestButton(parent, "Ign" + ignition.getName(), x, y, w, h,
+: TestButton(parent, "Ignition", x, y, w, h,
              "Toggle " + ignition.getName() + " Ignition")
 , _ignition(ignition)
 {
@@ -120,26 +120,41 @@ TestScreen::TestScreen()
 
 void TestScreen::reset()
 {
-    static IgnTest ignMainTest(*this, 100, _ys + _dy * 0, 200, _dy, incinerator._burner_main.ignition);
-    static IgnTest ignAftTest(*this, 100, _ys + _dy * 1, 200, _dy, incinerator._burner_aft.ignition);
-    static ValveTest valveMainTest(*this, 100, _ys + _dy * 2, 200, _dy, "ValveMAIN", incinerator._burner_main, true);
-    static ValveTest valveAftHiTest(*this, 100, _ys + _dy * 3, 200, _dy, "ValveAftHI", incinerator._burner_aft, true);
-    static ValveTest valveAftLoTest(*this, 100, _ys + _dy * 4, 200, _dy, "ValveAftLO", incinerator._burner_aft, false);
+    int16_t x = _xs + _dx, w = _dx;
+    static IgnTest ignMainTest(*this, x, _ys + _dy * 0, w, _dy, incinerator._burner_main.ignition);
+    static ValveTest valveMainTest(*this, x, _ys + _dy * 1, w, _dy, "Valve", incinerator._burner_main, true);
 
-    static AirPumpTest airPumpTest(*this, 100, _ys + _dy * 5, 200, _dy);
+    static IgnTest ignAftTest(*this, x, _ys + _dy * 2, w, _dy, incinerator._burner_aft.ignition);
+    static ValveTest valveAftHiTest(*this, x, _ys + _dy * 3, w, _dy, "Valve HI", incinerator._burner_aft, true);
+    static ValveTest valveAftLoTest(*this, x, _ys + _dy * 4, w, _dy, "Valve LO", incinerator._burner_aft, false);
+
+    static AirPumpTest airPumpTest(*this, x, _ys + _dy * 5, w, _dy);
 
     static ScreenChangeButton exit(*this, "Exit", &homeScreen, 220, _ys + _dy * 8, 100, _dy, "Exit config screen");
 
     _items.clear();
     _items.push_back(&ignMainTest);
-    _items.push_back(&ignAftTest);
     _items.push_back(&valveMainTest);
+    _items.push_back(&ignAftTest);
     _items.push_back(&valveAftHiTest);
     _items.push_back(&valveAftLoTest);
     _items.push_back(&airPumpTest);
     _items.push_back(&exit);
 
     InteractiveScreen::reset();
+}
+
+void TestScreen::draw()
+{
+    InteractiveScreen::draw();
+
+    PrintFlags flags;
+    flags.set(PrintFlag::bold);
+
+    print("MAIN", 0, _ys, _xs, _dy * 2, flags);
+    _d.drawFastHLine(0, _ys + _dy * 2, _d.width(), GxEPD_BLACK);
+    print("AFT", 0, _ys + _dy * 2, _xs, _dy * 3, flags);
+    _d.drawFastHLine(0, _ys + _dy * 5, _d.width(), GxEPD_BLACK);
 }
 
 TestScreen testScreen;

@@ -85,6 +85,7 @@ public:
     TestScreen();
 
     void reset() override;
+    void draw() override;
 
 private:
     static constexpr uint16_t _dx = 160;
