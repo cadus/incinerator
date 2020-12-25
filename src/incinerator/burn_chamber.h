@@ -62,6 +62,8 @@ public:
     Thermocouple thermocouple;
 
 private:
+    void fsm();
+
     mode _mode = mode::idle;
     const std::string _name;
     Timeout _tempReadTimeout;

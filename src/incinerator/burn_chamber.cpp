@@ -21,6 +21,8 @@
 
 #include <map>
 
+#include "util/sys_config.h"
+
 BurnChamber::BurnChamber(std::string name, uint8_t ignition_pin, uint8_t thermocouple_cs, uint8_t valve_hi, uint8_t valve_lo)
 : ignition(name, ignition_pin, thermocouple)
 , thermocouple(name, thermocouple_cs)
@@ -76,10 +78,66 @@ void BurnChamber::start()
 void BurnChamber::reset()
 {
     ignition.reset();
-    valve_state_set(ValveState::off);
+    setValveState(ValveState::off);
     _mode = mode::idle;
 }
     
+void BurnChamber::fsm()
+{
+    std::string name_lower = getName();
+    transform(name_lower.begin(), name_lower.end(), name_lower.begin(), ::tolower); 
+    const float temp = thermocouple.get().external;
+
+    switch (_mode) {
+    default:
+    case mode::idle:
+        if (!_startFlag) {
+            break;
+        }
+        _startFlag = false;
+        _mode = mode::startIgnition;
+        // fall through
+    case mode::startIgnition:
+        setValveState(ValveState::high);
+        ignition.start();
+        _mode = mode::waitIgnition;
+        break;
+    case mode::waitIgnition: {
+            auto ignMode = ignition.getMode();
+            if (ignMode == Ignition::mode::failure) {
+                ignition.reset();
+                setValveState(ValveState::off);
+                _mode = mode::failed;
+            }
+            if (ignMode == Ignition::mode::success) {
+                _mode = mode::waitTemp;
+            }
+        }
+        break;
+    case mode::waitTemp:
+        if (temp >= sysconfig.get(name_lower + "_T_low")) {
+            setValveState(ValveState::high);
+            _mode = mode::burnHigh;
+        }
+        break;
+    case mode::burnHigh:
+        if (temp >= sysconfig.get(name_lower + "_T_high")) {
+            setValveState(ValveState::low);
+            _mode = mode::burnLow;
+        }
+        break;
+    case mode::burnLow:
+        if (temp < sysconfig.get(name_lower + "_T_low")) {
+            // TODO: Ignite again and track ignition success
+            setValveState(ValveState::high);
+            _mode = mode::burnHigh;
+        }
+        break;
+    case mode::failed:
+        break;
+    }
+}
+
 void BurnChamber::task()
 {
     if (_tempReadTimeout.elapsed()) {
@@ -87,6 +145,7 @@ void BurnChamber::task()
         thermocouple.update();
     }
     ignition.task();
+    fsm();
 }
 
 void BurnChamber::setValveState(ValveState state)
