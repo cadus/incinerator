@@ -42,6 +42,10 @@ public:
     void init();
     void update();
 
+#ifdef ENABLE_TEMP_SIMULATION
+    int sim_temp = -1;
+#endif
+
 private:
     const std::string _name;
     Adafruit_MAX31855 _max31855;

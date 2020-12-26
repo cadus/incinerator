@@ -28,6 +28,7 @@
 #include "util/sys_config.h"
 #include "util/timeout.h"
 
+#include "serial_ctrl.h"
 #include "hw_config.h"
 #include "version.h"
 
@@ -63,6 +64,7 @@ void background_task()
 {
     incinerator.task();
     ui.backgroundTask();
+    serial_ctrl_task();
 }
 
 // Called by display code, while waiting for display BUSY flag to reset

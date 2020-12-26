@@ -66,6 +66,12 @@ void Thermocouple::update()
         return;
     }
 
+#ifdef ENABLE_TEMP_SIMULATION
+    if (sim_temp != -1) {
+        tmp.external = sim_temp;
+    }
+#endif
+
     _curr_readout = tmp;
     //  syslog(LOG_DEBUG, "R = %d, T_int: %.1f, T_ext: %.1f", retries, _curr_readout.internal, _curr_readout.external);
 }
