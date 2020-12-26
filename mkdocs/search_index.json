@@ -1,0 +1,119 @@
+{
+    "docs": [
+        {
+            "location": "/",
+            "text": "CADUS incinerator\n\n\nFurnace for the incineration of medical waste.\n\n\nProject scope\n\n\nThis project contains the firmware & schematic for the control module of the \nCADUS\n incinerator.\n\n\nHardware\n\n\nThe control module is based on this ESP32 board: \nDEBO JT ESP32 NodeMCU\n similar to \nDOIT ESP32 DEVKIT V1\n.\n\nKiCad project covering the schematic of the motherboard carrying the ESP32 is included in the \npcb\n folder.\n\n\nBuild Prerequisites\n\n\nInstall \nPlatformIO IDE\n or \nPlatformIO Core (CLI)\n\nPlatformIO will take care of the Arduino framework and third-party libraries.\n\n\nBuild\n\n\nPlatformIO IDE: Click \"Build\"\n\nPlatformIO CLI:\n\n\npio run\n\n\n\n\nInstall\n\n\nConnect ESP32 board via USB. Check the serial port assigned to the board, adapt \nupload_port\n in \nplatformio.ini\n, if necessary.\n\n\nPlatformIO IDE: Click \"Upload\"\n\nPlatformIO CLI:\n\n\npio run --target upload\n\n\n\n\nUpdate\n\n\nInstall esptool with \npip3 install --user esptool\n.\n\n\nConnect the processor module via USB and determine the USB serial port. (\n/dev/ttyUSB0\n in this example)\n\n\nUpdate the firmware:\n\n\npython3 -m esptool --port /dev/ttyUSB0 --baud 921600 write_flash 0x10000 firmware.bin",
+            "title": "Home"
+        },
+        {
+            "location": "/#cadus-incinerator",
+            "text": "Furnace for the incineration of medical waste.",
+            "title": "CADUS incinerator"
+        },
+        {
+            "location": "/#project-scope",
+            "text": "This project contains the firmware & schematic for the control module of the  CADUS  incinerator.",
+            "title": "Project scope"
+        },
+        {
+            "location": "/#hardware",
+            "text": "The control module is based on this ESP32 board:  DEBO JT ESP32 NodeMCU  similar to  DOIT ESP32 DEVKIT V1 . \nKiCad project covering the schematic of the motherboard carrying the ESP32 is included in the  pcb  folder.",
+            "title": "Hardware"
+        },
+        {
+            "location": "/#build-prerequisites",
+            "text": "Install  PlatformIO IDE  or  PlatformIO Core (CLI) \nPlatformIO will take care of the Arduino framework and third-party libraries.",
+            "title": "Build Prerequisites"
+        },
+        {
+            "location": "/#build",
+            "text": "PlatformIO IDE: Click \"Build\" \nPlatformIO CLI:  pio run",
+            "title": "Build"
+        },
+        {
+            "location": "/#install",
+            "text": "Connect ESP32 board via USB. Check the serial port assigned to the board, adapt  upload_port  in  platformio.ini , if necessary.  PlatformIO IDE: Click \"Upload\" \nPlatformIO CLI:  pio run --target upload",
+            "title": "Install"
+        },
+        {
+            "location": "/#update",
+            "text": "Install esptool with  pip3 install --user esptool .  Connect the processor module via USB and determine the USB serial port. ( /dev/ttyUSB0  in this example)  Update the firmware:  python3 -m esptool --port /dev/ttyUSB0 --baud 921600 write_flash 0x10000 firmware.bin",
+            "title": "Update"
+        },
+        {
+            "location": "/burn_chamber/",
+            "text": "Burn chamber\n\n\nThe burn chamber is responsible for managing the burn process in one burn chamber, which includes triggering ignition, reading temperature and controlling gas flow via valves.\n\n\nTemperature control\n\n\nThe temperature is controlled with gas valves which can be ON or OFF (no gradual control). The main chamber features a single valve (VALVE_MAIN), the afterburner chamber features two valves (VALVE_AFT_HI, VALVE_AFT_LO) which create a high or low gas flow, respectively.\n\n\n\n\nWhen temperature sinks below T_MIN, VALVE_MAIN / VALVE_AFT_HI is activated.\n\n\nWhen temperature rises above T_MAX, VALVE_MAIN / VALVE_AFT_HI is deactivated, and in case of the afterburner chamber, VALVE_AFT_LO is activated instead.\n\n\n\n\nState machine\n\n\nstateDiagram\n  [*] --> start: Burn start requested\n  start --> waitIgnition: Set gas valve, request ignition\n  waitIgnition --> failed: Ignition failed\n  failed --> [*]: Reset\n  waitIgnition --> waitTemp: Ignition successful\n  waitTemp --> burnHigh: T_MIN reached\n  burnHigh --> burnLow: T > T_MAX\n  burnLow --> burnHigh: T < T_MIN\n  burnHigh --> [*]: Reset\n  burnLow --> [*]: Reset",
+            "title": "Burn chamber"
+        },
+        {
+            "location": "/burn_chamber/#burn-chamber",
+            "text": "The burn chamber is responsible for managing the burn process in one burn chamber, which includes triggering ignition, reading temperature and controlling gas flow via valves.",
+            "title": "Burn chamber"
+        },
+        {
+            "location": "/burn_chamber/#temperature-control",
+            "text": "The temperature is controlled with gas valves which can be ON or OFF (no gradual control). The main chamber features a single valve (VALVE_MAIN), the afterburner chamber features two valves (VALVE_AFT_HI, VALVE_AFT_LO) which create a high or low gas flow, respectively.   When temperature sinks below T_MIN, VALVE_MAIN / VALVE_AFT_HI is activated.  When temperature rises above T_MAX, VALVE_MAIN / VALVE_AFT_HI is deactivated, and in case of the afterburner chamber, VALVE_AFT_LO is activated instead.",
+            "title": "Temperature control"
+        },
+        {
+            "location": "/burn_chamber/#state-machine",
+            "text": "stateDiagram\n  [*] --> start: Burn start requested\n  start --> waitIgnition: Set gas valve, request ignition\n  waitIgnition --> failed: Ignition failed\n  failed --> [*]: Reset\n  waitIgnition --> waitTemp: Ignition successful\n  waitTemp --> burnHigh: T_MIN reached\n  burnHigh --> burnLow: T > T_MAX\n  burnLow --> burnHigh: T < T_MIN\n  burnHigh --> [*]: Reset\n  burnLow --> [*]: Reset",
+            "title": "State machine"
+        },
+        {
+            "location": "/ignition/",
+            "text": "Ignition module\n\n\nIgnition is triggered from higher level control (burn chamber).\n\n\nIgnition control\n\n\nIgnition coil is activated for a configurable time \nign_pulse_w\n, this is repeated after a configurable delay \nign_repeat_itvl\n until temperature has risen enough that a successful ignition can be assumed.\n\n\nProtection logic\n\n\nIgnition control features a simple protection logic to make sure there's no gas flow when the gas is not burning. After ignition has started, the ignition module checks if temperature has risen by a configurable delta \nign_delta\n. When a configurable timeout \nign_t\n has elapsed w/o temperature rising, then the ignition module indicates that ignition has failed and the gas flow should be shut down.\n\n\nState machine\n\n\nstateDiagram\n  [*] --> setCoil: Ignition request\n  setCoil --> waitPulse\n  waitPulse --> resetCoil: ign_pulse_w elapsed\n  resetCoil --> waitIgnition\n  waitIgnition --> setCoil: ign_repeat_itvl elapsed\n  waitIgnition --> success: Temp. raised\n  waitIgnition --> failure: Timeout\n  success --> [*]: Reset\n  failure --> [*]: Reset",
+            "title": "Ignition"
+        },
+        {
+            "location": "/ignition/#ignition-module",
+            "text": "Ignition is triggered from higher level control (burn chamber).",
+            "title": "Ignition module"
+        },
+        {
+            "location": "/ignition/#ignition-control",
+            "text": "Ignition coil is activated for a configurable time  ign_pulse_w , this is repeated after a configurable delay  ign_repeat_itvl  until temperature has risen enough that a successful ignition can be assumed.",
+            "title": "Ignition control"
+        },
+        {
+            "location": "/ignition/#protection-logic",
+            "text": "Ignition control features a simple protection logic to make sure there's no gas flow when the gas is not burning. After ignition has started, the ignition module checks if temperature has risen by a configurable delta  ign_delta . When a configurable timeout  ign_t  has elapsed w/o temperature rising, then the ignition module indicates that ignition has failed and the gas flow should be shut down.",
+            "title": "Protection logic"
+        },
+        {
+            "location": "/ignition/#state-machine",
+            "text": "stateDiagram\n  [*] --> setCoil: Ignition request\n  setCoil --> waitPulse\n  waitPulse --> resetCoil: ign_pulse_w elapsed\n  resetCoil --> waitIgnition\n  waitIgnition --> setCoil: ign_repeat_itvl elapsed\n  waitIgnition --> success: Temp. raised\n  waitIgnition --> failure: Timeout\n  success --> [*]: Reset\n  failure --> [*]: Reset",
+            "title": "State machine"
+        },
+        {
+            "location": "/incinerator/",
+            "text": "Incinerator\n\n\nThe incinerator is responsible for managing the overall burn process.\n\n\nBurn sequence\n\n\n\n\nStart burn process in afterburner to pre-heat it\n\n\nWhen afterburner has reached operating temperature, enable air pump and main burner.\n\n\nWhen main burner has reached operating temp., wait until burn time is elapsed.\n\n\nSwitch off gas and wait until system has cooled down.\n\n\n\n\nState machine\n\n\nstateDiagram\n  [*] --> start: Burn start requested\n  start --> waitAfterburner: Start afterburner\n  waitAfterburner --> failureCoolDown: Aft. failed\n  failureCoolDown --> [*]: System cooled down\n  waitAfterburner --> startMain: Aft. temp. reached\n  startMain --> waitMain: Start main burner\n  waitMain --> burnActive: Main temp. reached\n  waitMain --> failureCoolDown: Main failed\n  burnActive --> coolDown: Burn time elapsed\n  coolDown --> [*]: System cooled down",
+            "title": "Incinerator"
+        },
+        {
+            "location": "/incinerator/#incinerator",
+            "text": "The incinerator is responsible for managing the overall burn process.",
+            "title": "Incinerator"
+        },
+        {
+            "location": "/incinerator/#burn-sequence",
+            "text": "Start burn process in afterburner to pre-heat it  When afterburner has reached operating temperature, enable air pump and main burner.  When main burner has reached operating temp., wait until burn time is elapsed.  Switch off gas and wait until system has cooled down.",
+            "title": "Burn sequence"
+        },
+        {
+            "location": "/incinerator/#state-machine",
+            "text": "stateDiagram\n  [*] --> start: Burn start requested\n  start --> waitAfterburner: Start afterburner\n  waitAfterburner --> failureCoolDown: Aft. failed\n  failureCoolDown --> [*]: System cooled down\n  waitAfterburner --> startMain: Aft. temp. reached\n  startMain --> waitMain: Start main burner\n  waitMain --> burnActive: Main temp. reached\n  waitMain --> failureCoolDown: Main failed\n  burnActive --> coolDown: Burn time elapsed\n  coolDown --> [*]: System cooled down",
+            "title": "State machine"
+        },
+        {
+            "location": "/pcb/",
+            "text": "PCB schematic",
+            "title": "Pcb"
+        },
+        {
+            "location": "/pcb/#pcb-schematic",
+            "text": "",
+            "title": "PCB schematic"
+        }
+    ]
+}
