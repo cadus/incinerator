@@ -121,9 +121,9 @@ void Screen::update(bool fullRefresh)
     for (int i = 0; i < 2; i++) {
         PrintFlags flags;
         flags.set(PrintFlag::bold);
-        const burn_chamber_t bch = (i == 0) ? chamber_main : chamber_aft;
         char tmp[16] = { 0 };
-        snprintf(tmp, sizeof(tmp), "%d", int(incinerator.getTemp(bch).external));
+        BurnChamber& b = i ? incinerator.burnerAft : incinerator.burnerMain;
+        snprintf(tmp, sizeof(tmp), "%d", int(b.thermocouple.get().external));
         print(tmp, x, 0, temp_box_width, top_bar_height, flags);
 
         x += temp_box_width;

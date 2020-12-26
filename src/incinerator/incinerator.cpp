@@ -24,36 +24,23 @@
 #include "util/syslog.h"
 
 Incinerator::Incinerator()
-: _burner_main("MAIN", IGNITION_MAIN, TEMP_MAIN_CS, VALVE_MAIN)
-, _burner_aft("AFT", IGNITION_AFT, TEMP_AFT_CS, VALVE_AFT_HI, VALVE_AFT_LO)
-, _airPump(AIRPMP, PWM_CH_AIRPMP)
+: burnerMain("MAIN", IGNITION_MAIN, TEMP_MAIN_CS, VALVE_MAIN)
+, burnerAft("AFT", IGNITION_AFT, TEMP_AFT_CS, VALVE_AFT_HI, VALVE_AFT_LO)
+, airPump(AIRPMP, PWM_CH_AIRPMP)
 {
 }
 
 void Incinerator::init()
 {
-    _burner_main.init();
-    _burner_aft.init();
-    _airPump.init();
+    burnerMain.init();
+    burnerAft.init();
+    airPump.init();
 }
 
 void Incinerator::task()
 {
-    _burner_main.task();
-    _burner_aft.task();
-}
-
-thermocouple_meas_t Incinerator::getTemp(burn_chamber_t ch)
-{
-    switch (ch) {
-    default:
-        syslog(LOG_ERROR, "Unknown burn chamber %d", ch);
-        return (thermocouple_meas_t){ 0, 0 };
-    case chamber_main:
-        return _burner_main.thermocouple.get();
-    case chamber_aft:
-        return _burner_aft.thermocouple.get();
-    }
+    burnerMain.task();
+    burnerAft.task();
 }
 
 Incinerator incinerator;

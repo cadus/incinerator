@@ -73,16 +73,16 @@ AirPumpTest::AirPumpTest(InteractiveScreen& parent,
 
 void AirPumpTest::toggle()
 {
-    if (incinerator._airPump.isOn()) {
-        incinerator._airPump.off();
+    if (incinerator.airPump.isOn()) {
+        incinerator.airPump.off();
     } else {
-        incinerator._airPump.on();
+        incinerator.airPump.on();
     }
 }
 
 std::string AirPumpTest::getState()
 {
-    return incinerator._airPump.isOn() ? "ON" : "OFF";
+    return incinerator.airPump.isOn() ? "ON" : "OFF";
 }
 
 ValveTest::ValveTest(InteractiveScreen& parent,
@@ -121,12 +121,12 @@ TestScreen::TestScreen()
 void TestScreen::reset()
 {
     int16_t x = _xs + _dx, w = _dx;
-    static IgnTest ignMainTest(*this, x, _ys + _dy * 0, w, _dy, incinerator._burner_main.ignition);
-    static ValveTest valveMainTest(*this, x, _ys + _dy * 1, w, _dy, "Valve", incinerator._burner_main, true);
+    static IgnTest ignMainTest(*this, x, _ys + _dy * 0, w, _dy, incinerator.burnerMain.ignition);
+    static ValveTest valveMainTest(*this, x, _ys + _dy * 1, w, _dy, "Valve", incinerator.burnerMain, true);
 
-    static IgnTest ignAftTest(*this, x, _ys + _dy * 2, w, _dy, incinerator._burner_aft.ignition);
-    static ValveTest valveAftHiTest(*this, x, _ys + _dy * 3, w, _dy, "Valve HI", incinerator._burner_aft, true);
-    static ValveTest valveAftLoTest(*this, x, _ys + _dy * 4, w, _dy, "Valve LO", incinerator._burner_aft, false);
+    static IgnTest ignAftTest(*this, x, _ys + _dy * 2, w, _dy, incinerator.burnerAft.ignition);
+    static ValveTest valveAftHiTest(*this, x, _ys + _dy * 3, w, _dy, "Valve HI", incinerator.burnerAft, true);
+    static ValveTest valveAftLoTest(*this, x, _ys + _dy * 4, w, _dy, "Valve LO", incinerator.burnerAft, false);
 
     static AirPumpTest airPumpTest(*this, x, _ys + _dy * 5, w, _dy);
 

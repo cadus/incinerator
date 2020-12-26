@@ -21,11 +21,6 @@
 #include "burn_chamber.h"
 #include "macros.h"
 
-enum burn_chamber_t {
-    chamber_main,
-    chamber_aft
-};
-
 class Incinerator
 {
     NOT_COPYABLE(Incinerator);
@@ -36,11 +31,9 @@ public:
     void init();
     void task();
 
-    thermocouple_meas_t getTemp(burn_chamber_t ch);
-
-    BurnChamber _burner_main;
-    BurnChamber _burner_aft;
-    AirPump _airPump;
+    BurnChamber burnerMain;
+    BurnChamber burnerAft;
+    AirPump airPump;
 };
 
 extern Incinerator incinerator;
