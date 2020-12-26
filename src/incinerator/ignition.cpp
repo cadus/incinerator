@@ -48,7 +48,7 @@ std::string Ignition::getModeStr() const
         {idle, "Idle"},
         {setCoil, "SetCoil"},
         {waitPulse, "WaitPulse"},
-        {waitIgnition, "WaitIgnition"},
+        {waitIgnition, "WaitIgn"},
         {success, "Success"},
         {failure, "Failure"},
     };

@@ -56,9 +56,9 @@ std::string BurnChamber::getModeStr() const
         {idle, "Idle"},
         {startIgnition, "StartIgn"},
         {waitIgnition, "WaitIgn"},
-        {waitTemp, "WaitTemp"},
-        {burnHigh, "BurnHigh"},
-        {burnLow, "BurnLow"},
+        {waitTemp, "WaitTmp"},
+        {burnHigh, "BurnHi"},
+        {burnLow, "BurnLo"},
         {failed, "Failed"}
     };
     auto it = lookupTbl.find(getMode());

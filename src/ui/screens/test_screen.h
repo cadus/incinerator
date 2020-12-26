@@ -39,6 +39,18 @@ private:
     virtual std::string getState() = 0;
 };
 
+class BchTest : public TestButton
+{
+public:
+    BchTest(InteractiveScreen& parent,
+            uint16_t x, uint16_t y, uint16_t w, uint16_t h, BurnChamber& burnChamber);
+
+private:
+    virtual void toggle() override;
+    virtual std::string getState() override;
+    BurnChamber& _burnChamber;
+};
+
 class IgnTest : public TestButton
 {
 public:

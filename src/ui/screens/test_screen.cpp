@@ -42,6 +42,29 @@ bool TestButton::handler()
     return true;
 }
 
+BchTest::BchTest(InteractiveScreen& parent, uint16_t x, uint16_t y, uint16_t w, uint16_t h,
+                 BurnChamber& burnChamber)
+: TestButton(parent, "Burner", x, y, w, h,
+             "Toggle " + burnChamber.getName() + " burner")
+, _burnChamber(burnChamber)
+{
+}
+
+void BchTest::toggle()
+{
+    auto m = _burnChamber.getMode();
+    if (m == BurnChamber::mode::idle) {
+        _burnChamber.start();
+    } else {
+        _burnChamber.reset();
+    }
+}
+
+std::string BchTest::getState()
+{
+    return _burnChamber.getModeStr();
+}
+
 IgnTest::IgnTest(InteractiveScreen& parent, uint16_t x, uint16_t y, uint16_t w, uint16_t h,
                  Ignition& ignition)
 : TestButton(parent, "Ignition", x, y, w, h,
@@ -120,19 +143,25 @@ TestScreen::TestScreen()
 
 void TestScreen::reset()
 {
-    int16_t x = _xs + _dx, w = _dx;
+    int16_t x = _xs, w = _dx;
+    static BchTest bchMainTest(*this, x, _ys + _dy / 2, w, _dy, incinerator.burnerMain);
+    static BchTest bchAftTest(*this, x, _ys + _dy * 3, w, _dy, incinerator.burnerAft);
+
+    x += _dx;
     static IgnTest ignMainTest(*this, x, _ys + _dy * 0, w, _dy, incinerator.burnerMain.ignition);
-    static ValveTest valveMainTest(*this, x, _ys + _dy * 1, w, _dy, "Valve", incinerator.burnerMain, true);
+    static ValveTest valveMainTest(*this, x, _ys + _dy * 1, w, _dy, "VLV MAIN", incinerator.burnerMain, true);
 
     static IgnTest ignAftTest(*this, x, _ys + _dy * 2, w, _dy, incinerator.burnerAft.ignition);
-    static ValveTest valveAftHiTest(*this, x, _ys + _dy * 3, w, _dy, "Valve HI", incinerator.burnerAft, true);
-    static ValveTest valveAftLoTest(*this, x, _ys + _dy * 4, w, _dy, "Valve LO", incinerator.burnerAft, false);
+    static ValveTest valveAftHiTest(*this, x, _ys + _dy * 3, w, _dy, "VLV A.HI", incinerator.burnerAft, true);
+    static ValveTest valveAftLoTest(*this, x, _ys + _dy * 4, w, _dy, "VLV A.LO", incinerator.burnerAft, false);
 
     static AirPumpTest airPumpTest(*this, x, _ys + _dy * 5, w, _dy);
 
     static ScreenChangeButton exit(*this, "Exit", &homeScreen, 220, _ys + _dy * 8, 100, _dy, "Exit config screen");
 
     _items.clear();
+    _items.push_back(&bchMainTest);
+    _items.push_back(&bchAftTest);
     _items.push_back(&ignMainTest);
     _items.push_back(&valveMainTest);
     _items.push_back(&ignAftTest);
@@ -151,9 +180,9 @@ void TestScreen::draw()
     PrintFlags flags;
     flags.set(PrintFlag::bold);
 
-    print("MAIN", 0, _ys, _xs, _dy * 2, flags);
+    print("MAIN", 0, _ys + _dy / 2, _xs, _dy, flags);
     _d.drawFastHLine(0, _ys + _dy * 2, _d.width(), GxEPD_BLACK);
-    print("AFT", 0, _ys + _dy * 2, _xs, _dy * 3, flags);
+    print("AFT", 0, _ys + _dy * 3, _xs, _dy, flags);
     _d.drawFastHLine(0, _ys + _dy * 5, _d.width(), GxEPD_BLACK);
 }
 
