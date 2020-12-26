@@ -30,6 +30,11 @@
 <div class="wy-side-scroll">
 <div class="wy-side-nav-search">
 <a class="icon icon-home" href=".."> Incinerator firmware docs</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" title="Type search term here" type="text"/>
+</form>
+</div>
 </div>
 <div aria-label="main navigation" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
 <ul>
@@ -89,7 +94,7 @@
 <li>When temperature rises above T_MAX, VALVE_MAIN / VALVE_AFT_HI is deactivated, and in case of the afterburner chamber, VALVE_AFT_LO is activated instead.</li>
 </ul>
 <h3 id="state-machine">State machine</h3>
-<pre><code class="language-mermaid">stateDiagram
+<div class="mermaid">stateDiagram-v2
   [*] --&gt; start: Burn start requested
   start --&gt; waitIgnition: Set gas valve, request ignition
   waitIgnition --&gt; failed: Ignition failed
@@ -100,7 +105,7 @@
   burnLow --&gt; burnHigh: T &lt; T_MIN
   burnHigh --&gt; [*]: Reset
   burnLow --&gt; [*]: Reset
-</code></pre>
+</div>
 </div>
 </div>
 <footer>
@@ -127,11 +132,12 @@
 </div>
 <script>var base_url = '..';</script>
 <script defer="" src="../js/theme.js"></script>
-<script defer="" src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/8.4.4/mermaid.min.js"></script>
+<script defer="" src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+<script defer="" src="../search/main.js"></script>
 <script defer="">
         window.onload = function () {
             SphinxRtdTheme.Navigation.enable(true);
         };
     </script>
-</body>
+<script>mermaid.initialize({});</script></body>
 </html>

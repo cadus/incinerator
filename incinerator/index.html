@@ -30,6 +30,11 @@
 <div class="wy-side-scroll">
 <div class="wy-side-nav-search">
 <a class="icon icon-home" href=".."> Incinerator firmware docs</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" title="Type search term here" type="text"/>
+</form>
+</div>
 </div>
 <div aria-label="main navigation" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
 <ul>
@@ -90,7 +95,7 @@
 <li>Switch off gas and wait until system has cooled down.</li>
 </ul>
 <h3 id="state-machine">State machine</h3>
-<pre><code class="language-mermaid">stateDiagram
+<div class="mermaid">stateDiagram-v2
   [*] --&gt; start: Burn start requested
   start --&gt; waitAfterburner: Start afterburner
   waitAfterburner --&gt; failureCoolDown: Aft. failed
@@ -101,7 +106,7 @@
   waitMain --&gt; failureCoolDown: Main failed
   burnActive --&gt; coolDown: Burn time elapsed
   coolDown --&gt; [*]: System cooled down
-</code></pre>
+</div>
 </div>
 </div>
 <footer>
@@ -128,11 +133,12 @@
 </div>
 <script>var base_url = '..';</script>
 <script defer="" src="../js/theme.js"></script>
-<script defer="" src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/8.4.4/mermaid.min.js"></script>
+<script defer="" src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+<script defer="" src="../search/main.js"></script>
 <script defer="">
         window.onload = function () {
             SphinxRtdTheme.Navigation.enable(true);
         };
     </script>
-</body>
+<script>mermaid.initialize({});</script></body>
 </html>
