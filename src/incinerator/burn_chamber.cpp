@@ -57,6 +57,7 @@ std::string BurnChamber::getModeStr() const
         {startIgnition, "StartIgn"},
         {waitIgnition, "WaitIgn"},
         {waitTemp, "WaitTmp"},
+        {waitBurnHigh, "WaitBHi"},
         {burnHigh, "BurnHi"},
         {burnLow, "BurnLo"},
         {failed, "Failed"}
@@ -81,7 +82,21 @@ void BurnChamber::reset()
     setValveState(ValveState::off);
     _mode = mode::idle;
 }
-    
+
+void BurnChamber::checkIgnition(mode destState)
+{
+    auto ignMode = ignition.getMode();
+    if (ignMode == Ignition::mode::failure) {
+        ignition.reset();
+        setValveState(ValveState::off);
+        _mode = mode::failed;
+    }
+    if (ignMode == Ignition::mode::success) {
+        ignition.reset();
+        _mode = destState;
+    }
+}
+
 void BurnChamber::fsm()
 {
     std::string name_lower = getName();
@@ -102,17 +117,8 @@ void BurnChamber::fsm()
         ignition.start();
         _mode = mode::waitIgnition;
         break;
-    case mode::waitIgnition: {
-            auto ignMode = ignition.getMode();
-            if (ignMode == Ignition::mode::failure) {
-                ignition.reset();
-                setValveState(ValveState::off);
-                _mode = mode::failed;
-            }
-            if (ignMode == Ignition::mode::success) {
-                _mode = mode::waitTemp;
-            }
-        }
+    case mode::waitIgnition:
+        checkIgnition(mode::waitTemp);
         break;
     case mode::waitTemp:
         if (temp >= sysconfig.get(name_lower + "_T_low")) {
@@ -128,10 +134,13 @@ void BurnChamber::fsm()
         break;
     case mode::burnLow:
         if (temp < sysconfig.get(name_lower + "_T_low")) {
-            // TODO: Ignite again and track ignition success
             setValveState(ValveState::high);
-            _mode = mode::burnHigh;
+            ignition.start();
+            _mode = mode::waitBurnHigh;
         }
+        break;
+    case mode::waitBurnHigh:
+        checkIgnition(mode::burnHigh);
         break;
     case mode::failed:
         break;

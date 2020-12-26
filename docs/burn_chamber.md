@@ -17,7 +17,9 @@ stateDiagram-v2
   waitIgnition --> waitTemp: Ignition successful
   waitTemp --> burnHigh: T_MIN reached
   burnHigh --> burnLow: T > T_MAX
-  burnLow --> burnHigh: T < T_MIN
+  burnLow --> waitBurnHigh: T < T_MIN, ignite again
+  waitBurnHigh --> burnHigh: Ignition successful
+  waitBurnHigh --> failed: Ignition failed
   burnHigh --> [*]: Reset
   burnLow --> [*]: Reset
 ```

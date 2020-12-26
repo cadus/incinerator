@@ -41,6 +41,7 @@ public:
         waitIgnition,
         waitTemp,
         burnHigh,
+        waitBurnHigh,
         burnLow,
         failed
     };
@@ -63,6 +64,7 @@ public:
 
 private:
     void fsm();
+    void checkIgnition(mode destState);
 
     mode _mode = mode::idle;
     const std::string _name;
