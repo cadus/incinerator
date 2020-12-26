@@ -9,7 +9,7 @@ The incinerator is responsible for managing the overall burn process.
 
 ### State machine
 ``` mermaid
-stateDiagram
+stateDiagram-v2
   [*] --> start: Burn start requested
   start --> waitAfterburner: Start afterburner
   waitAfterburner --> failureCoolDown: Aft. failed

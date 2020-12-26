@@ -9,7 +9,7 @@ The temperature is controlled with gas valves which can be ON or OFF (no gradual
 
 ### State machine
 ``` mermaid
-stateDiagram
+stateDiagram-v2
   [*] --> start: Burn start requested
   start --> waitIgnition: Set gas valve, request ignition
   waitIgnition --> failed: Ignition failed

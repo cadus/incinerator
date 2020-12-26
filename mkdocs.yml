@@ -8,11 +8,13 @@ repo_url: https://github.com/cadus/incinerator
 theme: readthedocs
 
 # enable mermaid
-# (pip3 install mkdocs-plugin-mermaid)
+# (pip3 install mkdocs-mermaid2-plugin)
 plugins:
-    - markdownmermaid
+    - search
+    - mermaid2:
+
 extra_javascript:
-    - https://cdnjs.cloudflare.com/ajax/libs/mermaid/8.4.4/mermaid.min.js
+    - https://unpkg.com/mermaid/dist/mermaid.min.js
 
 # navigation
 nav:

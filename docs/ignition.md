@@ -9,7 +9,7 @@ Ignition control features a simple protection logic to make sure there's no gas 
 
 ### State machine
 ``` mermaid
-stateDiagram
+stateDiagram-v2
   [*] --> setCoil: Ignition request
   setCoil --> waitPulse
   waitPulse --> resetCoil: ign_pulse_w elapsed
