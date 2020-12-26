@@ -27,3 +27,13 @@ PlatformIO CLI:
 ```
 pio run --target upload
 ```
+
+## Update
+Install esptool with `pip3 install --user esptool`.
+
+Connect the processor module via USB and determine the USB serial port. (`/dev/ttyUSB0` in this example)
+
+Update the firmware:
+```
+python3 -m esptool --port /dev/ttyUSB0 --baud 921600 write_flash 0x10000 firmware.bin
+```
