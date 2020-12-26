@@ -157,7 +157,7 @@ void TestScreen::reset()
 
     static AirPumpTest airPumpTest(*this, x, _ys + _dy * 5, w, _dy);
 
-    static ScreenChangeButton exit(*this, "Exit", &homeScreen, 220, _ys + _dy * 8, 100, _dy, "Exit config screen");
+    static ScreenChangeButton exit(*this, "Exit", &homeScreen, 220, _ys + _dy * 8, 100, _dy, "Exit test screen");
 
     _items.clear();
     _items.push_back(&bchMainTest);
