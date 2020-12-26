@@ -20,6 +20,7 @@
 #include "air_pump.h"
 #include "burn_chamber.h"
 #include "macros.h"
+#include "util/timeout.h"
 
 class Incinerator
 {
@@ -27,13 +28,38 @@ class Incinerator
     NOT_MOVEABLE(Incinerator);
 
 public:
+    enum mode {
+        idle, // Idle / off
+        startAft, // Start afterburner
+        waitAft, // Wait for afterburner ready
+        startMain, // Start main burner
+        waitMain, // Wait for main burner ready
+        burnActive, // Wait for burn time elapsed
+        coolDown, // Wait for cool down
+        finished, // Burn process & cool down finished
+        failed, // Burn process failed
+    };
+
     Incinerator();
+
+    mode getMode() const;
+    std::string getModeStr() const;
     void init();
+    void start();
+    void reset();
     void task();
 
     BurnChamber burnerMain;
     BurnChamber burnerAft;
     AirPump airPump;
+
+private:
+    void fsm();
+    void fail();
+
+    bool _startFlag;
+    mode _mode = mode::idle;
+    Timeout _timeout;
 };
 
 extern Incinerator incinerator;

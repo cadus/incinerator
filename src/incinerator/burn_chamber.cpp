@@ -50,6 +50,12 @@ BurnChamber::mode BurnChamber::getMode() const
     return _mode;
 }
 
+bool BurnChamber::isBurning() const
+{
+    const auto m = getMode();
+    return m == waitBurnHigh || m == burnHigh || m == burnLow;
+}
+
 std::string BurnChamber::getModeStr() const
 {
     static const std::map<mode, std::string> lookupTbl {

@@ -19,5 +19,6 @@ stateDiagram-v2
   waitMain --> burnActive: Main temp. reached
   waitMain --> failureCoolDown: Main failed
   burnActive --> coolDown: Burn time elapsed
+  burnActive --> failureCoolDown: Burner failed
   coolDown --> [*]: System cooled down
 ```

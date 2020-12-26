@@ -19,8 +19,10 @@
 
 #include "incinerator.h"
 
-#include "hw_config.h"
+#include <map>
 
+#include "hw_config.h"
+#include "util/sys_config.h"
 #include "util/syslog.h"
 
 Incinerator::Incinerator()
@@ -41,6 +43,109 @@ void Incinerator::task()
 {
     burnerMain.task();
     burnerAft.task();
+}
+
+Incinerator::mode Incinerator::getMode() const
+{
+    return _mode;
+}
+
+std::string Incinerator::getModeStr() const
+{
+    static const std::map<mode, std::string> lookupTbl {
+        {idle, "Idle"},
+        {startAft, "StartAft"},
+        {waitAft, "WaitAft"},
+        {startMain, "StartMain"},
+        {waitMain, "WaitMain"},
+        {burnActive, "BurnAct"},
+        {coolDown, "CoolDown"},
+        {finished, "Finished"},
+        {failed, "Failed"}
+    };
+    auto it = lookupTbl.find(getMode());
+    return it != lookupTbl.end() ? it->second : "N/A";
+}
+
+void Incinerator::start()
+{
+    _startFlag = true;
+}
+
+void Incinerator::reset()
+{
+    burnerMain.reset();
+    burnerAft.reset();
+    airPump.off();
+    _mode = mode::idle;
+}
+
+void Incinerator::fail()
+{
+    reset();
+    _mode = mode::failed;
+}
+
+void Incinerator::fsm()
+{
+    switch (_mode) {
+    default:
+    case mode::idle:
+        if (!_startFlag) {
+            break;
+        }
+        _startFlag = false;
+        _mode = mode::startAft;
+        // fall through
+    case mode::startAft:
+        burnerAft.start();
+        break;
+    case mode::waitAft:
+        if (burnerAft.getMode() == BurnChamber::mode::failed) {
+            fail();
+            break;
+        }
+        if (!burnerAft.isBurning()) {
+            break;
+        }
+        _mode = mode::startMain;
+        // fall through
+    case mode::startMain:
+        burnerMain.start();
+        airPump.on();
+        _mode = mode::waitMain;
+        // fall through
+    case mode::waitMain:
+        if (burnerMain.getMode() == BurnChamber::mode::failed
+            || burnerAft.getMode() == BurnChamber::mode::failed) {
+            fail();
+            break;
+        }
+        if (!burnerMain.isBurning()) {
+            break;
+        }
+        _mode = mode::burnActive;
+        _timeout.set(sysconfig.get("burn_time") * 60 * 1000);
+        // fall through
+    case mode::burnActive:
+        if (burnerMain.getMode() == BurnChamber::mode::failed
+            || burnerAft.getMode() == BurnChamber::mode::failed) {
+            fail();
+            break;
+        }
+        if (!_timeout.elapsed()) {
+            break;
+        }
+        // fall through
+        reset();
+        _mode = mode::coolDown;
+    case mode::coolDown:
+        // TODO measure temp. & check if both chambers cooled down enough
+        break;
+    case mode::finished:
+    case mode::failed:
+        break;
+    }
 }
 
 Incinerator incinerator;

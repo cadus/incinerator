@@ -55,6 +55,7 @@ public:
     void start();
     void reset();
     void task();
+    bool isBurning() const;
 
     void setValveState(ValveState state);
     ValveState getValveState() const;

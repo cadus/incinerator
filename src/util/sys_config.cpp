@@ -35,6 +35,7 @@ SysConfig::SysConfig()
       { "ign_repeat_itvl", 500 },
       { "airpmp_speed", 50 },
       { "buzzer_vol", 1 },
+      { "burn_time", 5 },
   })
 {
 }
