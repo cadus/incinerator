@@ -102,7 +102,9 @@
   waitIgnition --&gt; waitTemp: Ignition successful
   waitTemp --&gt; burnHigh: T_MIN reached
   burnHigh --&gt; burnLow: T &gt; T_MAX
-  burnLow --&gt; burnHigh: T &lt; T_MIN
+  burnLow --&gt; waitBurnHigh: T &lt; T_MIN, ignite again
+  waitBurnHigh --&gt; burnHigh: Ignition successful
+  waitBurnHigh --&gt; failed: Ignition failed
   burnHigh --&gt; [*]: Reset
   burnLow --&gt; [*]: Reset
 </div>
