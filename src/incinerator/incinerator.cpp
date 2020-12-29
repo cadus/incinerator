@@ -59,7 +59,7 @@ std::string Incinerator::getModeStr() const
         {waitAft, "WaitAft"},
         {startMain, "StartMain"},
         {waitMain, "WaitMain"},
-        {burnActive, "BurnAct"},
+        {burnActive, "BurnActive"},
         {coolDown, "CoolDown"},
         {finished, "Finished"},
         {failed, "Failed"}
@@ -87,6 +87,14 @@ void Incinerator::fail()
     _mode = mode::failed;
 }
 
+std::string Incinerator::fmt_minutes(uint32_t seconds) const
+{
+    char tmp[100];
+    snprintf(tmp, sizeof(tmp), "%d:%02d", seconds / 60, seconds % 60);
+    return std::string(tmp);
+}
+
+
 void Incinerator::fsm()
 {
     switch (_mode) {
@@ -99,11 +107,13 @@ void Incinerator::fsm()
         _mode = mode::startAft;
         // fall through
     case mode::startAft:
+        syslog(LOG_INFO, "Starting afterburner");
         burnerAft.start();
         _mode = mode::waitAft;
         break;
     case mode::waitAft:
         if (burnerAft.getMode() == BurnChamber::mode::failed) {
+            syslog(LOG_INFO, "Afterburner failed");
             fail();
             break;
         }
@@ -113,6 +123,7 @@ void Incinerator::fsm()
         _mode = mode::startMain;
         // fall through
     case mode::startMain:
+        syslog(LOG_INFO, "Starting main burner");
         burnerMain.start();
         airPump.on();
         _mode = mode::waitMain;
@@ -120,6 +131,7 @@ void Incinerator::fsm()
     case mode::waitMain:
         if (burnerMain.getMode() == BurnChamber::mode::failed
             || burnerAft.getMode() == BurnChamber::mode::failed) {
+            syslog(LOG_INFO, "Burner failed");
             fail();
             break;
         }
@@ -127,20 +139,34 @@ void Incinerator::fsm()
             break;
         }
         _mode = mode::burnActive;
-        _timeout.set(sysconfig.get("burn_time") * 60 * 1000);
+        _burn_seconds = sysconfig.get("burn_time") * 60;
+        _burn_seconds_elapsed = 0;
+        syslog(LOG_INFO, "Burning in progress");
+        _timeout.set(1000);
         // fall through
     case mode::burnActive:
         if (burnerMain.getMode() == BurnChamber::mode::failed
             || burnerAft.getMode() == BurnChamber::mode::failed) {
+            syslog(LOG_INFO, "Burner failed");
             fail();
             break;
         }
         if (!_timeout.elapsed()) {
             break;
         }
+        _burn_seconds_elapsed++;
+        _timeout.set(1000);
+        syslog(LOG_INFO, "Burning %s / %s (%d%%)",
+                         fmt_minutes(_burn_seconds_elapsed).c_str(),
+                         fmt_minutes(_burn_seconds).c_str(),
+                         (100 * _burn_seconds_elapsed) / _burn_seconds);
+        if (_burn_seconds_elapsed < _burn_seconds) {
+            break;
+        }
         // fall through
         reset();
         _mode = mode::coolDown;
+        syslog(LOG_INFO, "Burn finished, cooling down");
     case mode::coolDown:
         // TODO measure temp. & check if both chambers cooled down enough
         break;

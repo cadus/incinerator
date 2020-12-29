@@ -56,10 +56,12 @@ public:
 private:
     void fsm();
     void fail();
+    std::string fmt_minutes(uint32_t seconds) const;
 
     bool _startFlag;
     mode _mode = mode::idle;
     Timeout _timeout;
+    uint32_t _burn_seconds, _burn_seconds_elapsed;
 };
 
 extern Incinerator incinerator;
