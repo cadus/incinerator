@@ -61,9 +61,6 @@ void PushButton::draw(bool selected)
     }
 
     _parent.print(_text, _x, _y, _w, _h, flags);
-    if (selected) {
-        showHelpText();
-    }
 }
 
 bool PushButton::rotate(int digits)
@@ -131,10 +128,6 @@ void ValueEntry::draw(bool selected)
     char tmp[80];
     snprintf(tmp, sizeof(tmp), "%d%s", _val, _unit.c_str());
     Screen::print(tmp, x, _y, _value_width - 4, _h, flags);
-
-    if (selected) {
-        showHelpText();
-    }
 }
 
 bool ValueEntry::rotate(int digits)
@@ -172,7 +165,12 @@ void InteractiveScreen::draw()
 {
     ssize_t k = 0;
     for (auto i : _items) {
-        i->draw(k++ == _selectedItem);
+        bool isSelected = (k++ == _selectedItem);
+        i->draw(isSelected);
+        if (isSelected && _refreshHelpText) {
+            i->showHelpText();
+            _refreshHelpText = false;
+        }
     }
 }
 
@@ -208,7 +206,10 @@ bool InteractiveScreen::handleEncoderRotation(int delta)
         _selectedItem = max(_selectedItem, 0);
         _selectedItem = min(_selectedItem, range - 1);
     }
-    return _selectedItem != selected_before;
+
+    bool itemChanged = _selectedItem != selected_before;
+    _refreshHelpText |= itemChanged;
+    return itemChanged;
 }
 
 bool InteractiveScreen::handleEncoderSwitch()

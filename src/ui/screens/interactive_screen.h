@@ -36,10 +36,9 @@ public:
     virtual void draw(bool selected) = 0;
     virtual bool rotate(int digits) = 0;
     virtual bool click() = 0;
-
-protected:
     void showHelpText();
 
+protected:
     InteractiveScreen& _parent;
     uint16_t _x;
     uint16_t _y;
@@ -128,4 +127,5 @@ protected:
     ssize_t _selectedItem;
     bool _fixedItemSelection;
     bool _wraparound;
+    bool _refreshHelpText = false;
 };
