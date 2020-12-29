@@ -83,12 +83,18 @@ void ConfScreen::reset()
         { *this, "Ignition repeat interval",
           "ign_repeat_itvl", "Rep.Intvl", "ms", 10, 100, 3000,
           _xs + _dx * 1, _ys + _dy * 4, _dx, _dy },
+        { *this, "Incinerator burn duration",
+          "burn_time", "Burn Time", "min", 1, 1, 60,
+          _xs + _dx * 0, _ys + _dy * 5, _dx, _dy },
+        { *this, "Incinerator cool down temperature",
+          "cool_temp", "Cool Temp.", "C", 1, 20, 100,
+          _xs + _dx * 1, _ys + _dy * 5, _dx, _dy },
         { *this, "Air pump speed",
           "airpmp_speed", "Pump Spd", "%", 1, 0, 100,
-          _xs + _dx * 0, _ys + _dy * 5, _dx, _dy },
+          _xs + _dx * 0, _ys + _dy * 6, _dx, _dy },
         { *this, "Buzzer volume",
           "buzzer_vol", "Buzz.Vol", "", 1, 0, 8,
-          _xs + _dx * 1, _ys + _dy * 5, _dx, _dy },
+          _xs + _dx * 1, _ys + _dy * 6, _dx, _dy },
     };
 
     static ScreenChangeButton exit(*this, "Exit", &homeScreen, 220, _ys + _dy * 8, 100, _dy, "Exit config screen");
@@ -114,7 +120,9 @@ void ConfScreen::draw()
     _d.drawFastHLine(0, _ys + _dy * 4, _d.width(), GxEPD_BLACK);
     print("IGN", 0, _ys + _dy * 4, _xs, _dy, flags);
     _d.drawFastHLine(0, _ys + _dy * 5, _d.width(), GxEPD_BLACK);
-    print("MISC", 0, _ys + _dy * 5, _xs, _dy, flags);
+    print("INC", 0, _ys + _dy * 5, _xs, _dy, flags);
+    _d.drawFastHLine(0, _ys + _dy * 6, _d.width(), GxEPD_BLACK);
+    print("MISC", 0, _ys + _dy * 6, _xs, _dy, flags);
 }
 
 ConfScreen confScreen;

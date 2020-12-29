@@ -36,6 +36,7 @@ SysConfig::SysConfig()
       { "airpmp_speed", 50 },
       { "buzzer_vol", 1 },
       { "burn_time", 5 },
+      { "cool_temp", 50 },
   })
 {
 }
