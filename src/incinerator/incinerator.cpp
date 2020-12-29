@@ -38,6 +38,7 @@ void Incinerator::init()
     burnerMain.init();
     burnerAft.init();
     airPump.init();
+    reset();
 }
 
 void Incinerator::task()
@@ -76,6 +77,8 @@ void Incinerator::start()
 
 void Incinerator::reset()
 {
+    Screen::setProgress(0);
+    Screen::setSnowflake(false);
     burnerMain.reset();
     burnerAft.reset();
     airPump.off();
@@ -98,8 +101,7 @@ std::string Incinerator::fmt_minutes(uint32_t seconds) const
 
 void Incinerator::fsm()
 {
-    float percent;
-
+    float percent, temp;
     switch (_mode) {
     default:
     case mode::idle:
@@ -168,15 +170,38 @@ void Incinerator::fsm()
         if (_burn_seconds_elapsed < _burn_seconds) {
             break;
         }
-        // fall through
         reset();
         _mode = mode::coolDown;
         syslog(LOG_INFO, "Burn finished, cooling down");
+        _tempMax = nanf("");
+        Screen::setSnowflake(true);
+        // fall through
     case mode::coolDown:
-        // TODO measure temp. & check if both chambers cooled down enough
+        temp = max(burnerMain.thermocouple.get().external,
+                   burnerAft.thermocouple.get().external);
+        if (isnan(_tempMax)) {
+            _tempMax = temp;
+        }
+        {
+            const float coolTemp = sysconfig.get("cool_temp");
+            float diff = temp - coolTemp;
+            diff = diff > 0 ? diff : 0;
+            percent = 100.f - (100.f * diff) / (_tempMax - coolTemp);
+            syslog(LOG_INFO, "Cooling %dC -> %dC (%d%%)",
+                            (int)temp,
+                            (int)coolTemp,
+                            (int)percent);
+            Screen::setProgress(percent);
+            if (temp > coolTemp) {
+                break;
+            }
+        }
+        syslog(LOG_INFO, "Cool down finished");
+        _mode = mode::finished;
         break;
     case mode::finished:
     case mode::failed:
+        reset();
         break;
     }
 }

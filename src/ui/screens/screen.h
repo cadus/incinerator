@@ -34,6 +34,7 @@ public:
     void update(bool fullRefresh);
 
     static void setProgress(float percent);
+    static void setSnowflake(bool enable);
     static void setStatus(const std::string s);
 
     void setNextScreen(Screen* nextScreen);
@@ -66,5 +67,6 @@ protected:
 private:
     Screen* _nextScreen;
     static float _progressPercent;
+    static bool _snowflakeMode;
     static std::string _statusStr;
 };

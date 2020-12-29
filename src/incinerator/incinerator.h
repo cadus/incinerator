@@ -62,6 +62,7 @@ private:
     mode _mode = mode::idle;
     Timeout _timeout;
     uint32_t _burn_seconds, _burn_seconds_elapsed;
+    float _tempMax;
 };
 
 extern Incinerator incinerator;
