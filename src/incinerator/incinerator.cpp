@@ -43,6 +43,7 @@ void Incinerator::task()
 {
     burnerMain.task();
     burnerAft.task();
+    fsm();
 }
 
 Incinerator::mode Incinerator::getMode() const
@@ -99,6 +100,7 @@ void Incinerator::fsm()
         // fall through
     case mode::startAft:
         burnerAft.start();
+        _mode = mode::waitAft;
         break;
     case mode::waitAft:
         if (burnerAft.getMode() == BurnChamber::mode::failed) {

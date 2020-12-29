@@ -63,6 +63,17 @@ private:
     Ignition& _ignition;
 };
 
+class IncineratorTest : public TestButton
+{
+public:
+    IncineratorTest(InteractiveScreen& parent,
+                    uint16_t x, uint16_t y, uint16_t w, uint16_t h);
+
+private:
+    virtual void toggle() override;
+    virtual std::string getState() override;
+};
+
 class AirPumpTest : public TestButton
 {
 public:

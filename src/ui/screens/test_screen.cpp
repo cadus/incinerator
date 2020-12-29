@@ -88,6 +88,27 @@ std::string IgnTest::getState()
     return _ignition.getModeStr();
 }
 
+IncineratorTest::IncineratorTest(InteractiveScreen& parent,
+                                 uint16_t x, uint16_t y, uint16_t w, uint16_t h)
+: TestButton(parent, "Incinerator", x, y, w, h, "Toggle Incinerator")
+{
+}
+
+void IncineratorTest::toggle()
+{
+    auto m = incinerator.getMode();
+    if (m == Incinerator::mode::idle) {
+        incinerator.start();
+    } else {
+        incinerator.reset();
+    }
+}
+
+std::string IncineratorTest::getState()
+{
+    return incinerator.getModeStr();
+}
+
 AirPumpTest::AirPumpTest(InteractiveScreen& parent,
                          uint16_t x, uint16_t y, uint16_t w, uint16_t h)
 : TestButton(parent, "AirPump", x, y, w, h, "Toggle Air Pump")
@@ -144,22 +165,28 @@ TestScreen::TestScreen()
 void TestScreen::reset()
 {
     int16_t x = _xs, w = _dx;
-    static BchTest bchMainTest(*this, x, _ys + _dy / 2, w, _dy, incinerator.burnerMain);
-    static BchTest bchAftTest(*this, x, _ys + _dy * 3, w, _dy, incinerator.burnerAft);
+    int16_t y = _ys;
+
+    static IncineratorTest incTest(*this, 0, y + _dy / 2, x + _dx, _dy);
+    y += _dy * 2;
+ 
+    static BchTest bchMainTest(*this, x, y + _dy / 2, w, _dy, incinerator.burnerMain);
+    static BchTest bchAftTest(*this, x, y + _dy * 3, w, _dy, incinerator.burnerAft);
 
     x += _dx;
-    static IgnTest ignMainTest(*this, x, _ys + _dy * 0, w, _dy, incinerator.burnerMain.ignition);
-    static ValveTest valveMainTest(*this, x, _ys + _dy * 1, w, _dy, "VLV MAIN", incinerator.burnerMain, true);
+    static IgnTest ignMainTest(*this, x, y + _dy * 0, w, _dy, incinerator.burnerMain.ignition);
+    static ValveTest valveMainTest(*this, x, y + _dy * 1, w, _dy, "VLV MAIN", incinerator.burnerMain, true);
 
-    static IgnTest ignAftTest(*this, x, _ys + _dy * 2, w, _dy, incinerator.burnerAft.ignition);
-    static ValveTest valveAftHiTest(*this, x, _ys + _dy * 3, w, _dy, "VLV A.HI", incinerator.burnerAft, true);
-    static ValveTest valveAftLoTest(*this, x, _ys + _dy * 4, w, _dy, "VLV A.LO", incinerator.burnerAft, false);
+    static IgnTest ignAftTest(*this, x, y + _dy * 2, w, _dy, incinerator.burnerAft.ignition);
+    static ValveTest valveAftHiTest(*this, x, y + _dy * 3, w, _dy, "VLV A.HI", incinerator.burnerAft, true);
+    static ValveTest valveAftLoTest(*this, x, y + _dy * 4, w, _dy, "VLV A.LO", incinerator.burnerAft, false);
 
-    static AirPumpTest airPumpTest(*this, x, _ys + _dy * 5, w, _dy);
+    static AirPumpTest airPumpTest(*this, x, y + _dy * 5, w, _dy);
 
-    static ScreenChangeButton exit(*this, "Exit", &homeScreen, 220, _ys + _dy * 8, 100, _dy, "Exit test screen");
+    static ScreenChangeButton exit(*this, "Exit", &homeScreen, 50, _ys + _dy * 8, 100, _dy, "Exit test screen");
 
     _items.clear();
+    _items.push_back(&incTest);
     _items.push_back(&bchMainTest);
     _items.push_back(&bchAftTest);
     _items.push_back(&ignMainTest);
@@ -180,10 +207,13 @@ void TestScreen::draw()
     PrintFlags flags;
     flags.set(PrintFlag::bold);
 
-    print("MAIN", 0, _ys + _dy / 2, _xs, _dy, flags);
-    _d.drawFastHLine(0, _ys + _dy * 2, _d.width(), GxEPD_BLACK);
-    print("AFT", 0, _ys + _dy * 3, _xs, _dy, flags);
-    _d.drawFastHLine(0, _ys + _dy * 5, _d.width(), GxEPD_BLACK);
+    int16_t y = _ys + _dy * 2;
+
+    _d.drawFastHLine(0, y, _d.width(), GxEPD_BLACK);
+    print("MAIN", 0, y + _dy / 2, _xs, _dy, flags);
+    _d.drawFastHLine(0, y + _dy * 2, _d.width(), GxEPD_BLACK);
+    print("AFT", 0, y + _dy * 3, _xs, _dy, flags);
+    _d.drawFastHLine(0, y + _dy * 5, _d.width(), GxEPD_BLACK);
 }
 
 TestScreen testScreen;
