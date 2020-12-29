@@ -141,7 +141,7 @@ void Screen::update(bool fullRefresh)
 
     // Draw progress bar
     for (int i = 0; i < 10; i++) {
-        bool filled = _progressPercent >= (100.f / 10.f) * (i + 1);
+        bool filled = _progressPercent >= 10 * i + 5;
         const Icon& icon = filled ? icon_box_filled : icon_box_clear;
         icon.draw(_d, x, 0, icon_prog_width, top_bar_height);
         x += icon_prog_width;

@@ -24,6 +24,7 @@
 #include "hw_config.h"
 #include "util/sys_config.h"
 #include "util/syslog.h"
+#include "ui/screens/screen.h"
 
 Incinerator::Incinerator()
 : burnerMain("MAIN", IGNITION_MAIN, TEMP_MAIN_CS, VALVE_MAIN)
@@ -97,6 +98,8 @@ std::string Incinerator::fmt_minutes(uint32_t seconds) const
 
 void Incinerator::fsm()
 {
+    float percent;
+
     switch (_mode) {
     default:
     case mode::idle:
@@ -156,10 +159,12 @@ void Incinerator::fsm()
         }
         _burn_seconds_elapsed++;
         _timeout.set(1000);
+        percent = (100.f * (float)_burn_seconds_elapsed) / (float)_burn_seconds;
         syslog(LOG_INFO, "Burning %s / %s (%d%%)",
                          fmt_minutes(_burn_seconds_elapsed).c_str(),
                          fmt_minutes(_burn_seconds).c_str(),
-                         (100 * _burn_seconds_elapsed) / _burn_seconds);
+                         (int)percent);
+        Screen::setProgress(percent);
         if (_burn_seconds_elapsed < _burn_seconds) {
             break;
         }
