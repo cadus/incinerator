@@ -34,4 +34,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: ${{ env.BIN_NAME }}
-        path: .pio/build/nodemcu-32s/${{ env.BIN_NAME }}
+        path: .pio/build/${{ env.BIN_NAME }}

@@ -6,6 +6,18 @@ import sys
 import os
 import datetime
 import re
+import shutil
+
+def postbuild(source, target, env):
+    # Copy firmare.bin to versioned 'progname'
+    bin_name = source[0].rstr()
+    shutil.copy(bin_name, f".pio/build/{progname}")
+
+    gh_env = os.getenv("GITHUB_ENV")
+    if gh_env:
+        # If we run on GitHub CI, export the binary's name for CI script
+        with open(gh_env, "a") as f:
+            f.write("BIN_NAME=" + progname + "\n")
 
 git_cmd = [
     "git",
@@ -45,24 +57,17 @@ if num_commits_since_tag:
 if dirty_flag:
     ver_txt += f"-{dirty_flag}"
 
-progname = f"incinerator-{ver_txt}"
-if "Import" in globals():
-    # Set binary file name for PlatformIO build
-    Import("env")
-    env.Replace(PROGNAME=progname)
-
 builddate = datetime.datetime.utcnow()
 builddate = builddate.strftime("%F %T")
 
 print(f"Build date: {builddate}")
-
 with open("src/version.cpp", "w") as ofile:
     ofile.write(f'#include "version.h"\n\n')
     ofile.write(f'const char gitversion[] = "{ver_txt}";\n')
     ofile.write(f'const char builddate[] = "{builddate}";\n')
 
-gh_env = os.getenv("GITHUB_ENV")
-if gh_env:
-    # If we run on GitHub CI, export the binary's name for CI script
-    with open(gh_env, "a") as f:
-        f.write("BIN_NAME=" + progname + ".bin\n")
+progname = f"incinerator-{ver_txt}.bin"
+if "Import" in globals():
+    Import("env")
+    print("Current build targets:", list(map(str, BUILD_TARGETS)))
+    env.AddPostAction("buildprog", postbuild)
