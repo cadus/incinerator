@@ -32,7 +32,7 @@ def port_chooser():
     for n, port in enumerate(comports):
         s = port.device
         s += ' ' * (len(s) - n_max) + ' - ' 
-        s += port.product
+        s += port.product or port.description or ''
         print(f'{n}: {s}')
     
     i = input(f'Choose port (0-{len(comports)-1}): ')
