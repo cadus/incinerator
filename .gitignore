@@ -5,3 +5,4 @@
 /pcb/_autosave*
 /site
 /src/version.cpp
+__pycache__
