@@ -30,8 +30,13 @@ jobs:
         pip install --upgrade platformio
     - name: Run PlatformIO
       run: pio run
-    - name: Upload artifact
+    - name: Upload bin file
       uses: actions/upload-artifact@v2
       with:
         name: ${{ env.BIN_NAME }}
         path: .pio/build/${{ env.BIN_NAME }}
+    - name: Upload flasher
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{ env.FLASHER_NAME }}
+        path: .pio/build/${{ env.FLASHER_NAME }}
