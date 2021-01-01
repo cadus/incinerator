@@ -6,3 +6,4 @@
 /site
 /src/version.cpp
 __pycache__
+/custom_config.ini
