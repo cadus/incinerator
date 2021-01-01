@@ -75,7 +75,8 @@ void Screen::print(const std::string s, uint16_t x, uint16_t y, uint16_t w, uint
 {
     constexpr uint16_t margin = 4;
     if (flags[PrintFlag::drawRect]) {
-        _d.drawRect(x - margin, y, w + margin * 2, h, GxEPD_BLACK);
+        const uint16_t extra_margin = flags[PrintFlag::bigFont] ? 4 : 0;
+        _d.drawRect(x - margin, y - extra_margin, w + margin * 2, h + extra_margin, GxEPD_BLACK);
     }
     if (flags[PrintFlag::invert]) {
         _d.fillRect(x - margin, y, w + margin * 2, h, GxEPD_BLACK);

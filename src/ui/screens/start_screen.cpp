@@ -19,6 +19,7 @@
 
 #include "start_screen.h"
 #include "home_screen.h"
+#include "time_entry_screen.h"
 
 StartScreen::StartScreen()
 : InteractiveScreen()
@@ -27,7 +28,7 @@ StartScreen::StartScreen()
 
 void StartScreen::reset()
 {
-    static ScreenChangeButton ok(*this, "OK", &startScreen, 100, _ys + _dy * 8, 100, _dy, "Start incineration");
+    static ScreenChangeButton ok(*this, "OK", &timeEntryScreen, 100, _ys + _dy * 8, 100, _dy, "Start incineration");
     static ScreenChangeButton abort(*this, "Abort", &homeScreen, 220, _ys + _dy * 8, 100, _dy, "Abort incineration");
 
     _items.clear();

@@ -12,3 +12,4 @@ extern const Icon icon_flame;
 extern const Icon icon_snowflake;
 extern const Icon icon_thermometer;
 extern const Icon icon_cadus_logo;
+extern const Icon icon_dial;
