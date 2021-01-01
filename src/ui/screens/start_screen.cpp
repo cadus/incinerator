@@ -17,46 +17,46 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+#include "start_screen.h"
 #include "home_screen.h"
 
-#include <string>
-
-#include "conf_screen.h"
-#include "test_screen.h"
-#include "start_screen.h"
-#include "ui/icons.h"
-#include "version.h"
-
-HomeScreen::HomeScreen()
-: InteractiveScreen(true)
+StartScreen::StartScreen()
+: InteractiveScreen()
 {
 }
 
-void HomeScreen::reset()
+void StartScreen::reset()
 {
-
-    static ScreenChangeButton conf(*this, "Config", &confScreen, 70, _ys + _dy * 8, 80, _dy, "Enter config screen");
-    static ScreenChangeButton test(*this, "Test", &testScreen, 160, _ys + _dy * 8, 80, _dy, "Enter test screen");
-    static ScreenChangeButton start(*this, "Start", &startScreen, 250, _ys + _dy * 8, 80, _dy, "Enter start screen");
+    static ScreenChangeButton ok(*this, "OK", &startScreen, 100, _ys + _dy * 8, 100, _dy, "Start incineration");
+    static ScreenChangeButton abort(*this, "Abort", &homeScreen, 220, _ys + _dy * 8, 100, _dy, "Abort incineration");
 
     _items.clear();
-    _items.push_back(&conf);
-    _items.push_back(&test);
-    _items.push_back(&start);
+    _items.push_back(&ok);
+    _items.push_back(&abort);
 
     InteractiveScreen::reset();
 }
 
-void HomeScreen::draw()
+void StartScreen::draw()
 {
-    uint16_t y = _ys;
-    icon_cadus_logo.draw(_d, 0, y, GxEPD2_420::WIDTH, _dy * 4);
-    y += _dy * 4;
+    constexpr uint16_t x = 30;
+    constexpr uint16_t w = GxEPD2_420::WIDTH-x;
+    uint16_t y = _ys + 15;
+    constexpr uint16_t dy = 26;
 
-    const std::string about = "Incinerator " + std::string(gitversion);
-    print(about, 0, y, GxEPD2_420::WIDTH, _dy, bold);
+    PrintFlags f;
+    f.set(PrintFlag::justifyLeft);
+    f.set(PrintFlag::bigFont);
+
+    print("1. Place waste into combustion", x, y, w, dy, f);
+    print("    chamber", x, y += dy, w, dy, f);
+
+    print("2. Connect gas hoses", x, y += dy+12, w, dy, f);
+
+    print("3. Check availability of propane", x, y += dy+12, w, dy, f);
+    print("    and electricity", x, y += dy, w, dy, f);
 
     InteractiveScreen::draw();
 }
 
-HomeScreen homeScreen;
+StartScreen startScreen;

@@ -21,6 +21,7 @@
 
 #include <Fonts/FreeSans9pt7b.h>
 #include <Fonts/FreeSansBold9pt7b.h>
+#include <Fonts/FreeSans12pt7b.h>
 
 #include "hw_config.h"
 #include "incinerator/incinerator.h"
@@ -80,6 +81,8 @@ void Screen::print(const std::string s, uint16_t x, uint16_t y, uint16_t w, uint
         _d.fillRect(x - margin, y, w + margin * 2, h, GxEPD_BLACK);
         _d.setTextColor(GxEPD_WHITE);
         _d.setFont(&FreeSansBold9pt7b);
+    } else if (flags[PrintFlag::bigFont]) {
+        _d.setFont(&FreeSans12pt7b);
     } else {
         _d.setTextColor(GxEPD_BLACK);
         _d.setFont(flags[PrintFlag::bold] ? &FreeSansBold9pt7b : &FreeSans9pt7b);

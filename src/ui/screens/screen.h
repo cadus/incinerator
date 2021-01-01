@@ -51,6 +51,7 @@ public:
         justifyRight,
         drawRect,
         invert,
+        bigFont,
         numFlags
     };
     typedef std::bitset<PrintFlag::numFlags> PrintFlags;
