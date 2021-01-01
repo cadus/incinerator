@@ -159,6 +159,7 @@ void InteractiveScreen::reset()
 {
     _selectedItem = 0;
     _fixedItemSelection = false;
+    _refreshHelpText = true;
 }
 
 void InteractiveScreen::draw()
