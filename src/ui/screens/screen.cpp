@@ -19,6 +19,7 @@
 
 #include "screen.h"
 
+#include <algorithm>
 #include <Fonts/FreeSans9pt7b.h>
 #include <Fonts/FreeSansBold9pt7b.h>
 #include <Fonts/FreeSans12pt7b.h>
@@ -181,4 +182,31 @@ void Screen::update(bool fullRefresh)
         unsigned long elapsed = millis() - start;
         syslog(LOG_DEBUG, "time spent: %lu ms", elapsed);
     }
+}
+
+std::vector<uint8_t> Screen::screenshot()
+{
+    // Create PNM header
+    char hdr[100];
+    snprintf(hdr, sizeof(hdr),
+                "P4\n"  // Portable Bitmap, binary
+                "%d %d\n",
+                _d.width(), _d.height());
+    const size_t hdr_len = strlen(hdr);
+
+    // Initialize result vector with PNM header
+    std::vector<uint8_t> result(hdr, hdr + hdr_len);
+
+    // Append screen buffer
+    result.insert(result.end(),
+                  _d.getBuffer(),
+                  _d.getBuffer() + _d.width() / 8 * _d.height());
+
+    // Invert screen buffer
+    std::for_each(result.begin() + hdr_len,
+                  result.end(),
+                  [](uint8_t &val) {
+                      val ^= 0xff;
+                  });
+    return result;
 }

@@ -44,6 +44,7 @@ void TimeEntryScreen::draw()
     b.set(PrintFlag::drawRect);
     PrintFlags r;
     r.set(PrintFlag::drawRect);
+    r.set(PrintFlag::invert);
 
     print("Enter time:", x, y, 140, dy, f);
     x += 140;
