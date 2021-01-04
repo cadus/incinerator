@@ -28,7 +28,7 @@ PlatformIO CLI:
 pio run --target upload
 ```
 
-## Update
+## Update via esptool
 Install esptool with `pip3 install --user esptool`.
 
 Connect the processor module via USB and determine the USB serial port. (`/dev/ttyUSB0` in this example)
@@ -37,3 +37,18 @@ Update the firmware:
 ```
 python3 -m esptool --port /dev/ttyUSB0 --baud 921600 write_flash 0x10000 firmware.bin
 ```
+
+## Update via flasher
+The flasher (distributed with releases) is a small wrapper around `esptool` and can be used for the update instead of calling `esptool` directly.
+
+Using the flasher tool on windows:
+
+* Install CP210x_VCP_Windows driver from https://www.silabs.com/developers/usb-to-uart-bridge-vcp-drivers
+* Install Python3 https://www.python.org/downloads/windows/
+  (Select "add python to PATH")
+* Open terminal in flasher directory
+* Enter "pip install esptool pyserial" (only necessary when doing this for the first time)
+* Enter "flasher.py"
+* Choose serial port (use the one called "Silicon Labs CP210x")
+* Hold down the BOOT button on the processor board (right from the USB socket)
+* Wait until flasher is finished
