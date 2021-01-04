@@ -31,7 +31,7 @@ BurnScreen::BurnScreen()
 
 bool BurnScreen::abort()
 {
-    incinerator.reset();
+    incinerator.abort();
     return false;
 }
 

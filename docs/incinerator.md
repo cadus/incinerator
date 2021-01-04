@@ -13,12 +13,16 @@ stateDiagram-v2
   [*] --> start: Burn start requested
   start --> waitAfterburner: Start afterburner
   waitAfterburner --> failureCoolDown: Aft. failed
-  failureCoolDown --> [*]: System cooled down
   waitAfterburner --> startMain: Aft. temp. reached
+  waitAfterburner --> abortCoolDown: User abort
   startMain --> waitMain: Start main burner
   waitMain --> burnActive: Main temp. reached
   waitMain --> failureCoolDown: Main failed
+  waitMain --> abortCoolDown: User abort
   burnActive --> coolDown: Burn time elapsed
   burnActive --> failureCoolDown: Burner failed
+  burnActive --> abortCoolDown: User abort
   coolDown --> [*]: System cooled down
+  failureCoolDown --> [*]: System cooled down
+  abortCoolDown --> [*]: System cooled down
 ```

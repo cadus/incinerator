@@ -36,6 +36,8 @@ public:
         waitMain, // Wait for main burner ready
         burnActive, // Wait for burn time elapsed
         coolDown, // Wait for cool down
+        failureCoolDown, // Wait for cool down
+        abortCoolDown, // Wait for cool down
         finished, // Burn process & cool down finished
         failed, // Burn process failed
     };
@@ -44,8 +46,10 @@ public:
 
     mode getMode() const;
     std::string getModeStr() const;
+    bool coolingDown() const;
     void init();
     void start();
+    void abort();
     void reset();
     void task();
 
@@ -55,10 +59,12 @@ public:
 
 private:
     void fsm();
-    void fail();
+    void doFail();
+    void doAbort();
     std::string fmt_minutes(uint32_t seconds) const;
 
-    bool _startFlag;
+    bool _startFlag = false;
+    bool _abortFlag = false;
     mode _mode = mode::idle;
     Timeout _timeout;
     uint32_t _burn_seconds, _burn_seconds_elapsed;

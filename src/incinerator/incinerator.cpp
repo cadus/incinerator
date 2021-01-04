@@ -53,6 +53,13 @@ Incinerator::mode Incinerator::getMode() const
     return _mode;
 }
 
+bool Incinerator::coolingDown() const
+{
+    return _mode == mode::coolDown
+           || _mode == mode::abortCoolDown
+           || _mode == mode::failureCoolDown;
+}
+
 std::string Incinerator::getModeStr() const
 {
     static const std::map<mode, std::string> lookupTbl {
@@ -75,20 +82,31 @@ void Incinerator::start()
     _startFlag = true;
 }
 
+void Incinerator::abort()
+{
+    _abortFlag = true;
+}
+
 void Incinerator::reset()
 {
     Screen::setProgress(0);
-    Screen::setSnowflake(false);
     burnerMain.reset();
     burnerAft.reset();
     airPump.off();
     _mode = mode::idle;
 }
 
-void Incinerator::fail()
+void Incinerator::doFail()
 {
     reset();
-    _mode = mode::failed;
+    _mode = mode::failureCoolDown;
+}
+
+void Incinerator::doAbort()
+{
+    syslog(LOG_INFO, "Burn process aborted by user");
+    reset();
+    _mode = mode::abortCoolDown;
 }
 
 std::string Incinerator::fmt_minutes(uint32_t seconds) const
@@ -109,6 +127,8 @@ void Incinerator::fsm()
             break;
         }
         _startFlag = false;
+        _abortFlag = false;
+        _tempMax = nanf("");
         _mode = mode::startAft;
         // fall through
     case mode::startAft:
@@ -117,9 +137,13 @@ void Incinerator::fsm()
         _mode = mode::waitAft;
         break;
     case mode::waitAft:
+        if (_abortFlag) {
+            doAbort();
+            break;
+        }
         if (burnerAft.getMode() == BurnChamber::mode::failed) {
             syslog(LOG_INFO, "Afterburner failed");
-            fail();
+            doFail();
             break;
         }
         if (!burnerAft.isBurning()) {
@@ -134,10 +158,14 @@ void Incinerator::fsm()
         _mode = mode::waitMain;
         // fall through
     case mode::waitMain:
+        if (_abortFlag) {
+            doAbort();
+            break;
+        }
         if (burnerMain.getMode() == BurnChamber::mode::failed
             || burnerAft.getMode() == BurnChamber::mode::failed) {
             syslog(LOG_INFO, "Burner failed");
-            fail();
+            doFail();
             break;
         }
         if (!burnerMain.isBurning()) {
@@ -150,10 +178,14 @@ void Incinerator::fsm()
         _timeout.set(1000);
         // fall through
     case mode::burnActive:
+        if (_abortFlag) {
+            doAbort();
+            break;
+        }
         if (burnerMain.getMode() == BurnChamber::mode::failed
             || burnerAft.getMode() == BurnChamber::mode::failed) {
             syslog(LOG_INFO, "Burner failed");
-            fail();
+            doFail();
             break;
         }
         if (!_timeout.elapsed()) {
@@ -173,10 +205,10 @@ void Incinerator::fsm()
         reset();
         _mode = mode::coolDown;
         syslog(LOG_INFO, "Burn finished, cooling down");
-        _tempMax = nanf("");
-        Screen::setSnowflake(true);
         // fall through
     case mode::coolDown:
+    case mode::failureCoolDown:
+    case mode::abortCoolDown:
         temp = max(burnerMain.thermocouple.get().external,
                    burnerAft.thermocouple.get().external);
         if (isnan(_tempMax)) {
@@ -197,7 +229,7 @@ void Incinerator::fsm()
             }
         }
         syslog(LOG_INFO, "Cool down finished");
-        _mode = mode::finished;
+        _mode = (_mode != mode::failureCoolDown) ? mode::finished : mode::failed;
         break;
     case mode::finished:
     case mode::failed:

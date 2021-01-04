@@ -33,7 +33,6 @@ extern void GxEPD2_busyWaitCallback();
 
 GxEPD2_BW<GxEPD2_420, GxEPD2_420::HEIGHT> Screen::_d(GxEPD2_420(EPD_CS, EPD_DC, EPD_RST, EPD_BUSY));
 float Screen::_progressPercent = 0.f;
-bool Screen::_snowflakeMode = false;
 std::string Screen::_statusStr = "";
 
 Screen::Screen()
@@ -50,11 +49,6 @@ void Screen::init()
 void Screen::setProgress(float percent)
 {
     _progressPercent = percent;
-}
-
-void Screen::setSnowflake(bool enable)
-{
-    _snowflakeMode = enable;
 }
 
 void Screen::setStatus(const std::string s)
@@ -159,7 +153,7 @@ void Screen::update(bool fullRefresh)
     }
 
     // Draw flame (or snowflake) to the right
-    const Icon& icon = _snowflakeMode ? icon_snowflake : icon_flame;
+    const Icon& icon = incinerator.coolingDown() ? icon_snowflake : icon_flame;
     icon.draw(_d, x, 0, icon_box_width, top_bar_height);
 
     // Draw line below top bar
