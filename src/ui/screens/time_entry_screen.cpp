@@ -56,7 +56,7 @@ void TimeEntryScreen::draw()
 
     print("min", x, y, 60, dy, f);
 
-    icon_dial.draw(_d, 80, 150);
+    icon_dial.draw(_d, 80, 140);
     print("OK", 200, 180, 80, _dy, r);
 }
 
