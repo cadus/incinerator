@@ -51,7 +51,9 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#install">Install</a>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#update">Update</a>
+<li class="toctree-l2"><a class="reference internal" href="#update-via-esptool">Update via esptool</a>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#update-via-flasher">Update via flasher</a>
 </li>
 </ul>
 </li>
@@ -66,6 +68,10 @@
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="ignition/">Ignition</a>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="serial_ctrl/">Serial control</a>
 </li>
 </ul>
 <ul>
@@ -115,12 +121,26 @@ PlatformIO CLI:</p>
 PlatformIO CLI:</p>
 <pre><code>pio run --target upload
 </code></pre>
-<h2 id="update">Update</h2>
+<h2 id="update-via-esptool">Update via esptool</h2>
 <p>Install esptool with <code>pip3 install --user esptool</code>.</p>
 <p>Connect the processor module via USB and determine the USB serial port. (<code>/dev/ttyUSB0</code> in this example)</p>
 <p>Update the firmware:</p>
 <pre><code>python3 -m esptool --port /dev/ttyUSB0 --baud 921600 write_flash 0x10000 firmware.bin
 </code></pre>
+<h2 id="update-via-flasher">Update via flasher</h2>
+<p>The flasher (distributed with releases) is a small wrapper around <code>esptool</code> and can be used for the update instead of calling <code>esptool</code> directly.</p>
+<p>Using the flasher tool on windows:</p>
+<ul>
+<li>Install CP210x_VCP_Windows driver from https://www.silabs.com/developers/usb-to-uart-bridge-vcp-drivers</li>
+<li>Install Python3 https://www.python.org/downloads/windows/
+  (Select "add python to PATH")</li>
+<li>Open terminal in flasher directory</li>
+<li>Enter "pip install esptool pyserial" (only necessary when doing this for the first time)</li>
+<li>Enter "flasher.py"</li>
+<li>Choose serial port (use the one called "Silicon Labs CP210x")</li>
+<li>Hold down the BOOT button on the processor board (right from the USB socket)</li>
+<li>Wait until flasher is finished</li>
+</ul>
 </div>
 </div>
 <footer>
@@ -156,5 +176,5 @@ PlatformIO CLI:</p>
 </html>
 <!--
 MkDocs version : 1.1.2
-Build Date UTC : 2020-12-26 14:29:25.998332+00:00
+Build Date UTC : 2021-01-04 17:28:00.907556+00:00
 -->

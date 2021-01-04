@@ -8,15 +8,15 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <meta content="Patrick Huesmann" name="author"/>
 <link href="../img/favicon.ico" rel="shortcut icon"/>
-<title>Burn chamber - Incinerator firmware docs</title>
+<title>Serial control - Incinerator firmware docs</title>
 <link href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" rel="stylesheet">
 <link href="../css/theme.css" rel="stylesheet"/>
 <link href="../css/theme_extra.css" rel="stylesheet"/>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet"/>
 <script>
     // Current page data
-    var mkdocs_page_name = "Burn chamber";
-    var mkdocs_page_input_path = "burn_chamber.md";
+    var mkdocs_page_name = "Serial control";
+    var mkdocs_page_input_path = "serial_ctrl.md";
     var mkdocs_page_url = null;
   </script>
 <script defer="" src="../js/jquery-2.1.1.min.js"></script>
@@ -45,22 +45,28 @@
 <li class="toctree-l1"><a class="reference internal" href="../incinerator/">Incinerator</a>
 </li>
 </ul>
-<ul class="current">
-<li class="toctree-l1 current"><a class="reference internal current" href="./">Burn chamber</a>
-<ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="#temperature-control">Temperature control</a>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#state-machine">State machine</a>
-</li>
-</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../burn_chamber/">Burn chamber</a>
 </li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../ignition/">Ignition</a>
 </li>
 </ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal current" href="./">Serial control</a>
+<ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="#serial-commands">Serial commands</a>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#temperature-simulation">Temperature simulation</a>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../serial_ctrl/">Serial control</a>
+<li class="toctree-l3"><a class="reference internal" href="#temperature-simulation-tool">Temperature simulation tool</a>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#screenshots">Screenshots</a>
+</li>
+</ul>
 </li>
 </ul>
 <ul>
@@ -80,44 +86,61 @@
 <div aria-label="breadcrumbs navigation" role="navigation">
 <ul class="wy-breadcrumbs">
 <li><a href="..">Docs</a> »</li>
-<li>Burn chamber</li>
+<li>Serial control</li>
 <li class="wy-breadcrumbs-aside">
-<a href="https://github.com/cadus/incinerator/edit/master/docs/burn_chamber.md"> Edit on cadus/incinerator</a>
+<a href="https://github.com/cadus/incinerator/edit/master/docs/serial_ctrl.md"> Edit on cadus/incinerator</a>
 </li>
 </ul>
 <hr/>
 </div>
 <div role="main">
 <div class="section">
-<h1 id="burn-chamber">Burn chamber</h1>
-<p>The burn chamber is responsible for managing the burn process in one burn chamber, which includes triggering ignition, reading temperature and controlling gas flow via valves.</p>
-<h3 id="temperature-control">Temperature control</h3>
-<p>The temperature is controlled with gas valves which can be ON or OFF (no gradual control). The main chamber features a single valve (VALVE_MAIN), the afterburner chamber features two valves (VALVE_AFT_HI, VALVE_AFT_LO) which create a high or low gas flow, respectively.</p>
-<ul>
-<li>When temperature sinks below T_MIN, VALVE_MAIN / VALVE_AFT_HI is activated.</li>
-<li>When temperature rises above T_MAX, VALVE_MAIN / VALVE_AFT_HI is deactivated, and in case of the afterburner chamber, VALVE_AFT_LO is activated instead.</li>
-</ul>
-<h3 id="state-machine">State machine</h3>
-<div class="mermaid">stateDiagram-v2
-  [*] --&gt; start: Burn start requested
-  start --&gt; waitIgnition: Set gas valve, request ignition
-  waitIgnition --&gt; failed: Ignition failed
-  failed --&gt; [*]: Reset
-  waitIgnition --&gt; waitTemp: Ignition successful
-  waitTemp --&gt; burnHigh: T_MIN reached
-  burnHigh --&gt; burnLow: T &gt; T_MAX
-  burnLow --&gt; waitBurnHigh: T &lt; T_MIN, ignite again
-  waitBurnHigh --&gt; burnHigh: Ignition successful
-  waitBurnHigh --&gt; failed: Ignition failed
-  burnHigh --&gt; [*]: Reset
-  burnLow --&gt; [*]: Reset
-</div>
+<h1 id="serial-control">Serial control</h1>
+<p>On the ESP32 serial port, there's a simple command line interface implemented.</p>
+<h2 id="serial-commands">Serial commands</h2>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Argument</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>TM</code></td>
+<td>deg. C</td>
+<td>Simulate main burner temperature</td>
+</tr>
+<tr>
+<td><code>TA</code></td>
+<td>deg. C</td>
+<td>Simulate afterburner temperature</td>
+</tr>
+<tr>
+<td><code>SS</code></td>
+<td></td>
+<td>Create screenshot</td>
+</tr>
+</tbody>
+</table>
+<h2 id="temperature-simulation">Temperature simulation</h2>
+<p>The temperature of the burn chambers can be simulated to facilitate testing of the incineration logic w/o actual burning.
+To enable temperature simulation, the firmware needs to be built with <code>-DENABLE_TEMP_SIMULATION</code>.</p>
+<h3 id="temperature-simulation-tool">Temperature simulation tool</h3>
+<p>The script <code>temp_sim.py</code> can be used to conduct temperature simulation while testing.
+The keys <code>e</code>, <code>r</code>, <code>d</code>, <code>f</code> and <code>u</code>, <code>i</code>, <code>j</code>, <code>k</code> lower or raise the main and afterburner temperature, respectively.</p>
+<h2 id="screenshots">Screenshots</h2>
+<p><code>SS</code> creates a screenshot. It prints out a base64-encoding of a PNM file containing the current screen contents.</p>
+<p>The base64 dump can be easily converted to a PNG file using the following shell snippet (needs imagemagick to work):</p>
+<pre><code>base64 -d | convert pnm:- screenshot.png
+</code></pre>
 </div>
 </div>
 <footer>
 <div aria-label="footer navigation" class="rst-footer-buttons" role="navigation">
-<a class="btn btn-neutral float-right" href="../ignition/" title="Ignition">Next <span class="icon icon-circle-arrow-right"></span></a>
-<a class="btn btn-neutral" href="../incinerator/" title="Incinerator"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+<a class="btn btn-neutral float-right" href="../pcb/" title="PCB">Next <span class="icon icon-circle-arrow-right"></span></a>
+<a class="btn btn-neutral" href="../ignition/" title="Ignition"><span class="icon icon-circle-arrow-left"></span> Previous</a>
 </div>
 <hr/>
 <div role="contentinfo">
@@ -132,8 +155,8 @@
 </div>
 <div aria-label="versions" class="rst-versions" role="note">
 <span class="rst-current-version" data-toggle="rst-current-version">
-<span><a href="../incinerator/" style="color: #fcfcfc;">« Previous</a></span>
-<span style="margin-left: 15px"><a href="../ignition/" style="color: #fcfcfc">Next »</a></span>
+<span><a href="../ignition/" style="color: #fcfcfc;">« Previous</a></span>
+<span style="margin-left: 15px"><a href="../pcb/" style="color: #fcfcfc">Next »</a></span>
 </span>
 </div>
 <script>var base_url = '..';</script>
@@ -145,5 +168,5 @@
             SphinxRtdTheme.Navigation.enable(true);
         };
     </script>
-<script>mermaid.initialize({});</script></body>
+</body>
 </html>

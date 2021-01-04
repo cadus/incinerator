@@ -60,6 +60,10 @@
 </li>
 </ul>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../serial_ctrl/">Serial control</a>
+</li>
+</ul>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../pcb/">PCB</a>
 </li>
 </ul>
@@ -99,13 +103,18 @@
   [*] --&gt; start: Burn start requested
   start --&gt; waitAfterburner: Start afterburner
   waitAfterburner --&gt; failureCoolDown: Aft. failed
-  failureCoolDown --&gt; [*]: System cooled down
   waitAfterburner --&gt; startMain: Aft. temp. reached
+  waitAfterburner --&gt; abortCoolDown: User abort
   startMain --&gt; waitMain: Start main burner
   waitMain --&gt; burnActive: Main temp. reached
   waitMain --&gt; failureCoolDown: Main failed
+  waitMain --&gt; abortCoolDown: User abort
   burnActive --&gt; coolDown: Burn time elapsed
+  burnActive --&gt; failureCoolDown: Burner failed
+  burnActive --&gt; abortCoolDown: User abort
   coolDown --&gt; [*]: System cooled down
+  failureCoolDown --&gt; [*]: System cooled down
+  abortCoolDown --&gt; [*]: System cooled down
 </div>
 </div>
 </div>
