@@ -22,4 +22,5 @@ nav:
     - 'Incinerator': 'incinerator.md'
     - 'Burn chamber': 'burn_chamber.md'
     - 'Ignition': 'ignition.md'
+    - 'Serial control': 'serial_ctrl.md'
     - 'PCB': 'pcb.md'
