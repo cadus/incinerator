@@ -18,7 +18,7 @@
  */
 
 #include "time_entry_screen.h"
-#include "start_screen.h"
+#include "confirmation_screen.h"
 #include "util/sys_config.h"
 #include "ui/icons.h"
 
@@ -72,7 +72,7 @@ bool TimeEntryScreen::handleEncoderRotation(int delta)
 bool TimeEntryScreen::handleEncoderSwitch()
 {
     sysconfig.set("burn_time", _burn_time);
-    setNextScreen(&startScreen);
+    setNextScreen(&confirmationScreen);
     return false;
 }
 

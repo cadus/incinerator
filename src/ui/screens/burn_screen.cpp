@@ -17,46 +17,46 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "home_screen.h"
+#include "burn_screen.h"
 
-#include <string>
+#include <functional>
 
-#include "config_screen.h"
-#include "test_screen.h"
-#include "start_screen.h"
+#include "incinerator/incinerator.h"
 #include "ui/icons.h"
-#include "version.h"
 
-HomeScreen::HomeScreen()
+BurnScreen::BurnScreen()
 : InteractiveScreen(true)
 {
 }
 
-void HomeScreen::reset()
+bool BurnScreen::abort()
 {
-
-    static ScreenChangeButton conf(*this, "Config", &configScreen, 70, _ys + _dy * 8, 80, _dy, "Enter config screen");
-    static ScreenChangeButton test(*this, "Test", &testScreen, 160, _ys + _dy * 8, 80, _dy, "Enter test screen");
-    static ScreenChangeButton start(*this, "Start", &startScreen, 250, _ys + _dy * 8, 80, _dy, "Enter start screen");
-
-    _items.clear();
-    _items.push_back(&conf);
-    _items.push_back(&test);
-    _items.push_back(&start);
-
-    InteractiveScreen::reset();
+    incinerator.reset();
+    return false;
 }
 
-void HomeScreen::draw()
+void BurnScreen::reset()
 {
-    uint16_t y = _ys;
-    icon_cadus_logo.draw(_d, 0, y, GxEPD2_420::WIDTH, _dy * 4);
-    y += _dy * 4;
+    static PushButton abortBtn(*this, "Abort", std::bind(&BurnScreen::abort, this), 150, _ys + _dy * 8, 100, _dy, "Abort incineration");
+ 
+    _items.clear();
+    _items.push_back(&abortBtn);
 
-    const std::string about = "Incinerator " + std::string(gitversion);
-    print(about, 0, y, GxEPD2_420::WIDTH, _dy, bold);
+    InteractiveScreen::reset();
+
+    incinerator.start();
+}
+
+void BurnScreen::draw()
+{
+    uint16_t y = _ys + 18;
+    icon_flame_big.draw(_d, 0, y, _d.width(), _dy * 4);
+
+    PrintFlags f;
+    f.set(PrintFlag::bigFont);
+    print("Burning", 0, y += _dy * 5, _d.width(), _dy, f);
 
     InteractiveScreen::draw();
 }
 
-HomeScreen homeScreen;
+BurnScreen burnScreen;

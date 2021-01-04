@@ -17,22 +17,22 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "conf_screen.h"
+#include "config_screen.h"
 
 #include <string>
 
 #include "home_screen.h"
 #include "util/sys_config.h"
 
-ConfItem::ConfItem(InteractiveScreen& parent,
-                   std::string helpText,
-                   std::string id,
-                   std::string desc,
-                   std::string unit,
-                   int step,
-                   int lowerBound,
-                   int upperBound,
-                   uint16_t x, uint16_t y, uint16_t w, uint16_t h)
+ConfigItem::ConfigItem(InteractiveScreen& parent,
+                       std::string helpText,
+                       std::string id,
+                       std::string desc,
+                       std::string unit,
+                       int step,
+                       int lowerBound,
+                       int upperBound,
+                       uint16_t x, uint16_t y, uint16_t w, uint16_t h)
 : ValueEntry(parent, desc, unit,
              sysconfig.get(id), step, lowerBound, upperBound,
              x, y, w, h, 40, helpText)
@@ -40,19 +40,19 @@ ConfItem::ConfItem(InteractiveScreen& parent,
 {
 }
 
-void ConfItem::update()
+void ConfigItem::update()
 {
     sysconfig.set(_id, _val);
 }
 
-ConfScreen::ConfScreen()
+ConfigScreen::ConfigScreen()
 : InteractiveScreen(true)
 {
 }
 
-void ConfScreen::reset()
+void ConfigScreen::reset()
 {
-    static std::vector<ConfItem> confs = {
+    static std::vector<ConfigItem> confs = {
         { *this, "Low temp.threshold to open valve",
           "main_T_low", "Temp.Low", "C", 10, 300, 700,
           _xs + _dx * 0, _ys + _dy * 0, _dx, _dy },
@@ -108,7 +108,7 @@ void ConfScreen::reset()
     InteractiveScreen::reset();
 }
 
-void ConfScreen::draw()
+void ConfigScreen::draw()
 {
     InteractiveScreen::draw();
 
@@ -125,4 +125,4 @@ void ConfScreen::draw()
     print("MISC", 0, _ys + _dy * 6, _xs, _dy, flags);
 }
 
-ConfScreen confScreen;
+ConfigScreen configScreen;
