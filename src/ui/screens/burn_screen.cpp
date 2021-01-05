@@ -38,7 +38,7 @@ bool BurnScreen::abort()
 
 void BurnScreen::reset()
 {
-    static PushButton abortBtn(*this, "Abort", std::bind(&BurnScreen::abort, this), 150, _ys + _dy * 8, 100, _dy, "Abort incineration");
+    static PushButton abortBtn(*this, "Abort", std::bind(&BurnScreen::abort, this), 150, _ys + _dy * 8, 100, _dy, "");
 
     _items.clear();
     _items.push_back(&abortBtn);
@@ -59,7 +59,7 @@ void BurnScreen::draw()
 
     InteractiveScreen::draw();
 
-    if (incinerator.isCoolingDown()) {
+    if (incinerator.isCoolingDown() || incinerator.isFinished()) {
         setNextScreen(&cooldownScreen);
     }
 }

@@ -21,7 +21,6 @@
 #include "buzzer.h"
 #include "debounced_encoder.h"
 #include "screens/home_screen.h"
-#include "screens/time_entry_screen.h"
 
 Ui::Ui()
 : _current(nullptr)
@@ -38,7 +37,7 @@ void Ui::init()
     buzzer.init();
     encoder_init();
 
-    _current = &timeEntryScreen;
+    _current = &homeScreen;
     _current->reset();
 }
 

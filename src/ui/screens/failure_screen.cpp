@@ -51,7 +51,7 @@ void FailureScreen::draw()
         { Incinerator::mode::aborted, "Shutdown after user abort!" },
         { Incinerator::mode::failed, "Shutdown after failure!" },
     };
-    print(lookup[incinerator.getMode()], 0, y += _dy * 5, _d.width(), _dy, f);
+    print(lookup[incinerator.getMode()], 0, y += _dy * 4 + 12, _d.width(), _dy, f);
     print("Incineration aborted or interrupted.", 0, y += _dy, _d.width(), _dy, f);
     print("Beware of hazardous items!", 0, y += _dy, _d.width(), _dy, f);
     

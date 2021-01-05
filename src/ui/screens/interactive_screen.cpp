@@ -33,7 +33,9 @@ InteractiveItem::InteractiveItem(InteractiveScreen& parent,
 
 void InteractiveItem::showHelpText()
 {
-    _parent.setStatus(_helpText);
+    if (!_helpText.empty()) {
+        _parent.setStatus(_helpText);
+    }
 }
 
 PushButton::PushButton(InteractiveScreen& parent,

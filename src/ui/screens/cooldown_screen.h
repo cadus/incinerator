@@ -32,7 +32,6 @@ public:
 private:
     bool finish();
 
-    bool _isCoolingDown;
     static constexpr uint16_t _ys = _content_y;
     static constexpr uint16_t _dy = 24;
 };

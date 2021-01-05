@@ -27,6 +27,8 @@
 #include "ui/icons.h"
 #include "version.h"
 
+#include "incinerator/incinerator.h"
+
 HomeScreen::HomeScreen()
 : InteractiveScreen(true)
 {
@@ -34,6 +36,7 @@ HomeScreen::HomeScreen()
 
 void HomeScreen::reset()
 {
+    incinerator.reset();
 
     static ScreenChangeButton conf(*this, "Config", &configScreen, 70, _ys + _dy * 8, 80, _dy, "Enter config screen");
     static ScreenChangeButton test(*this, "Test", &testScreen, 160, _ys + _dy * 8, 80, _dy, "Enter test screen");

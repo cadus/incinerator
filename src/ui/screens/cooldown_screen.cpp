@@ -46,9 +46,6 @@ void CooldownScreen::reset()
     _items.clear();
     if (incinerator.isFinished()) {
         _items.push_back(&okBtn);
-        _isCoolingDown = false;
-    } else {
-        _isCoolingDown = true;
     }
 
     InteractiveScreen::reset();
@@ -71,18 +68,21 @@ void CooldownScreen::draw()
     };
     print(lookup[incinerator.getMode()], 0, y += _dy * 5, _d.width(), _dy, f);
 
-    InteractiveScreen::draw();
-
-    if (_isCoolingDown && incinerator.isFinished()) {
+    if (incinerator.isFinished()) {
         if (incinerator.getMode() == Incinerator::mode::aborted
             || incinerator.getMode() == Incinerator::mode::failed) {
             // Incineration aborted or interrupted. Show warning
             setNextScreen(&failureScreen);
-        } else {
+            return;
+        } else if (!_items.size()) {
             // Successfully finished. Refresh screen and show OK button
             setNextScreen(this);
+            return;
+        } else if (incinerator.getMode() == Incinerator::mode::finished) {
+            print("Incineration complete.", 0, y += _dy, _d.width(), _dy, f);
         }
     }
+    InteractiveScreen::draw();
 }
 
 CooldownScreen cooldownScreen;
