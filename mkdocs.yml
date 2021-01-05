@@ -19,8 +19,12 @@ extra_javascript:
 # navigation
 nav:
     - 'Introduction': 'index.md'
+    - 'User interface': 'ui.md'
     - 'Incinerator': 'incinerator.md'
     - 'Burn chamber': 'burn_chamber.md'
     - 'Ignition': 'ignition.md'
     - 'Serial control': 'serial_ctrl.md'
     - 'PCB': 'pcb.md'
+
+extra_css:
+    - extra.css
