@@ -8,7 +8,7 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <meta content="Patrick Huesmann" name="author"/>
 <link href="../img/favicon.ico" rel="shortcut icon"/>
-<title>Ignition - Incinerator firmware docs</title>
+<title>User interface - Incinerator firmware docs</title>
 <link href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" rel="stylesheet">
 <link href="../css/theme.css" rel="stylesheet"/>
 <link href="../css/theme_extra.css" rel="stylesheet"/>
@@ -16,8 +16,8 @@
 <link href="../extra.css" rel="stylesheet"/>
 <script>
     // Current page data
-    var mkdocs_page_name = "Ignition";
-    var mkdocs_page_input_path = "ignition.md";
+    var mkdocs_page_name = "User interface";
+    var mkdocs_page_input_path = "ui.md";
     var mkdocs_page_url = null;
   </script>
 <script defer="" src="../js/jquery-2.1.1.min.js"></script>
@@ -42,8 +42,24 @@
 <li class="toctree-l1"><a class="reference internal" href="..">Introduction</a>
 </li>
 </ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../ui/">User interface</a>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal current" href="./">User interface</a>
+<ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="#home-screen">Home screen</a>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#start-screen">Start screen</a>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#time-entry">Time entry</a>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#confirmation-screen">Confirmation screen</a>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#burn-screen">Burn screen</a>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#cooldown-screen">Cooldown screen</a>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#cooldown-finished">Cooldown finished</a>
+</li>
+</ul>
 </li>
 </ul>
 <ul>
@@ -54,16 +70,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../burn_chamber/">Burn chamber</a>
 </li>
 </ul>
-<ul class="current">
-<li class="toctree-l1 current"><a class="reference internal current" href="./">Ignition</a>
-<ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="#ignition-control">Ignition control</a>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#protection-logic">Protection logic</a>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#state-machine">State machine</a>
-</li>
-</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../ignition/">Ignition</a>
 </li>
 </ul>
 <ul>
@@ -87,39 +95,36 @@
 <div aria-label="breadcrumbs navigation" role="navigation">
 <ul class="wy-breadcrumbs">
 <li><a href="..">Docs</a> »</li>
-<li>Ignition</li>
+<li>User interface</li>
 <li class="wy-breadcrumbs-aside">
-<a href="https://github.com/cadus/incinerator/edit/master/docs/ignition.md"> Edit on cadus/incinerator</a>
+<a href="https://github.com/cadus/incinerator/edit/master/docs/ui.md"> Edit on cadus/incinerator</a>
 </li>
 </ul>
 <hr/>
 </div>
 <div role="main">
 <div class="section">
-<h1 id="ignition-module">Ignition module</h1>
-<p>Ignition is triggered from higher level control (burn chamber).</p>
-<h3 id="ignition-control">Ignition control</h3>
-<p>Ignition coil is activated for a configurable time <code>ign_pulse_w</code>, this is repeated after a configurable delay <code>ign_repeat_itvl</code> until temperature has risen enough that a successful ignition can be assumed.</p>
-<h3 id="protection-logic">Protection logic</h3>
-<p>Ignition control features a simple protection logic to make sure there's no gas flow when the gas is not burning. After ignition has started, the ignition module checks if temperature has risen by a configurable delta <code>ign_delta</code>. When a configurable timeout <code>ign_t</code> has elapsed w/o temperature rising, then the ignition module indicates that ignition has failed and the gas flow should be shut down.</p>
-<h3 id="state-machine">State machine</h3>
-<div class="mermaid">stateDiagram-v2
-  [*] --&gt; setCoil: Ignition request
-  setCoil --&gt; waitPulse
-  waitPulse --&gt; resetCoil: ign_pulse_w elapsed
-  resetCoil --&gt; waitIgnition
-  waitIgnition --&gt; setCoil: ign_repeat_itvl elapsed
-  waitIgnition --&gt; success: Temp. raised
-  waitIgnition --&gt; failure: Timeout
-  success --&gt; [*]: Reset
-  failure --&gt; [*]: Reset
-</div>
+<h1 id="user-interface">User interface</h1>
+<h2 id="home-screen">Home screen</h2>
+<p><img alt="home-screen" src="../p1.png#bordered"/></p>
+<h2 id="start-screen">Start screen</h2>
+<p><img alt="start-screen" src="../p2.png"/></p>
+<h2 id="time-entry">Time entry</h2>
+<p><img alt="time-entry" src="../p3.png"/></p>
+<h2 id="confirmation-screen">Confirmation screen</h2>
+<p><img alt="confirmation-screen" src="../p4.png"/></p>
+<h2 id="burn-screen">Burn screen</h2>
+<p><img alt="burn-screen" src="../p5.png"/></p>
+<h2 id="cooldown-screen">Cooldown screen</h2>
+<p><img alt="cooldown-screen" src="../p6.png"/></p>
+<h2 id="cooldown-finished">Cooldown finished</h2>
+<p><img alt="cooldown-finished" src="../p7.png"/></p>
 </div>
 </div>
 <footer>
 <div aria-label="footer navigation" class="rst-footer-buttons" role="navigation">
-<a class="btn btn-neutral float-right" href="../serial_ctrl/" title="Serial control">Next <span class="icon icon-circle-arrow-right"></span></a>
-<a class="btn btn-neutral" href="../burn_chamber/" title="Burn chamber"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+<a class="btn btn-neutral float-right" href="../incinerator/" title="Incinerator">Next <span class="icon icon-circle-arrow-right"></span></a>
+<a class="btn btn-neutral" href=".." title="Introduction"><span class="icon icon-circle-arrow-left"></span> Previous</a>
 </div>
 <hr/>
 <div role="contentinfo">
@@ -134,8 +139,8 @@
 </div>
 <div aria-label="versions" class="rst-versions" role="note">
 <span class="rst-current-version" data-toggle="rst-current-version">
-<span><a href="../burn_chamber/" style="color: #fcfcfc;">« Previous</a></span>
-<span style="margin-left: 15px"><a href="../serial_ctrl/" style="color: #fcfcfc">Next »</a></span>
+<span><a href=".." style="color: #fcfcfc;">« Previous</a></span>
+<span style="margin-left: 15px"><a href="../incinerator/" style="color: #fcfcfc">Next »</a></span>
 </span>
 </div>
 <script>var base_url = '..';</script>
@@ -147,5 +152,5 @@
             SphinxRtdTheme.Navigation.enable(true);
         };
     </script>
-<script>mermaid.initialize({});</script></body>
+</body>
 </html>
