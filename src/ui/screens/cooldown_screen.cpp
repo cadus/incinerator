@@ -25,6 +25,7 @@
 #include "incinerator/incinerator.h"
 #include "ui/icons.h"
 #include "ui/screens/home_screen.h"
+#include "ui/screens/failure_screen.h"
 
 CooldownScreen::CooldownScreen()
 : InteractiveScreen(true)
@@ -73,8 +74,14 @@ void CooldownScreen::draw()
     InteractiveScreen::draw();
 
     if (_isCoolingDown && incinerator.isFinished()) {
-        // Refresh screen and show OK button
-        setNextScreen(this);
+        if (incinerator.getMode() == Incinerator::mode::aborted
+            || incinerator.getMode() == Incinerator::mode::failed) {
+            // Incineration aborted or interrupted. Show warning
+            setNextScreen(&failureScreen);
+        } else {
+            // Successfully finished. Refresh screen and show OK button
+            setNextScreen(this);
+        }
     }
 }
 

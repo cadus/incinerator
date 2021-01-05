@@ -15,3 +15,4 @@ extern const Icon icon_cadus_logo;
 extern const Icon icon_dial;
 extern const Icon icon_flame_big;
 extern const Icon icon_snowflake_big;
+extern const Icon icon_warn_temp;
