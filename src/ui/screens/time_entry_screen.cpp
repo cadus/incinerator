@@ -64,7 +64,7 @@ bool TimeEntryScreen::handleEncoderRotation(int delta)
 {
     int32_t time_prev = _burn_time;
     _burn_time += delta;
-    _burn_time = max(0, _burn_time);
+    _burn_time = max(1, _burn_time);
     _burn_time = min(60, _burn_time);
     return _burn_time != time_prev;
 }

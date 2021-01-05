@@ -39,7 +39,6 @@ void Incinerator::init()
     burnerAft.init();
     airPump.init();
     reset();
-    _mode = mode::idle;
 }
 
 void Incinerator::task()
@@ -54,11 +53,18 @@ Incinerator::mode Incinerator::getMode() const
     return _mode;
 }
 
-bool Incinerator::coolingDown() const
+bool Incinerator::isCoolingDown() const
 {
     return _mode == mode::coolDown
            || _mode == mode::abortCoolDown
            || _mode == mode::failureCoolDown;
+}
+
+bool Incinerator::isFinished() const
+{
+    return _mode == mode::finished
+           || _mode == mode::aborted
+           || _mode == mode::failed;
 }
 
 std::string Incinerator::getModeStr() const
@@ -90,6 +96,12 @@ void Incinerator::abort()
 
 void Incinerator::reset()
 {
+    doReset();
+    _mode = mode::idle;
+}
+
+void Incinerator::doReset()
+{
     Screen::setProgress(0);
     burnerMain.reset();
     burnerAft.reset();
@@ -98,14 +110,14 @@ void Incinerator::reset()
 
 void Incinerator::doFail()
 {
-    reset();
+    doReset();
     _mode = mode::failureCoolDown;
 }
 
 void Incinerator::doAbort()
 {
     syslog(LOG_INFO, "Burn process aborted by user");
-    reset();
+    doReset();
     _mode = mode::abortCoolDown;
 }
 
@@ -202,7 +214,7 @@ void Incinerator::fsm()
         if (_burn_seconds_elapsed < _burn_seconds) {
             break;
         }
-        reset();
+        doReset();
         _mode = mode::coolDown;
         syslog(LOG_INFO, "Burn finished, cooling down");
         // fall through
@@ -234,7 +246,7 @@ void Incinerator::fsm()
                 { mode::failureCoolDown, mode::failed }
             };
             _mode = lookup[_mode];
-            reset();
+            doReset();
         }
         break;
     case mode::aborted:

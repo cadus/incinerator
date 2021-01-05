@@ -47,7 +47,8 @@ public:
 
     mode getMode() const;
     std::string getModeStr() const;
-    bool coolingDown() const;
+    bool isCoolingDown() const;
+    bool isFinished() const;
     void init();
     void start();
     void abort();
@@ -60,6 +61,7 @@ public:
 
 private:
     void fsm();
+    void doReset();
     void doFail();
     void doAbort();
     std::string fmt_minutes(uint32_t seconds) const;

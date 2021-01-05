@@ -153,7 +153,7 @@ void Screen::update(bool fullRefresh)
     }
 
     // Draw flame (or snowflake) to the right
-    const Icon& icon = incinerator.coolingDown() ? icon_snowflake : icon_flame;
+    const Icon& icon = incinerator.isCoolingDown() ? icon_snowflake : icon_flame;
     icon.draw(_d, x, 0, icon_box_width, top_bar_height);
 
     // Draw line below top bar

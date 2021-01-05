@@ -23,6 +23,7 @@
 
 #include "incinerator/incinerator.h"
 #include "ui/icons.h"
+#include "ui/screens/cooldown_screen.h"
 
 BurnScreen::BurnScreen()
 : InteractiveScreen(true)
@@ -38,7 +39,7 @@ bool BurnScreen::abort()
 void BurnScreen::reset()
 {
     static PushButton abortBtn(*this, "Abort", std::bind(&BurnScreen::abort, this), 150, _ys + _dy * 8, 100, _dy, "Abort incineration");
- 
+
     _items.clear();
     _items.push_back(&abortBtn);
 
@@ -57,6 +58,10 @@ void BurnScreen::draw()
     print("Burning", 0, y += _dy * 5, _d.width(), _dy, f);
 
     InteractiveScreen::draw();
+
+    if (incinerator.isCoolingDown()) {
+        setNextScreen(&cooldownScreen);
+    }
 }
 
 BurnScreen burnScreen;
