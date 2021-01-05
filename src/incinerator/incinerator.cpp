@@ -39,6 +39,7 @@ void Incinerator::init()
     burnerAft.init();
     airPump.init();
     reset();
+    _mode = mode::idle;
 }
 
 void Incinerator::task()
@@ -93,7 +94,6 @@ void Incinerator::reset()
     burnerMain.reset();
     burnerAft.reset();
     airPump.off();
-    _mode = mode::idle;
 }
 
 void Incinerator::doFail()
@@ -227,13 +227,19 @@ void Incinerator::fsm()
             if (temp > coolTemp) {
                 break;
             }
+            syslog(LOG_INFO, "Cool down finished");
+            std::map<mode, mode> lookup {
+                { mode::coolDown, mode::finished },
+                { mode::abortCoolDown, mode::aborted },
+                { mode::failureCoolDown, mode::failed }
+            };
+            _mode = lookup[_mode];
+            reset();
         }
-        syslog(LOG_INFO, "Cool down finished");
-        _mode = (_mode != mode::failureCoolDown) ? mode::finished : mode::failed;
         break;
+    case mode::aborted:
     case mode::finished:
     case mode::failed:
-        reset();
         break;
     }
 }

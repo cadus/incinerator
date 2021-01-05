@@ -39,7 +39,8 @@ public:
         failureCoolDown, // Wait for cool down
         abortCoolDown, // Wait for cool down
         finished, // Burn process & cool down finished
-        failed, // Burn process failed
+        aborted, // Burn process aborted, cool down finished
+        failed, // Burn process failed, cool down finished
     };
 
     Incinerator();
