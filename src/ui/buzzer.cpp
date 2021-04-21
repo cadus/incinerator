@@ -63,7 +63,7 @@ void Buzzer::buzz(uint32_t buzz_length_ms)
     do {                  \
     } while (xSemaphoreTake(_ledc_sys_lock, portMAX_DELAY) != pdPASS)
 #define LEDC_MUTEX_UNLOCK() xSemaphoreGive(_ledc_sys_lock)
-xSemaphoreHandle _ledc_sys_lock;
+extern xSemaphoreHandle _ledc_sys_lock;
 #endif
 #define LEDC_CHAN(g, c) LEDC.channel_group[(g)].channel[(c)]
 #define LEDC_TIMER(g, t) LEDC.timer_group[(g)].timer[(t)]
