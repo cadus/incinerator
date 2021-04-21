@@ -3,7 +3,6 @@
 #include <stdint.h>
 #include <vector>
 #include "Adafruit_GFX.h"
-#include "GxEPD2.h"
 
 class Icon {
 public:

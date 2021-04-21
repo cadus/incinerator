@@ -41,7 +41,7 @@ void StartScreen::reset()
 void StartScreen::draw()
 {
     constexpr uint16_t x = 30;
-    constexpr uint16_t w = GxEPD2_420::WIDTH-x;
+    constexpr uint16_t w = TFT_WIDTH-x;
     uint16_t y = _ys + 15;
     constexpr uint16_t dy = 26;
 

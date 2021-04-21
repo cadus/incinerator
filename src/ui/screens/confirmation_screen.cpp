@@ -46,7 +46,7 @@ void ConfirmationScreen::reset()
 void ConfirmationScreen::draw()
 {
     constexpr uint16_t x = 30;
-    constexpr uint16_t w = GxEPD2_420::WIDTH-x;
+    constexpr uint16_t w = TFT_WIDTH-x;
     constexpr uint16_t dy = 26;
     uint16_t y = _ys + dy;
 

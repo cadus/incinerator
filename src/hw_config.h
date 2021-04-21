@@ -26,10 +26,9 @@
 #define TEMP_MAIN_CS 16
 #define TEMP_AFT_CS 4
 
-#define EPD_CS 5
-#define EPD_DC 17
-#define EPD_RST 21
-#define EPD_BUSY 36
+#define TFT_DC 17
+#define TFT_CS 5
+#define TFT_RST 21
 
 #define BUZZER 22
 

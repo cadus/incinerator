@@ -38,6 +38,11 @@ void InteractiveItem::showHelpText()
     }
 }
 
+void InteractiveItem::print(const std::string s, uint16_t x, uint16_t y, uint16_t w, uint16_t h, Screen::PrintFlags flags)
+{
+    _parent.print(s, x, y, w, h, flags);
+}
+
 PushButton::PushButton(InteractiveScreen& parent,
                        std::string text,
                        std::function<bool()> handler,
@@ -118,7 +123,7 @@ void ValueEntry::draw(bool selected)
     if (selected && !_parent._fixedItemSelection) {
         flags.set(Screen::PrintFlag::invert);
     }
-    Screen::print(_text, x, _y, _w - _value_width - 4, _h, flags);
+    print(_text, x, _y, _w - _value_width - 4, _h, flags);
 
     x += _w - _value_width + 4;
 
@@ -129,7 +134,7 @@ void ValueEntry::draw(bool selected)
     }
     char tmp[80];
     snprintf(tmp, sizeof(tmp), "%d%s", _val, _unit.c_str());
-    Screen::print(tmp, x, _y, _value_width - 4, _h, flags);
+    print(tmp, x, _y, _value_width - 4, _h, flags);
 }
 
 bool ValueEntry::rotate(int digits)

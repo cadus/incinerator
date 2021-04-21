@@ -115,13 +115,13 @@ void ConfigScreen::draw()
     PrintFlags flags;
     flags.set(PrintFlag::bold);
     print("MAIN", 0, _ys, _xs, _dy * 2, flags);
-    _d.drawFastHLine(0, _ys + _dy * 2, _d.width(), GxEPD_BLACK);
+    _d.drawFastHLine(0, _ys + _dy * 2, _d.width(), ILI9341_BLACK);
     print("AFT", 0, _ys + _dy * 2, _xs, _dy * 2, flags);
-    _d.drawFastHLine(0, _ys + _dy * 4, _d.width(), GxEPD_BLACK);
+    _d.drawFastHLine(0, _ys + _dy * 4, _d.width(), ILI9341_BLACK);
     print("IGN", 0, _ys + _dy * 4, _xs, _dy, flags);
-    _d.drawFastHLine(0, _ys + _dy * 5, _d.width(), GxEPD_BLACK);
+    _d.drawFastHLine(0, _ys + _dy * 5, _d.width(), ILI9341_BLACK);
     print("INC", 0, _ys + _dy * 5, _xs, _dy, flags);
-    _d.drawFastHLine(0, _ys + _dy * 6, _d.width(), GxEPD_BLACK);
+    _d.drawFastHLine(0, _ys + _dy * 6, _d.width(), ILI9341_BLACK);
     print("MISC", 0, _ys + _dy * 6, _xs, _dy, flags);
 }
 

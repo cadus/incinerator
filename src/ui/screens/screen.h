@@ -19,11 +19,14 @@
 
 #pragma once
 
-#include <GxEPD2_BW.h>
 #include <bitset>
 #include <string>
 
+#include "Adafruit_ILI9341.h"
 #include "macros.h"
+
+#define TFT_WIDTH 320
+#define TFT_HEIGHT 240
 
 class Screen
 {
@@ -55,12 +58,13 @@ public:
     };
     typedef std::bitset<PrintFlag::numFlags> PrintFlags;
 
-    static void print(const std::string s, uint16_t x, uint16_t y, uint16_t w, uint16_t h, PrintFlags flags = 0);
+    void print(const std::string s, uint16_t x, uint16_t y, uint16_t w, uint16_t h, PrintFlags flags = 0);
 
     static std::vector<uint8_t> screenshot();
 
 protected:
-    static GxEPD2_BW<GxEPD2_420, GxEPD2_420::HEIGHT> _d;
+    GFXcanvas1 _d;
+    static Adafruit_ILI9341 _tft;
 
     // space reserved for content screen (subclass)
     static constexpr uint16_t _content_y = 40;

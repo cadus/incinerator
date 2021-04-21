@@ -53,11 +53,11 @@ void HomeScreen::reset()
 void HomeScreen::draw()
 {
     uint16_t y = _ys;
-    icon_cadus_logo.draw(_d, 0, y, GxEPD2_420::WIDTH, _dy * 4);
+    icon_cadus_logo.draw(_d, 0, y, TFT_WIDTH, _dy * 4);
     y += _dy * 4;
 
     const std::string about = "Incinerator " + std::string(gitversion);
-    print(about, 0, y, GxEPD2_420::WIDTH, _dy, bold);
+    print(about, 0, y, TFT_WIDTH, _dy, bold);
 
     InteractiveScreen::draw();
 }

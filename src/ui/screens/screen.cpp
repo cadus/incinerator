@@ -31,19 +31,20 @@
 
 extern void GxEPD2_busyWaitCallback();
 
-GxEPD2_BW<GxEPD2_420, GxEPD2_420::HEIGHT> Screen::_d(GxEPD2_420(EPD_CS, EPD_DC, EPD_RST, EPD_BUSY));
+Adafruit_ILI9341 Screen::_tft(TFT_CS, TFT_DC, TFT_RST);
 float Screen::_progressPercent = 0.f;
 std::string Screen::_statusStr = "";
 
 Screen::Screen()
-: _nextScreen(nullptr)
+: _d(TFT_WIDTH, TFT_HEIGHT)
+, _nextScreen(nullptr)
 {
 }
 
 void Screen::init()
 {
     // init display
-    _d.init();
+    _tft.begin(100 * 1000 * 1000);
 }
 
 void Screen::setProgress(float percent)
@@ -71,16 +72,16 @@ void Screen::print(const std::string s, uint16_t x, uint16_t y, uint16_t w, uint
     constexpr uint16_t margin = 4;
     if (flags[PrintFlag::drawRect]) {
         const uint16_t extra_margin = flags[PrintFlag::bigFont] ? 4 : 0;
-        _d.drawRect(x - margin, y - extra_margin, w + margin * 2, h + extra_margin, GxEPD_BLACK);
+        _d.drawRect(x - margin, y - extra_margin, w + margin * 2, h + extra_margin, ILI9341_BLACK);
     }
     if (flags[PrintFlag::invert]) {
-        _d.fillRect(x - margin, y, w + margin * 2, h, GxEPD_BLACK);
-        _d.setTextColor(GxEPD_WHITE);
+        _d.fillRect(x - margin, y, w + margin * 2, h, ILI9341_BLACK);
+        _d.setTextColor(ILI9341_WHITE);
         _d.setFont(&FreeSansBold9pt7b);
     } else if (flags[PrintFlag::bigFont]) {
         _d.setFont(&FreeSans12pt7b);
     } else {
-        _d.setTextColor(GxEPD_BLACK);
+        _d.setTextColor(ILI9341_BLACK);
         _d.setFont(flags[PrintFlag::bold] ? &FreeSansBold9pt7b : &FreeSans9pt7b);
     }
     int16_t x1, y1;
@@ -112,9 +113,9 @@ void Screen::update(bool fullRefresh)
     constexpr uint16_t icon_prog_width = 16;
 
     // Init screen drawing
-    _d.setRotation(0);
-    _d.setPartialWindow(0, 0, _d.width(), _d.height());
-    _d.fillScreen(GxEPD_WHITE);
+    _tft.setRotation(3);
+
+    _d.fillScreen(ILI9341_WHITE);
 
     // Draw top bar. Start at the left side
     uint16_t x = 0;
@@ -132,12 +133,12 @@ void Screen::update(bool fullRefresh)
         print(tmp, x, 0, temp_box_width, top_bar_height, flags);
 
         x += temp_box_width;
-        _d.drawFastVLine(x, line_margin, top_bar_height - (line_margin * 2), GxEPD_BLACK);
+        _d.drawFastVLine(x, line_margin, top_bar_height - (line_margin * 2), ILI9341_BLACK);
     }
 
     // Draw 2nd line after temperature readouts
     x += line_margin;
-    _d.drawFastVLine(x, line_margin, top_bar_height - (line_margin * 2), GxEPD_BLACK);
+    _d.drawFastVLine(x, line_margin, top_bar_height - (line_margin * 2), ILI9341_BLACK);
     x += 2;
 
     // Draw stopwatch icon
@@ -157,10 +158,10 @@ void Screen::update(bool fullRefresh)
     icon.draw(_d, x, 0, icon_box_width, top_bar_height);
 
     // Draw line below top bar
-    _d.drawFastHLine(line_margin, top_bar_height, _d.width() - (line_margin * 2), GxEPD_BLACK);
+    _d.drawFastHLine(line_margin, top_bar_height, _d.width() - (line_margin * 2), ILI9341_BLACK);
 
     // Draw line on top of bottom bar
-    _d.drawFastHLine(line_margin, _d.height() - bottom_bar_height, _d.width() - (line_margin * 2), GxEPD_BLACK);
+    _d.drawFastHLine(line_margin, _d.height() - bottom_bar_height, _d.width() - (line_margin * 2), ILI9341_BLACK);
 
     // Let the subclass screen do its thing
     _d.setFont(&FreeSans9pt7b);
@@ -170,9 +171,11 @@ void Screen::update(bool fullRefresh)
     print(_statusStr, 0, _d.height() - bottom_bar_height, _d.width(), bottom_bar_height);
 
     // partial update or full update if necessary
-    _d.display(!fullRefresh);
+//    _d.display(!fullRefresh);
+    start = millis();
+    _tft.drawBitmap(0, 0, _d.getBuffer(), TFT_WIDTH, TFT_HEIGHT, ILI9341_BLACK, ILI9341_WHITE); // Copy to screen
 
-    if (0) {
+    if (1) {
         unsigned long elapsed = millis() - start;
         syslog(LOG_DEBUG, "time spent: %lu ms", elapsed);
     }
@@ -182,19 +185,23 @@ std::vector<uint8_t> Screen::screenshot()
 {
     // Create PNM header
     char hdr[100];
+#if 0 // Have to port to ILI9341
     snprintf(hdr, sizeof(hdr),
                 "P4\n"  // Portable Bitmap, binary
                 "%d %d\n",
                 _d.width(), _d.height());
+#endif
     const size_t hdr_len = strlen(hdr);
 
     // Initialize result vector with PNM header
     std::vector<uint8_t> result(hdr, hdr + hdr_len);
 
+#if 0 // Have to port to ILI9341
     // Append screen buffer
     result.insert(result.end(),
                   _d.getBuffer(),
                   _d.getBuffer() + _d.width() / 8 * _d.height());
+#endif
 
     // Invert screen buffer
     std::for_each(result.begin() + hdr_len,

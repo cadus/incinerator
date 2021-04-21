@@ -209,11 +209,11 @@ void TestScreen::draw()
 
     int16_t y = _ys + _dy * 2;
 
-    _d.drawFastHLine(0, y, _d.width(), GxEPD_BLACK);
+    _d.drawFastHLine(0, y, _d.width(), ILI9341_BLACK);
     print("MAIN", 0, y + _dy / 2, _xs, _dy, flags);
-    _d.drawFastHLine(0, y + _dy * 2, _d.width(), GxEPD_BLACK);
+    _d.drawFastHLine(0, y + _dy * 2, _d.width(), ILI9341_BLACK);
     print("AFT", 0, y + _dy * 3, _xs, _dy, flags);
-    _d.drawFastHLine(0, y + _dy * 5, _d.width(), GxEPD_BLACK);
+    _d.drawFastHLine(0, y + _dy * 5, _d.width(), ILI9341_BLACK);
 }
 
 TestScreen testScreen;
