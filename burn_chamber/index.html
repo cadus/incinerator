@@ -97,10 +97,10 @@
 <h1 id="burn-chamber">Burn chamber</h1>
 <p>The burn chamber is responsible for managing the burn process in one burn chamber, which includes triggering ignition, reading temperature and controlling gas flow via valves.</p>
 <h3 id="temperature-control">Temperature control</h3>
-<p>The temperature is controlled with gas valves which can be ON or OFF (no gradual control). The main chamber features a single valve (VALVE_MAIN), the afterburner chamber features two valves (VALVE_AFT_HI, VALVE_AFT_LO) which create a high or low gas flow, respectively.</p>
+<p>The temperature is controlled with gas valves which can be ON or OFF (no gradual control). The main and afterburner chamber feature a single valve each (VALVE_MAIN,VALVE_AFT).</p>
 <ul>
-<li>When temperature sinks below T_MIN, VALVE_MAIN / VALVE_AFT_HI is activated.</li>
-<li>When temperature rises above T_MAX, VALVE_MAIN / VALVE_AFT_HI is deactivated, and in case of the afterburner chamber, VALVE_AFT_LO is activated instead.</li>
+<li>When temperature sinks below T_MIN, VALVE_MAIN / VALVE_AFT is activated.</li>
+<li>When temperature rises above T_MAX, VALVE_MAIN / VALVE_AFT is deactivated.</li>
 </ul>
 <h3 id="state-machine">State machine</h3>
 <div class="mermaid">stateDiagram-v2
