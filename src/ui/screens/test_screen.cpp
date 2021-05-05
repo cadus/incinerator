@@ -171,17 +171,16 @@ void TestScreen::reset()
     y += _dy * 2;
  
     static BchTest bchMainTest(*this, x, y + _dy / 2, w, _dy, incinerator.burnerMain);
-    static BchTest bchAftTest(*this, x, y + _dy * 3, w, _dy, incinerator.burnerAft);
+    static BchTest bchAftTest(*this, x, y + (_dy * 5) / 2, w, _dy, incinerator.burnerAft);
 
     x += _dx;
     static IgnTest ignMainTest(*this, x, y + _dy * 0, w, _dy, incinerator.burnerMain.ignition);
-    static ValveTest valveMainTest(*this, x, y + _dy * 1, w, _dy, "VLV MAIN", incinerator.burnerMain, true);
+    static ValveTest valveMainTest(*this, x, y + _dy * 1, w, _dy, "VLV MAIN", incinerator.burnerMain);
 
     static IgnTest ignAftTest(*this, x, y + _dy * 2, w, _dy, incinerator.burnerAft.ignition);
-    static ValveTest valveAftHiTest(*this, x, y + _dy * 3, w, _dy, "VLV A.HI", incinerator.burnerAft, true);
-    static ValveTest valveAftLoTest(*this, x, y + _dy * 4, w, _dy, "VLV A.LO", incinerator.burnerAft, false);
+    static ValveTest valveAftHiTest(*this, x, y + _dy * 3, w, _dy, "VLV AFT", incinerator.burnerAft);
 
-    static AirPumpTest airPumpTest(*this, x, y + _dy * 5, w, _dy);
+    static AirPumpTest airPumpTest(*this, x, y + _dy * 4, w, _dy);
 
     static ScreenChangeButton exit(*this, "Exit", &homeScreen, 50, _ys + _dy * 8, 100, _dy, "Exit test screen");
 
@@ -193,7 +192,6 @@ void TestScreen::reset()
     _items.push_back(&valveMainTest);
     _items.push_back(&ignAftTest);
     _items.push_back(&valveAftHiTest);
-    _items.push_back(&valveAftLoTest);
     _items.push_back(&airPumpTest);
     _items.push_back(&exit);
 
@@ -212,8 +210,8 @@ void TestScreen::draw()
     _d.drawFastHLine(0, y, _d.width(), GxEPD_BLACK);
     print("MAIN", 0, y + _dy / 2, _xs, _dy, flags);
     _d.drawFastHLine(0, y + _dy * 2, _d.width(), GxEPD_BLACK);
-    print("AFT", 0, y + _dy * 3, _xs, _dy, flags);
-    _d.drawFastHLine(0, y + _dy * 5, _d.width(), GxEPD_BLACK);
+    print("AFT", 0, y + (_dy * 5) / 2, _xs, _dy, flags);
+    _d.drawFastHLine(0, y + _dy * 4, _d.width(), GxEPD_BLACK);
 }
 
 TestScreen testScreen;

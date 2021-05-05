@@ -91,7 +91,7 @@ public:
     ValveTest(InteractiveScreen& parent,
               uint16_t x, uint16_t y, uint16_t w, uint16_t h,
               std::string name,
-              BurnChamber& bch, bool highLevel);
+              BurnChamber& bch, bool highLevel=true);
 
 private:
     virtual void toggle() override;
