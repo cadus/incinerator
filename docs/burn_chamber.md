@@ -2,10 +2,10 @@
 The burn chamber is responsible for managing the burn process in one burn chamber, which includes triggering ignition, reading temperature and controlling gas flow via valves.
 
 ### Temperature control
-The temperature is controlled with gas valves which can be ON or OFF (no gradual control). The main chamber features a single valve (VALVE_MAIN), the afterburner chamber features two valves (VALVE_AFT_HI, VALVE_AFT_LO) which create a high or low gas flow, respectively.
+The temperature is controlled with gas valves which can be ON or OFF (no gradual control). The main and afterburner chamber feature a single valve each (VALVE_MAIN,VALVE_AFT).
 
-- When temperature sinks below T_MIN, VALVE_MAIN / VALVE_AFT_HI is activated.
-- When temperature rises above T_MAX, VALVE_MAIN / VALVE_AFT_HI is deactivated, and in case of the afterburner chamber, VALVE_AFT_LO is activated instead.
+- When temperature sinks below T_MIN, VALVE_MAIN / VALVE_AFT is activated.
+- When temperature rises above T_MAX, VALVE_MAIN / VALVE_AFT is deactivated.
 
 ### State machine
 ``` mermaid

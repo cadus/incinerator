@@ -28,7 +28,7 @@
 
 Incinerator::Incinerator()
 : burnerMain("MAIN", IGNITION_MAIN, TEMP_MAIN_CS, VALVE_MAIN)
-, burnerAft("AFT", IGNITION_AFT, TEMP_AFT_CS, VALVE_AFT_HI, VALVE_AFT_LO)
+, burnerAft("AFT", IGNITION_AFT, TEMP_AFT_CS, VALVE_AFT)
 , airPump(AIRPMP, PWM_CH_AIRPMP)
 {
 }
