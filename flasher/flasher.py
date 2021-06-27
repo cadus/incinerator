@@ -10,7 +10,7 @@ Using the commandline parameters from "pio run -t upload -v"
 """
 
 def esp_update(fwfile, port, baud):
-    esptool.main(custom_commandline=[
+    esptool.main(argv=[
         "--chip", "esp32",
         "--port", port,
         "--baud", str(baud),
